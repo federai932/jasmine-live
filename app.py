@@ -1,56 +1,35 @@
 import os
-import sys
-import pandas as pd
-from flask import Flask, render_template, jsonify
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(BASE_DIR)
-
-from ranking import prendi_ranking_wta_live
-from prendi_ranking_doppio import prendi_ranking_wta_doppio_live
-from news_scraper import cerca_notizie_jasmine
+from flask import Flask, render_template
+from supabase import create_client
 
 app = Flask(__name__)
 
-def leggi_file(nome):
-    path = os.path.join(BASE_DIR, "static", nome)
-    if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            return f.read()
-    return "<p>Dati in aggiornamento... clicca /update</p>"
+# Recupera le chiavi dalle Variabili d'Ambiente di Render (scelta sicura)
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-@app.route('/update')
-def update():
+def leggi_da_db(record_id):
     try:
-        # Crea cartella static se manca
-        static_path = os.path.join(BASE_DIR, "static")
-        os.makedirs(static_path, exist_ok=True)
-
-        # Esegui e SALVA fisicamente
-        df_s = prendi_ranking_wta_live()
-        if isinstance(df_s, pd.DataFrame):
-            df_s.to_html(os.path.join(static_path, "classifica_web.html"), index=False, border=0)
-        
-        df_d = prendi_ranking_wta_doppio_live()
-        if isinstance(df_d, pd.DataFrame):
-            df_d.to_html(os.path.join(static_path, "classifica_doppio_web.html"), index=False, border=0)
-            
-        cerca_notizie_jasmine()
-
-        return jsonify({"status": "success"})
+        res = supabase.table("ranking_data").select("html_content").eq("id", record_id).execute()
+        if res.data:
+            return res.data[0]['html_content']
+        return "<p>Dati non trovati nel database.</p>"
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)})
+        return f"<p>Errore connessione DB: {e}</p>"
 
 @app.route('/')
 def home():
     return render_template('index.html', 
-                           tabella_html=leggi_file("classifica_web.html"),
-                           tabella_doppio_html=leggi_file("classifica_doppio_web.html"),
-                           news_html=leggi_file("news_section.html"))
+                           tabella_html=leggi_da_db("singolo"),
+                           tabella_doppio_html=leggi_da_db("doppio"),
+                           news_html="<p>News in fase di configurazione...</p>")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
+
 
 
 
