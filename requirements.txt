@@ -1,9 +1,5 @@
 flask
 gunicorn
-pandas
-cloudscraper
-beautifulsoup4
-requests
-lxml
 supabase
-html5lib
+
+
