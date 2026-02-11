@@ -3,19 +3,18 @@
 <head> 
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
-    <title>Game Set Jasmine | App</title> 
+    <title>Game Set Jasmine | Live Ranking</title> 
     <style> 
-        /* --- STILE GENERALE E CENTRATURA --- */
+        /* --- STILE GENERALE CENTRATO --- */
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background-color: #f4f7f4; 
             display: flex; 
             flex-direction: column; 
-            align-items: center; /* Centra tutto orizzontalmente */
+            align-items: center; 
             padding: 20px; 
             margin: 0; 
-            padding-bottom: 100px; 
-            box-sizing: border-box;
+            padding-bottom: 100px;
         } 
 
         h1 { color: #1a5c20; text-transform: uppercase; margin-top: 10px; font-size: 28px; text-align: center; } 
@@ -27,83 +26,64 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-        /* --- SEZIONE NEWS (INTEGRALE) --- */
+        /* --- SEZIONE NEWS (ORIGINALE 100%) --- */
         .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; } 
         .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; } 
         .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
         .news-item { background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; display: flex; border: 1px solid #333; overflow: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex: 0 0 280px; height: 100px; position: relative; } 
-        
-        /* --- BIOGRAFIA (MODIFICATA) --- */
+        .news-source { font-size: 11px; color: #a2cfa5; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; } 
+        .news-title { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.3; color: #8ab4f8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
+        .news-image-container { width: 90px; height: 80px; border-radius: 4px; overflow: hidden; margin-left: 10px; flex-shrink: 0; order: 2; } 
+        .news-image-container img { width: 100%; height: 100%; object-fit: cover; } 
+        .news-content { flex-grow: 1; min-width: 0; order: 1; display: flex; flex-direction: column; justify-content: space-between; } 
+        .news-time { font-size: 10px; color: #666; display: block; margin-top: 4px; } 
+
+        /* --- BIOGRAFIA (SINISTRA + NUOVO COLORE/SPAZIO) --- */
         .biography-section { 
-            width: 100%; 
-            max-width: 700px; 
-            margin-top: 35px; 
-            margin-bottom: 30px; 
-            display: flex; 
-            flex-direction: column; /* Impila verticalmente per centrare meglio */
-            align-items: center; 
-            gap: 20px; 
+            width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 10px; 
         } 
         .bio-list { 
-            width: 100%; 
-            list-style: disc; 
-            text-align: center; /* Centra il testo biografico */
-            padding: 0; 
-            margin: 0; 
-            line-height: 2.0; /* Aumentata spazzatura tra righe */
-            color: #330066; /* Colore testo uguale allo sfondo del box viola */
+            flex: 1; min-width: 300px; list-style: disc; 
+            text-align: left; 
+            padding-left: 20px; margin: 0; 
+            line-height: 2.0; 
+            color: #330066; 
         } 
-        .bio-list li { 
-            margin-bottom: 12px; 
-            font-size: 15px; 
-            list-style-position: inside; /* Mantiene il punto elenco centrato */
-        } 
+        .bio-list li { margin-bottom: 8px; font-size: 14px; } 
         .bio-title { 
-            width: 100%; 
-            text-align: center; /* Centra il titolo */
-            font-weight: bold; 
-            color: #555; 
-            margin-bottom: 15px; 
-            border-bottom: 1px solid #ddd; 
-            padding-bottom: 10px; 
-            text-transform: uppercase; 
+            width: 100%; text-align: left; font-weight: bold; color: #555; 
+            margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; text-transform: uppercase; 
         } 
 
-        /* --- BOX STATISTICHE (OTTIMIZZATO) --- */
+        /* --- STATS BOX (LARGHEZZA ULTERIORMENTE RIDOTTA) --- */
         .stats-box { 
-            background-color: #330066; 
-            color: white; 
-            padding: 15px 20px; 
-            border-radius: 10px; 
-            width: 90%; /* Larghezza ridotta per non occupare troppo spazio */
-            max-width: 450px; /* Limite massimo per smartphone */
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 5px 20px; 
-            box-sizing: border-box;
+            background-color: #330066; color: white; padding: 12px 18px; border-radius: 10px; 
+            flex: 0 1 280px; /* LARGHEZZA MOLTO RIDOTTA */
+            display: grid; grid-template-columns: 1fr 1fr; gap: 5px 15px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         } 
         .stat-label { font-size: 10px; text-transform: uppercase; color: #bfa0ff; } 
         .stat-value { font-size: 14px; font-weight: bold; margin-bottom: 8px; } 
 
-        /* --- CLASSIFICHE (INTEGRALI) --- */
+        /* --- TABELLE (ORIGINALE 100%) --- */
         .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
-        .ranking-card { flex: 1; min-width: 320px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
+        .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
+        .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
         .table-scroll { max-height: 195px; overflow-y: auto; } 
+        table { width: 100%; border-collapse: collapse; } 
+        th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
+        thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
+        tbody tr:nth-child(even) { background-color: #f9f9f9; } 
 
         /* --- NAVBAR --- */
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; 
-            background: white; display: flex; justify-content: space-around; 
-            align-items: center; border-top: 1px solid #eee; z-index: 9999; 
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 9999; }
         .nav-item { text-align: center; text-decoration: none; color: #888; flex: 1; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: #2e7d32; }
         .nav-icon { font-size: 20px; }
         .nav-text { font-size: 10px; font-weight: 700; text-transform: uppercase; }
-        
         .page-content { display: none; width: 100%; max-width: 800px; }
         .page-content.active { display: block; }
-        .svg-icon { width: 22px; height: 22px; fill: currentColor; }
     </style>
 </head>
 <body>
@@ -120,8 +100,8 @@
         </div> 
 
         <div class="biography-section"> 
-            <div class="bio-title">About Jasmine</div> 
             <ul class="bio-list"> 
+                <div class="bio-title">About Jasmine</div> 
                 <li>Coached by Danilo Pizzorno and Sara Errani</li> 
                 <li>Resides in Bagni di Lucca and trains in Forte dei Marmi, Italy</li> 
                 <li>Father is Ugo Paolini, mother is Jacqueline Gardiner. Mother is of Ghanaian/Polish descent</li> 
@@ -136,14 +116,14 @@
                 <div class="stat-label">BIRTHDAY</div><div class="stat-label">HEIGHT</div> 
                 <div class="stat-value">January 4, 1996</div><div class="stat-value">1.63m</div> 
                 <div class="stat-label">BIRTHPLACE</div> 
-                <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana, Italy</div> 
+                <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana, IT</div> 
             </div> 
         </div> 
     </div>
 
     <div id="ranking-view" class="page-content">
         <h1 style="text-align: center;">Live Rankings</h1>
-        <div class="ranking-wrapper"> 
+        <div class="ranking-wrapper" style="margin-top: 20px;"> 
             <div class="ranking-card"> 
                 <div class="table-title">Classifica Singolare WTA (Top 10)</div> 
                 <div class="table-scroll"> {{ tabella_html | safe }} </div> 
@@ -157,11 +137,11 @@
 
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
-            <span class="nav-icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z""")/>></svg></span>
+            <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>
             <span class="nav-text">Home</span>
         </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-ranking" onclick="showTab('ranking')">
-            <span class="nav-icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M3 5v14h18V5H3zm4 2v2h2V7h2v2h2V7h2v2h2V7h2v10H5V7h2z""")/>></svg></span>
+            <span class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14h18V5H3zm4 2v2h2V7h2v2h2V7h2v2h2V7h2v10H5V7h2z"/></svg></span>
             <span class="nav-text">Ranking</span>
         </a>
     </nav>
@@ -177,6 +157,7 @@
     </script>
 </body>
 </html>
+
 
 
 
