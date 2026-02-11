@@ -2,11 +2,11 @@
 <html lang="it">
 <head> 
     <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Game Set Jasmine | Live Ranking</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <title>Game Set Jasmine | App</title> 
     <style> 
-        /* --- IL TUO STILE ORIGINALE (COPIATO INTEGRALMENTE) --- */
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f4; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; padding-bottom: 80px; } 
+        /* --- IL TUO STILE ORIGINALE (BIO, NEWS, TABELLE) --- */
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f4; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; padding-bottom: 100px; } 
         h1 { color: #1a5c20; text-transform: uppercase; margin-top: 10px; font-size: 28px; } 
         .image-container { width: 160px; height: 160px; border-radius: 50%; border: 6px solid #2e7d32; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 10px; } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
@@ -14,15 +14,6 @@
         .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; } 
         .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
         .news-item { background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; display: flex; border: 1px solid #333; overflow: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex: 0 0 280px; height: 100px; position: relative; } 
-        .news-item:hover { background: #252525; border-color: #2e7d32; transform: translateY(-10px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.5); } 
-        .news-source { font-size: 11px; color: #a2cfa5; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; } 
-        .news-title { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.3; color: #8ab4f8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
-        .news-image-container { width: 90px; height: 80px; border-radius: 4px; overflow: hidden; margin-left: 10px; flex-shrink: 0; order: 2; } 
-        .news-image-container img { width: 100%; height: 100%; object-fit: cover; } 
-        .news-content { flex-grow: 1; min-width: 0; order: 1; display: flex; flex-direction: column; justify-content: space-between; } 
-        .news-time { font-size: 10px; color: #666; display: block; margin-top: 4px; } 
-        .news-scroll-container::-webkit-scrollbar { height: 6px; } 
-        .news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; } 
         .biography-section { width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 10px; } 
         .bio-list { flex: 1; min-width: 300px; list-style: disc; text-align: left; padding-left: 20px; margin: 0; } 
         .bio-list li { margin-bottom: 8px; color: #333; font-size: 14px; } 
@@ -33,61 +24,43 @@
         .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
         .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
         .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
-        .table-scroll { max-height: 195px; overflow-y: auto; scrollbar-width: thin; } 
+        .table-scroll { max-height: 195px; overflow-y: auto; } 
         table { width: 100%; border-collapse: collapse; } 
         th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
         thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
-        tbody tr:nth-child(even) { background-color: #f9f9f9; } 
-        .footer-tag { font-size: 11px; color: #888; margin-top: 15px; text-align: center; width: 100%; margin-bottom: 20px;} 
 
-        /* --- STILE BARRA DI NAVIGAZIONE (NUOVA) --- */
+        /* --- STILE BARRA NAVIGAZIONE --- */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 65px;
-            background-color: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 2px solid #2e7d32;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 999;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 80px;
+            background-color: #ffffff; display: flex; justify-content: space-around;
+            align-items: center; border-top: 2px solid #2e7d32; z-index: 9999;
         }
-        .nav-item {
-            text-align: center;
-            text-decoration: none;
-            color: #888;
-            flex: 1;
-        }
+        .nav-item { text-align: center; text-decoration: none; color: #888; flex: 1; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: #2e7d32; }
-        .nav-icon { font-size: 24px; display: block; }
-        .nav-text { font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .nav-icon { font-size: 28px; }
+        .nav-text { font-size: 11px; font-weight: 800; text-transform: uppercase; }
 
-        /* Gestore Visibilità Sezioni */
+        /* --- STILE SEZIONE NOTION --- */
+        #notion-frame { width: 100%; height: 80vh; border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
         .page-content { display: none; width: 100%; max-width: 800px; }
         .page-content.active { display: block; }
     </style>
 </head>
 <body>
 
-    <!-- SEZIONE HOME: NEWS E BIOGRAFIA (COME ORIGINALE) -->
-    <div id="home-page" class="page-content active">
+    <!-- SEZIONE HOME -->
+    <div id="home-view" class="page-content active">
         <div style="display: flex; flex-direction: column; align-items: center;">
             <div class="image-container"> 
                 <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine Paolini"> 
             </div> 
             <h1>Game Set Jasmine</h1> 
         </div>
-
         <div class="news-wrapper"> 
             <h2>Latest News</h2> 
-            <div class="news-scroll-container"> 
-                {{ news_html | safe }} 
-            </div> 
+            <div class="news-scroll-container"> {{ news_html | safe }} </div> 
         </div> 
-
         <div class="biography-section"> 
             <ul class="bio-list"> 
                 <div class="bio-title">About Jasmine</div> 
@@ -103,15 +76,13 @@
                 <div class="stat-value">Right-Handed</div><div class="stat-value">4</div> 
                 <div class="stat-label">BIRTHDAY</div><div class="stat-label">HEIGHT</div> 
                 <div class="stat-value">January 4, 1996</div><div class="stat-value">5' 4" (1.63m)</div> 
-                <div class="stat-label">BIRTHPLACE</div> 
-                <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana, Italy</div> 
             </div> 
         </div> 
     </div>
 
-    <!-- SEZIONE RANKING: TABELLE (SPOSTATE MA IDENTICHE) -->
-    <div id="ranking-page" class="page-content">
-        <h1 style="text-align: center;">WTA Live Ranking</h1>
+    <!-- SEZIONE RANKING -->
+    <div id="ranking-view" class="page-content">
+        <h1 style="text-align: center;">Live Rankings</h1>
         <div class="ranking-wrapper"> 
             <div class="ranking-card"> 
                 <div class="table-title">Classifica Singolare WTA (Top 10)</div> 
@@ -122,42 +93,43 @@
                 <div class="table-scroll"> {{ tabella_doppio_html | safe }} </div> 
             </div> 
         </div> 
-        <p class="footer-tag">Live Ranking WTA - Aggiornato 2026</p>
     </div>
 
-    <!-- BARRA DI NAVIGAZIONE IN BASSO -->
+    <!-- SEZIONE MATCH (NOTION) -->
+    <div id="match-view" class="page-content">
+        <h1 style="text-align: center;">Match Schedule</h1>
+        <iframe id="notion-frame" src="https://berry-airmail-9a7.notion.site"></iframe>
+    </div>
+
+    <!-- NAVBAR BASSA -->
     <nav class="bottom-nav">
-        <a href="javascript:void(0)" class="nav-item active" id="nav-home" onclick="showTab('home')">
+        <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
             <span class="nav-icon">🏠</span>
             <span class="nav-text">Home</span>
         </a>
-        <a href="javascript:void(0)" class="nav-item" id="nav-ranking" onclick="showTab('ranking')">
+        <a href="javascript:void(0)" class="nav-item" id="btn-ranking" onclick="showTab('ranking')">
             <span class="nav-icon">📊</span>
             <span class="nav-text">Ranking</span>
+        </a>
+        <a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
+            <span class="nav-icon">📹</span>
+            <span class="nav-text">Match</span>
         </a>
     </nav>
 
     <script>
         function showTab(tabName) {
-            // Nascondi le pagine
-            document.getElementById('home-page').classList.remove('active');
-            document.getElementById('ranking-page').classList.remove('active');
-            
-            // Togli il colore attivo dai pulsanti
-            document.getElementById('nav-home').classList.remove('active');
-            document.getElementById('nav-ranking').classList.remove('active');
-
-            // Mostra la pagina scelta e attiva il pulsante
-            document.getElementById(tabName + '-page').classList.add('active');
-            document.getElementById('nav-' + tabName).classList.add('active');
-            
-            // Torna in alto alla pagina
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName + '-view').classList.add('active');
+            document.getElementById('btn-' + tabName).classList.add('active');
             window.scrollTo(0,0);
         }
     </script>
-
 </body>
 </html>
+
+
 
 
 
