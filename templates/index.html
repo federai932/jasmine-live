@@ -1,145 +1,159 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Game Set Jasmine | Live Ranking</title>
-    <!-- Icone Material Design Sottili -->
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-    <style>
-        /* --- STILE ORIGINALE INTEGRALE --- */
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f4; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; padding-bottom: 90px; }
-        h1 { color: #1a5c20; text-transform: uppercase; margin-top: 10px; font-size: 28px; }
-        
-        .image-container { width: 160px; height: 160px; border-radius: 50%; border: 6px solid #2e7d32; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 10px; }
-        .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); }
-        
-        .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; }
-        .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; }
-        .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; }
-        
-        .news-item { background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; display: flex; border: 1px solid #333; overflow: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex: 0 0 280px; height: 100px; position: relative; }
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <title>Game Set Jasmine | App</title> 
+    <!-- Font Awesome per le icone stilizzate (Casetta e Tabella) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <style> 
+        /* --- IL TUO STILE ORIGINALE (Mantenuto) --- */
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f4; display: flex; flex-direction: column; align-items: center; padding: 20px 20px 80px 20px; margin: 0; } 
+        h1 { color: #1a5c20; text-transform: uppercase; margin-top: 10px; font-size: 28px; } 
+        .image-container { width: 160px; height: 160px; border-radius: 50%; border: 6px solid #2e7d32; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 10px; } 
+        .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
+        .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; } 
+        .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; } 
+        .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
+        .news-item { background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; display: flex; border: 1px solid #333; overflow: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex: 0 0 280px; height: 100px; position: relative; } 
         .news-item:hover { background: #252525; border-color: #2e7d32; transform: translateY(-10px) scale(1.02); }
-        
-        .biography-section { width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 10px; }
-        .bio-list { flex: 1; min-width: 300px; list-style: disc; text-align: left; padding-left: 20px; margin: 0; }
-        .bio-list li { margin-bottom: 8px; color: #333; font-size: 14px; }
-        .bio-title { width: 100%; text-align: left; font-weight: bold; color: #555; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; text-transform: uppercase; }
-        
-        .stats-box { background-color: #330066; color: white; padding: 15px 25px; border-radius: 10px; flex: 1; min-width: 250px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; color: #bfa0ff; }
-        .stat-value { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
-
-        .ranking-card { width: 100%; max-width: 700px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 25px; }
-        .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; }
-        .table-scroll { max-height: 195px; overflow-y: auto; }
+        .biography-section { width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; } 
+        .stats-box { background-color: #330066; color: white; padding: 15px 25px; border-radius: 10px; flex: 1; min-width: 250px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; } 
+        .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
+        .ranking-card { flex: 1; min-width: 320px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; margin-bottom: 20px;} 
+        .table-scroll { max-height: 300px; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; }
-        thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; }
+        thead th { background-color: #2e7d32; color: white; position: sticky; top: 0; }
 
-        /* LOGICA SEZIONI */
-        .section { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .active-section { display: flex; }
-
-        /* --- NAVBAR MODERNA (STILE BLU DALLA FOTO) --- */
+        /* --- NUOVA BARRA DI NAVIGAZIONE (Stile App) --- */
         .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
-            background-color: #ffffff; display: flex; justify-content: space-around; align-items: center;
-            box-shadow: 0 -2px 15px rgba(0,0,0,0.08); z-index: 3000; border-top: 1px solid #eee;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: #ffffff; /* Sfondo chiaro come richiesto */
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            border-top: 1px solid #eee;
+            z-index: 1000;
         }
 
         .nav-item {
-            background: none; border: none; color: #8e8e8e;
-            cursor: pointer; display: flex; flex-direction: column; align-items: center;
-            transition: all 0.3s ease; padding: 10px; min-width: 70px;
+            text-align: center;
+            color: #888;
+            text-decoration: none;
+            transition: 0.3s;
+            flex: 1;
         }
 
-        /* Sezione Attiva: Si colora di BLU (come richiesto dalla foto) */
-        .nav-item.active { color: #007bff; }
-        .nav-item.active .material-icons-outlined { transform: scale(1.1); }
+        .nav-item i {
+            font-size: 20px; /* Immagine stilizzata */
+            display: block;
+            margin-bottom: 4px;
+        }
 
-        .material-icons-outlined { font-size: 28px; margin-bottom: 4px; }
-        .nav-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-item span {
+            font-size: 11px; /* Scritta piccolina sotto */
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
+        .nav-item.active {
+            color: #2e7d32; /* Colore verdino per richiamare il tema */
+        }
+
+        /* Gestione Sezioni */
+        .page-section { display: none; width: 100%; max-width: 800px; }
+        .page-section.active { display: block; }
     </style>
 </head>
 <body>
 
-    <!-- SEZIONE HOME -->
-    <div id="home" class="section active-section">
-        <div class="image-container"><img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine"></div>
-        <h1>Game Set Jasmine</h1>
-        <div class="news-wrapper">
-            <h2>Latest News</h2>
-            <div class="news-scroll-container">{{ news_html | safe }}</div>
+    <!-- SEZIONE 1: HOME (Bio + News) -->
+    <div id="home-section" class="page-section active">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="image-container"> 
+                <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine Paolini"> 
+            </div> 
+            <h1>Game Set Jasmine</h1> 
         </div>
-        <div class="biography-section">
-            <ul class="bio-list">
-                <div class="bio-title">About Jasmine</div>
-                <li>Coached by Danilo Pizzorno and Sara Errani</li>
-                <li>Resides in Bagni di Lucca and trains in Forte dei Marmi, Italy</li>
-                <li>Father is Ugo Paolini, mother is Jacqueline Gardiner.</li>
-                <li>Idolizes Roger Federer</li>
-                <li>Favorite shot is her forehand and favorite surface is clay</li>
-                <li>Speaks Italian, English and Polish</li>
-            </ul>
-        </div>
+
+        <div class="news-wrapper"> 
+            <h2>Latest News</h2> 
+            <div class="news-scroll-container"> 
+                {{ news_html | safe }} 
+            </div> 
+        </div> 
+
+        <div class="biography-section"> 
+            <ul class="bio-list"> 
+                <div class="bio-title">About Jasmine</div> 
+                <li>Allenata da Renzo Furlan e supportata da Sara Errani</li> 
+                <li>Resiede a Bagni di Lucca, Italia</li> 
+                <li>Padre Ugo, madre Jacqueline (origini ghanesi/polacche)</li> 
+                <li>Il suo idolo è Roger Federer</li> 
+                <li>Superficie preferita: Terra rossa</li> 
+            </ul> 
+            <div class="stats-box"> 
+                <div class="stat-label">PLAYS</div><div class="stat-label">CAREER HIGH</div> 
+                <div class="stat-value">Right-Handed</div><div class="stat-value">4</div> 
+                <div class="stat-label">BIRTHDAY</div><div class="stat-label">HEIGHT</div> 
+                <div class="stat-value">Jan 4, 1996</div><div class="stat-value">1.63m</div> 
+            </div> 
+        </div> 
     </div>
 
-    <!-- SEZIONE RANKING -->
-    <div id="ranking" class="section">
-        <h2 style="color:#1a5c20; margin-top:20px;">WTA Rankings</h2>
-        <div class="ranking-card">
-            <div class="table-title">Classifica Singolare</div>
-            <div class="table-scroll">{{ tabella_html | safe }}</div>
-        </div>
+    <!-- SEZIONE 2: RANKING (Tabelle Spostate) -->
+    <div id="ranking-section" class="page-section">
+        <h1 style="text-align: center;">Classifiche Live</h1>
+        <div class="ranking-wrapper"> 
+            <div class="ranking-card"> 
+                <div class="table-title" style="padding: 15px; background: #e8f5e9; font-weight: bold; color: #1a5c20; text-align: center;">Classifica Singolare WTA</div> 
+                <div class="table-scroll"> {{ tabella_html | safe }} </div> 
+            </div> 
+            <div class="ranking-card"> 
+                <div class="table-title" style="padding: 15px; background: #e8f5e9; font-weight: bold; color: #1a5c20; text-align: center;">Classifica Doppio WTA</div> 
+                <div class="table-scroll"> {{ tabella_doppio_html | safe }} </div> 
+            </div> 
+        </div> 
     </div>
 
-    <!-- SEZIONE MATCH -->
-    <div id="match-section" class="section">
-        <iframe style="width:100%; height:calc(100vh - 75px); border:none;" src="https://berry-airmail-9a7.notion.site"></iframe>
-    </div>
-
-    <!-- NAVBAR MODERNA CON ILLUMINAZIONE BLU -->
+    <!-- BARRA DI NAVIGAZIONE FISSA -->
     <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('home', this)">
-            <span class="material-icons-outlined">home</span>
-            <span class="nav-label">HOME</span>
-        </button>
-        
-        <button class="nav-item" onclick="switchTab('ranking', this)">
-            <span class="material-icons-outlined">leaderboard</span>
-            <span class="nav-label">RANKING</span>
-        </button>
-        
-        <button class="nav-item" onclick="switchTab('match-section', this)">
-            <span class="material-icons-outlined">play_circle</span>
-            <span class="nav-label">MATCH</span>
-        </button>
-
-        <a href="https://www.instagram.com" target="_blank" class="nav-item" style="text-decoration: none;">
-            <span class="material-icons-outlined">camera_alt</span>
-            <span class="nav-label">INSTAGRAM</span>
+        <a href="#" class="nav-item active" onclick="showSection('home', this)">
+            <i class="fas fa-home"></i>
+            <span>HOME</span>
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('ranking', this)">
+            <i class="fas fa-table-list"></i>
+            <span>RANKING</span>
         </a>
     </nav>
 
     <script>
-        function switchTab(tabId, element) {
+        function showSection(sectionId, element) {
             // Nascondi tutte le sezioni
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
-            // Mostra la sezione selezionata
-            document.getElementById(tabId).classList.add('active-section');
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            // Mostra quella selezionata
+            document.getElementById(sectionId + '-section').classList.add('active');
             
-            // Rimuovi classe attiva da tutti i pulsanti e aggiungila al corrente
-            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            // Gestisci stato attivo icone
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             element.classList.add('active');
-            
-            // Torna in cima alla pagina
-            window.scrollTo(0, 0);
+
+            // Torna in alto quando cambi sezione
+            window.scrollTo(0,0);
         }
     </script>
+
 </body>
 </html>
+
+
 
 
 
