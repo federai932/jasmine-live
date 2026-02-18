@@ -2,15 +2,22 @@
 <html lang="it">
 <head> 
     <meta charset="UTF-8"> 
-    <!-- Colora la barra di stato in alto di bianco -->
+    <!-- Colora la barra di stato (orologio/batteria) di bianco -->
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
-    <!--viewport-fit=cover permette al design di occupare tutto lo schermo (barra nera inclusa) -->
+    <!-- IL SEGRETO: viewport-fit=cover permette al bianco di andare "sotto" la barra delle gesture -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"> 
     <title>Game Set Jasmine | App</title> 
     <style> 
         /* --- STILE GENERALE --- */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* Sfondo base bianco assoluto */
+        }
+
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background-color: #f4f7f4; 
@@ -18,8 +25,7 @@
             flex-direction: column; 
             align-items: center; 
             padding: 20px; 
-            margin: 0; 
-            /* Spazio extra sotto calcolato per la safe area dei telefoni */
+            /* Spazio per non far finire il contenuto sotto la navbar bianca */
             padding-bottom: calc(100px + env(safe-area-inset-bottom));
         } 
 
@@ -32,7 +38,7 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-        /* --- SEZIONE NEWS --- */
+        /* --- SEZIONE NEWS (Grafica originale mantenuta) --- */
         .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; } 
         .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; } 
         .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
@@ -49,50 +55,49 @@
             background: #252525; border-color: #2e7d32; transform: translateY(-10px) scale(1.02); 
             box-shadow: 0 10px 20px rgba(0,0,0,0.5); z-index: 10;
         }
-
         .news-source { font-size: 11px; color: #a2cfa5; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; } 
         .news-title { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.3; color: #8ab4f8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
         .news-content { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; } 
 
-        /* --- BIOGRAFIA & STATS --- */
+        /* --- BIOGRAFIA & STATS (Grafica originale mantenuta) --- */
         .biography-section { width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 10px; } 
         .bio-list { flex: 1; min-width: 300px; list-style: disc; text-align: left; padding-left: 20px; margin: 0; line-height: 2.0; color: #330066; } 
         .bio-list li { margin-bottom: 8px; font-size: 14px; } 
         .bio-title { width: 100%; text-align: left; font-weight: bold; color: #555; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; text-transform: uppercase; } 
-
         .stats-box { background-color: #330066; color: white; padding: 12px 18px; border-radius: 10px; flex: 0 1 280px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); } 
         .stat-label { font-size: 10px; text-transform: uppercase; color: #bfa0ff; } 
         .stat-value { font-size: 14px; font-weight: bold; margin-bottom: 8px; } 
 
-        /* --- RANKING --- */
+        /* --- RANKING (Grafica originale mantenuta) --- */
         .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
         .ranking-card { flex: 1; min-width: 300px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
         .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
         .table-scroll { max-height: 215px; overflow-y: auto; } 
-
         table { width: 100%; border-collapse: collapse; } 
         th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
         thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
 
-        /* --- NAVBAR AGGIORNATA (BIANCA FINO IN FONDO) --- */
+        /* --- NAVBAR FULL WHITE (Elimina la barra nera sotto) --- */
         .bottom-nav { 
             position: fixed; 
             bottom: 0; 
             left: 0; 
             width: 100%; 
-            /* Altezza base + padding per "coprire" la barra nera del telefono */
-            height: calc(60px + env(safe-area-inset-bottom)); 
-            background: white; 
+            /* Altezza calcolata per coprire interamente l'area sicura del telefono */
+            height: calc(65px + env(safe-area-inset-bottom)); 
+            background: #ffffff; 
             display: flex; 
             justify-content: space-around; 
-            align-items: flex-start; /* Allinea le icone in alto nella barra */
-            padding-top: 10px;
+            align-items: flex-start; /* Posiziona le icone in alto nella barra */
+            padding-top: 12px;
             border-top: 1px solid #eee; 
             z-index: 9999; 
+            /* Forza il colore bianco anche nell'area estrema inferiore */
+            padding-bottom: env(safe-area-inset-bottom);
         }
         .nav-item { text-align: center; text-decoration: none; color: #888; flex: 1; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: #2e7d32; }
-        .nav-icon { font-size: 20px; }
+        .nav-icon { font-size: 20px; margin-bottom: 2px; }
         .nav-text { font-size: 10px; font-weight: 700; text-transform: uppercase; }
         
         .page-content { display: none; width: 100%; }
@@ -100,7 +105,6 @@
     </style>
 </head>
 <body>
-    <!-- VISTA HOME -->
     <div id="home-view" class="page-content active">
         <div class="image-container" style="margin: 0 auto;"> 
             <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine Paolini"> 
@@ -116,8 +120,7 @@
             <ul class="bio-list"> 
                 <div class="bio-title">About Jasmine</div> 
                 <li>Coached by Danilo Pizzorno and Sara Errani</li> 
-                <li>Resides in Bagni di Lucca and trains in Forte dei Marmi, Italy</li> 
-                <li>Father is Ugo Paolini, mother is Jacqueline Gardiner</li> 
+                <li>Resides in Bagni di Lucca and trains in Forte dei Marmi, IT</li> 
                 <li>Idolizes Roger Federer</li> 
                 <li>Favorite shot is her forehand and favorite surface is clay</li> 
             </ul> 
@@ -133,7 +136,6 @@
         </div> 
     </div>
 
-    <!-- VISTA RANKING -->
     <div id="ranking-view" class="page-content">
         <h1 style="text-align: center;">Live Rankings</h1>
         <div class="ranking-wrapper" style="margin-top: 20px;"> 
@@ -148,18 +150,13 @@
         </div> 
     </div>
 
-    <!-- NAVBAR INFERIORE -->
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
-            <span class="nav-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z""")/>></svg>
-            </span>
+            <span class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z""")/>></svg></span>
             <span class="nav-text">Home</span>
         </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-ranking" onclick="showTab('ranking')">
-            <span class="nav-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14h18V5H3zm4 2v2h2V7h2v2h2V7h2v2h2V7h2v10H5V7h2z""")/>></svg>
-            </span>
+            <span class="nav-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14h18V5H3zm4 2v2h2V7h2v2h2V7h2v2h2V7h2v10H5V7h2z""")/>></svg></span>
             <span class="nav-text">Ranking</span>
         </a>
     </nav>
@@ -175,9 +172,6 @@
     </script>
 </body>
 </html>
-
-
-
 
 
 
