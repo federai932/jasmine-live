@@ -6,31 +6,36 @@ from supabase import create_client
 app = Flask(__name__)
 
 # --- CONFIGURAZIONE SUPABASE ---
+# Assicurati che queste variabili siano impostate su Render
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# --- CONFIGURAZIONE GOOGLE GEMINI ---
-# La chiave viene letta dalle Environment Variables di Render
+# --- CONFIGURAZIONE GOOGLE GEMINI (Versione 1.5 Flash) ---
+# Recupera la chiave dalle Environment Variables di Render
 api_key = os.environ.get("GOOGLE_API_KEY")
+
 if api_key:
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-pro')
+    # Aggiornato a 'gemini-1.5-flash' per evitare l'errore 404 del vecchio 'gemini-pro'
+    model = genai.GenerativeModel('gemini-1.5-flash')
+else:
+    print("ATTENZIONE: GOOGLE_API_KEY non trovata nelle variabili d'ambiente!")
 
 def leggi_da_db(id_rank):
-    """Recupera il contenuto HTML da Supabase."""
+    """Recupera il contenuto HTML salvato nel database Supabase."""
     try:
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
         if res.data:
             return res.data[0]['html_content']
-        return f"<p>Dati {id_rank} non trovati.</p>"
+        return f"<p>Dati {id_rank} non trovati nel database.</p>"
     except Exception as e:
         print(f"ERRORE DATABASE: {e}")
-        return f"<p>Errore Database: {e}</p>"
+        return f"<p>Errore di connessione al Database.</p>"
 
 @app.route('/')
 def home():
-    """Pagina principale dell'app."""
+    """Rotta principale che carica l'interfaccia dell'app."""
     return render_template('index.html', 
                            tabella_html=leggi_da_db("singolo"),
                            tabella_doppio_html=leggi_da_db("doppio"),
@@ -38,32 +43,31 @@ def home():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    """Gestisce i messaggi del chatbot tramite Gemini."""
+    """Gestisce la logica del Chatbot IA su Jasmine Paolini."""
+    if not api_key:
+        return jsonify({"response": "Errore di configurazione: API Key mancante su Render."})
+
     user_message = request.json.get("message")
     
-    if not api_key:
-        return jsonify({"response": "Configurazione Chat non trovata (API Key mancante)."})
-
-    # Istruzioni di contesto per dare una personalità al bot
+    # Istruzioni di contesto per dare personalità al bot
     context = (
-        "Sei l'assistente virtuale dell'app 'Game Set Jasmine'. "
-        "Rispondi a domande su Jasmine Paolini, tennista italiana top 10. "
-        "Sii cordiale, tecnico e appassionato di tennis. "
-        "Se l'utente saluta, rispondi con entusiasmo."
+        "Sei l'assistente virtuale ufficiale dell'app 'Game Set Jasmine'. "
+        "Rispondi a domande su Jasmine Paolini, tennista italiana numero 8 del mondo. "
+        "Sii tecnico, amichevole e appassionato. Se non conosci un dettaglio specifico, "
+        "consiglia di controllare la sezione Match o il Calendario WTA."
     )
 
     try:
-        # Generazione risposta da Gemini
-        response = model.generate_content(f"{context}\nUtente: {user_message}")
+        # Generazione della risposta con il nuovo modello 1.5 Flash
+        response = model.generate_content(f"{context}\n\nUtente: {user_message}")
         return jsonify({"response": response.text})
     except Exception as e:
         print(f"GEMINI ERROR: {e}")
-        # Restituisce l'errore tecnico per aiutare a capire cosa non va
         return jsonify({"response": f"Il coach dice che c'è un problema tecnico: {str(e)}"})
 
-# Avvio dell'app per Render
+# Avvio per Render
 if __name__ == "__main__":
-    # Usa la porta dinamica di Render (default 5000)
+    # Render assegna una porta dinamica tramite la variabile d'ambiente PORT
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
