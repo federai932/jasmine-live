@@ -10,8 +10,9 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# --- GOOGLE GEMINI (CHIAMATA DIRETTA CORRETTA) ---
-API_KEY = os.environ.get("GOOGLE_API_KEY")
+# --- GOOGLE GEMINI (CHIAMATA DIRETTA E SICURA) ---
+# Puliamo la chiave da eventuali spazi che possono rompere l'URL
+API_KEY = os.environ.get("GOOGLE_API_KEY", "").strip()
 
 def leggi_da_db(id_rank):
     try:
@@ -34,10 +35,11 @@ def chat():
     user_message = request.json.get("message")
     
     if not API_KEY:
-        return jsonify({"response": "Chiave API mancante su Render."})
+        return jsonify({"response": "Manca la chiave API su Render!"})
 
-    # URL CORRETTO (Nota il ? tra l'indirizzo e la chiave)
-    url = f"https://generativelanguage.googleapis.com{API_KEY}"
+    # URL PULITO: L'URL finisce con :generateContent e i parametri iniziano dopo il ?
+    url = "https://generativelanguage.googleapis.com"
+    params = {'key': API_KEY}
     
     payload = {
         "contents": [{
@@ -48,26 +50,25 @@ def chat():
     }
 
     try:
-        # Chiamata HTTP
-        response = requests.post(url, json=payload, timeout=15)
+        # Usiamo 'params' così requests mette il '?' e la chiave nel modo giusto
+        response = requests.post(url, params=params, json=payload, timeout=15)
         result = response.json()
         
-        # LOGICA DI ESTRAZIONE CORRETTA PER GOOGLE API
-        # Navighiamo dentro la struttura JSON di Google
+        # Navighiamo nel JSON di risposta di Google
         if 'candidates' in result and len(result['candidates']) > 0:
+            # La risposta è sepolta qui dentro:
             answer = result['candidates'][0]['content']['parts'][0]['text']
             return jsonify({"response": answer})
         else:
-            print(f"RISPOSTA STRANA DA GOOGLE: {result}")
-            return jsonify({"response": "Google non ha risposto correttamente. Controlla i log."})
+            print(f"DEBUG GOOGLE: {result}")
+            return jsonify({"response": "Google non ha risposto. Forse la chiave è sbagliata?"})
     
     except Exception as e:
         print(f"ERRORE CHAT: {e}")
-        return jsonify({"response": f"Il coach dice: {str(e)}"})
+        return jsonify({"response": f"Errore tecnico: {str(e)}"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
 
 
