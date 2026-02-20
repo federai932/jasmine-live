@@ -1,24 +1,17 @@
 import os
-import google.generativeai as genai
+import requests
 from flask import Flask, render_template, request, jsonify
 from supabase import create_client
 
 app = Flask(__name__)
 
-# --- CONFIGURAZIONE SUPABASE ---
+# --- SUPABASE ---
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# --- CONFIGURAZIONE GEMINI (FIX 404) ---
-api_key = os.environ.get("GOOGLE_API_KEY")
-if api_key:
-    # Forza la configurazione sulla versione v1 stabile
-    genai.configure(api_key=api_key)
-    # IMPORTANTE: Usiamo 'gemini-1.5-flash' senza prefissi strani
-    model = genai.GenerativeModel('gemini-1.5-flash')
-else:
-    print("ATTENZIONE: GOOGLE_API_KEY non trovata!")
+# --- GOOGLE GEMINI (CHIAMATA DIRETTA) ---
+API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 def leggi_da_db(id_rank):
     try:
@@ -27,7 +20,7 @@ def leggi_da_db(id_rank):
             return res.data[0]['html_content']
         return f"<p>Dati {id_rank} non trovati.</p>"
     except Exception as e:
-        return "<p>Dati momentaneamente non disponibili.</p>"
+        return "<p>Errore caricamento dati.</p>"
 
 @app.route('/')
 def home():
@@ -39,20 +32,33 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get("message")
-    if not api_key:
-        return jsonify({"response": "Chat non configurata."})
     
-    # Istruzioni di contesto
-    context = "Sei l'assistente di Jasmine Paolini. Rispondi in italiano."
+    if not API_KEY:
+        return jsonify({"response": "Chiave API mancante."})
+
+    # USIAMO L'URL DIRETTO ALLA VERSIONE v1 (STABILE) - SALTIAMO LA BETA
+    url = f"https://generativelanguage.googleapis.com{API_KEY}"
     
+    payload = {
+        "contents": [{
+            "parts": [{
+                "text": f"Sei l'assistente di Jasmine Paolini. Rispondi in italiano. Domanda: {user_message}"
+            }]
+        }]
+    }
+
     try:
-        # Chiamata pulita al modello
-        response = model.generate_content(f"{context}\n\nDomanda: {user_message}")
-        return jsonify({"response": response.text})
+        # Chiamata HTTP diretta: qui il 404 v1beta NON può esistere
+        response = requests.post(url, json=payload, timeout=10)
+        result = response.json()
+        
+        # Estraiamo il testo dalla risposta di Google
+        answer = result['candidates'][0]['content']['parts'][0]['text']
+        return jsonify({"response": answer})
+    
     except Exception as e:
-        # Se vedi ancora 404, stampiamo l'errore nei log di Render
-        print(f"ERRORE GEMINI DETTAGLIATO: {e}")
-        return jsonify({"response": f"Errore tecnico: {str(e)}"})
+        print(f"ERRORE DIRETTO: {e}")
+        return jsonify({"response": f"Il coach dice: {str(e)}"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
