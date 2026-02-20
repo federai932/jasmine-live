@@ -10,7 +10,7 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# --- GOOGLE GEMINI (CHIAMATA DIRETTA) ---
+# --- GOOGLE GEMINI (CHIAMATA DIRETTA CORRETTA) ---
 API_KEY = os.environ.get("GOOGLE_API_KEY")
 
 def leggi_da_db(id_rank):
@@ -34,9 +34,9 @@ def chat():
     user_message = request.json.get("message")
     
     if not API_KEY:
-        return jsonify({"response": "Chiave API mancante."})
+        return jsonify({"response": "Chiave API mancante su Render."})
 
-    # USIAMO L'URL DIRETTO ALLA VERSIONE v1 (STABILE) - SALTIAMO LA BETA
+    # URL CORRETTO (Nota il ? tra l'indirizzo e la chiave)
     url = f"https://generativelanguage.googleapis.com{API_KEY}"
     
     payload = {
@@ -48,22 +48,26 @@ def chat():
     }
 
     try:
-        # Chiamata HTTP diretta: qui il 404 v1beta NON può esistere
-        response = requests.post(url, json=payload, timeout=10)
+        # Chiamata HTTP
+        response = requests.post(url, json=payload, timeout=15)
         result = response.json()
         
-        # Estraiamo il testo dalla risposta di Google
-        answer = result['candidates'][0]['content']['parts'][0]['text']
-        return jsonify({"response": answer})
+        # LOGICA DI ESTRAZIONE CORRETTA PER GOOGLE API
+        # Navighiamo dentro la struttura JSON di Google
+        if 'candidates' in result and len(result['candidates']) > 0:
+            answer = result['candidates'][0]['content']['parts'][0]['text']
+            return jsonify({"response": answer})
+        else:
+            print(f"RISPOSTA STRANA DA GOOGLE: {result}")
+            return jsonify({"response": "Google non ha risposto correttamente. Controlla i log."})
     
     except Exception as e:
-        print(f"ERRORE DIRETTO: {e}")
+        print(f"ERRORE CHAT: {e}")
         return jsonify({"response": f"Il coach dice: {str(e)}"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
 
 
 
