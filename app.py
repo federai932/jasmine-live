@@ -6,7 +6,6 @@ from supabase import create_client
 app = Flask(__name__)
 
 # --- SUPABASE CONFIGURATION ---
-# Ensure these variables are set correctly on Render
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -17,7 +16,7 @@ api_key = os.environ.get("GOOGLE_API_KEY")
 if api_key:
     try:
         genai.configure(api_key=api_key)
-        # Use the 1.5 flash model, which is the most current and free
+        # Use the 1.5 flash model, which is the most current and fast
         model = genai.GenerativeModel('gemini-1.5-flash')
     except Exception as e:
         print(f"GEMINI INITIALIZATION ERROR: {e}")
@@ -28,13 +27,13 @@ def leggi_da_db(id_rank):
     """Retrieves the HTML content saved in the Supabase database."""
     try:
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
-        # Note: res.data is a list, take the first element
+        # Verify if data exists before accessing index [0]
         if res.data and len(res.data) > 0:
             return res.data[0]['html_content']
-        return f"<p>Data {id_rank} not found in the database.</p>"
+        return f"<p>Dati {id_rank} non trovati nel database.</p>"
     except Exception as e:
-        print(f"DATABASE ERROR: {e}")
-        return f"<p>Database connection error.</p>"
+        print(f"ERRORE DATABASE: {e}")
+        return f"<p>Errore di connessione al database.</p>"
 
 @app.route('/')
 def home():
@@ -48,32 +47,31 @@ def home():
 def chat():
     """Handles the Chatbot IA logic on Jasmine Paolini."""
     if not api_key:
-        return jsonify({"response": "Chat configuration not found on the server."})
+        return jsonify({"response": "Configurazione chat non trovata sul server."})
 
     user_message = request.json.get("message")
     
-    # Context instructions (Prompt Engineering)
+    # Context instructions (Prompt Engineering) in Italiano
     context = (
-        "You are the official virtual assistant for the app 'Game Set Jasmine'. "
-        "Answer questions about Jasmine Paolini, a top 10 world-ranked Italian tennis player. "
-        "Be technical, friendly, and speak as if you were part of her team. "
-        "Use information from her bio: born Jan 4, 1996, 1.63m tall, coach Danilo Pizzorno and Sara Errani."
+        "Sei l'assistente virtuale ufficiale dell'app 'Game Set Jasmine'. "
+        "Rispondi a domande su Jasmine Paolini, tennista italiana top 10 mondiale. "
+        "Sii tecnico, amichevole e parla come se fossi parte del suo team. "
+        "Usa le informazioni della sua bio: nata il 4 gen 1996, alta 1.63m, coach Danilo Pizzorno e Sara Errani."
     )
 
     try:
-        # Response generation
-        response = model.generate_content(f"{context}\n\nUser question: {user_message}")
+        # Generazione della risposta
+        response = model.generate_content(f"{context}\n\nDomanda utente: {user_message}")
         return jsonify({"response": response.text})
     except Exception as e:
         print(f"GEMINI ERROR: {e}")
-        return jsonify({"response": f"The coach says there's a technical problem: {str(e)}"})
+        return jsonify({"response": f"Il coach dice che c'è un problema tecnico: {str(e)}"})
 
 # Startup for Render
 if __name__ == "__main__":
     # Render assigns the port automatically
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
 
 
 
