@@ -16,7 +16,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Inizializza Google AI (Gemini)
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 def leggi_da_db(id_rank):
     """Funzione originale per recuperare il contenuto HTML dal database."""
@@ -64,3 +64,4 @@ if __name__ == "__main__":
     # Usa la porta dinamica fornita da Render
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
