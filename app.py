@@ -1,55 +1,43 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template
 from supabase import create_client
-import google.generativeai as genai
 
 app = Flask(__name__)
 
-# --- CONFIGURAZIONE ---
+# --- CONFIGURAZIONE SUPABASE ---
+# Le chiavi vengono lette dalle Variabili d'Ambiente di Render (più sicuro)
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 
-# Inizializzazione Client
+# Inizializza il client Supabase
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# Inizializzazione IA (Modello aggiornato)
-genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
-
 def leggi_da_db(id_rank):
-    """Recupera HTML da Supabase con il fix della lista [0]."""
+    """Funzione per recuperare il contenuto HTML dal database."""
     try:
+        # Recupera la riga dal database dove l'id è 'singolo', 'doppio' o 'news'
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
-        # IL FIX CHE FA FUNZIONARE LE NEWS:
-        if res.data and len(res.data) > 0:
+        
+        # Se trova i dati, li restituisce; altrimenti, mostra un messaggio
+        if res.data:
             return res.data[0]['html_content']
-        return f"<p>Dati {id_rank} non trovati.</p>"
+        return f"<p>Dati {id_rank} non trovati nel database.</p>"
     except Exception as e:
-        print(f"Errore DB: {e}")
-        return "<p>Errore di connessione.</p>"
+        return f"<p>Errore di connessione al Database: {e}</p>"
 
 @app.route('/')
 def home():
+    """Rotta principale che visualizza la pagina Home."""
+    # Legge i contenuti direttamente dal DB e li passa al template
     return render_template('index.html', 
-                           tabella_html=leggi_da_db("singolo"),
-                           tabella_doppio_html=leggi_da_db("doppio"),
+                           tabella_html=leggi_da_db("singolo"), 
+                           tabella_doppio_html=leggi_da_db("doppio"), 
                            news_html=leggi_da_db("news"))
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.json
-    user_message = data.get("message", "")
-    try:
-        # Risposta IA veloce e sicura
-        prompt = f"Sei l'assistente di Jasmine Paolini. Rispondi in italiano: {user_message}"
-        response = model.generate_content(prompt)
-        # Importante: usiamo 'reply' come nel tuo file index.html
-        return jsonify({"reply": response.text})
-    except Exception as e:
-        return jsonify({"reply": "Scusa, ho un piccolo problema tecnico."}), 500
-
+# Rotta di default per l'avvio su Render
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
+    # Usa la porta dinamica fornita da Render
+    port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
 
