@@ -20,22 +20,26 @@ def leggi_da_db(id_rank):
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
         # Se trova i dati, li restituisce; altrimenti, mostra un messaggio
         if res.data:
+            # Ritorna il campo html_content dalla prima riga trovata
             return res.data[0]['html_content']
         return f"<p>Dati {id_rank} non trovati nel database.</p>"
     except Exception as e:
         return f"<p>Errore di connessione al Database: {e}</p>"
 
-# --- NUOVA ROTTA PROXY PER IFRAME (Indispensabile per Render) ---
+# --- AGGIUNTA: ROTTA PROXY PER IFRAME ---
 @app.route('/proxy/<path:url>')
 def proxy(url):
-    """Scarica il sito esterno e rimuove i blocchi X-Frame-Options."""
-    # Gestisce l'URL evitando il raddoppio di https://
-    target_url = url if url.startswith('http') else f"https://{url}"
+    """Scarica il sito esterno e rimuove i blocchi di sicurezza (X-Frame-Options)."""
+    # Pulizia dell'URL per evitare errori di protocollo raddoppiato (es. https://://)
+    clean_url = url.replace('https://', '').replace('http://', '')
+    target_url = f"https://{clean_url}"
+    
     try:
-        # Scarica la pagina dal sito originale (WTA o Notion)
-        resp = requests.get(target_url, timeout=15)
+        # Simula un browser normale per evitare blocchi dal server esterno
+        headers_request = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+        resp = requests.get(target_url, headers=headers_request, timeout=15)
         
-        # Elimina gli header di sicurezza che bloccano la visualizzazione nell'app
+        # Header da rimuovere per permettere la visualizzazione nell'iframe
         excluded_headers = [
             'content-encoding', 'content-length', 'transfer-encoding', 'connection',
             'x-frame-options', 'content-security-policy', 'strict-transport-security'
@@ -45,10 +49,9 @@ def proxy(url):
             if name.lower() not in excluded_headers
         ]
         
-        # Restituisce il sito "pulito" alla tua app
         return Response(resp.content, resp.status_code, headers)
     except Exception as e:
-        return f"Errore nel caricamento del sito: {str(e)}", 500
+        return f"Errore nel caricamento tramite Proxy: {str(e)}", 500
 
 @app.route('/')
 def home():
