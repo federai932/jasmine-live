@@ -26,33 +26,87 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-        /* --- SEZIONE NEWS (RIPRISTINATI EFFETTI ORIGINALI) --- */
-        .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; } 
-        .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; } 
-        
-        .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
-        
-        /* Barra scorrimento verde ripristinata */
-        .news-scroll-container::-webkit-scrollbar { height: 6px; } 
-        .news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; } 
+  /* --- SEZIONE NEWS (LOOK GAZZETTA + EFFETTO SALTO) --- */
+.news-wrapper { 
+    width: 100%; max-width: 700px; background: #121212; border-radius: 16px; 
+    padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; 
+} 
 
-        .news-item { 
-            background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; 
-            display: flex; border: 1px solid #333; overflow: hidden; 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-          /* Effetto salto */
-            flex: 0 0 280px; height: 100px; position: relative; 
-        } 
-        
-        /* Effetto salto allo sfioro ripristinato */
-        .news-item:hover { 
-            background: #252525; 
-            border-color: #2e7d32; 
-            transform: translateY(-10px) scale(1.02); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
-            z-index: 10;
-        }
+.news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
 
+/* Barra scorrimento verde */
+.news-scroll-container::-webkit-scrollbar { height: 6px; } 
+.news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; } 
+
+.news-item { 
+    background: #1e1e1e; 
+    padding: 10px; 
+    border-radius: 12px; 
+    text-decoration: none; 
+    color: white; 
+    display: flex;             /* Forza l'allineamento orizzontale */
+    justify-content: space-between; 
+    align-items: flex-start; 
+    border: 1px solid #333; 
+    overflow: hidden; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    flex: 0 0 280px;           /* Larghezza della tua card */
+    height: 100px; 
+    position: relative; 
+    gap: 10px;                 /* Spazio tra testo e foto */
+} 
+
+/* Effetto salto al passaggio del mouse */
+.news-item:hover { 
+    background: #252525; 
+    border-color: #2e7d32; 
+    transform: translateY(-10px) scale(1.02); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
+    z-index: 10;
+}
+
+/* --- STRUTTURA INTERNA LOOK GAZZETTA --- */
+.news-content-left {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.news-source-tag {
+    font-size: 10px;
+    font-weight: bold;
+    color: #bfa0ff;          /* Colore che richiama il tuo box stats */
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.news-title { 
+    font-size: 13px; 
+    font-weight: 500; 
+    line-height: 1.3; 
+    color: #4a9eff;          /* Azzurro link come in foto */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;   /* Taglia il testo dopo 3 righe */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-image-right {
+    width: 80px;             /* Dimensione foto fissa */
+    height: 80px;
+    flex-shrink: 0;
+}
+
+.news-image-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
         .news-source { font-size: 11px; color: #a2cfa5; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; } 
         .news-title { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.3; color: #8ab4f8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
         .news-image-container { width: 90px; height: 80px; border-radius: 4px; overflow: hidden; margin-left: 10px; flex-shrink: 0; order: 2; } 
@@ -118,11 +172,40 @@
         .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
         .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
 
-        /* --- PAGINE A TUTTO SCHERMO --- */
-        .page-content { display: none; width: 100%; max-width: 1000px; }
-        .page-content.active { display: block; }
-        .full-page-view { position: fixed; top: 0; left: 0; width: 100%; height: calc(100% - 75px); background: white; z-index: 100; }
-        .iframe-container { width: 100%; height: 100%; border: none; }
+     /* --- PAGINE A TUTTO SCHERMO --- */
+.page-content { 
+    display: none; 
+    width: 100%; 
+    /* Rimosso il max-width: 1000px che bloccava tutto al centro */
+}
+
+.page-content.active { 
+    display: block; 
+}
+
+.full-page-view { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; /* Usa l'intera larghezza del display */
+    height: calc(100vh - 75px); /* Lascia spazio esatto per la tua barra sotto */
+    background: white; 
+    z-index: 100; 
+    overflow: hidden;
+}
+
+.iframe-container { 
+    width: 100%; 
+    height: 100%; 
+    border: none; 
+}
+
+/* Applica altezza totale anche al tag iframe interno */
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
     </style>
 </head>
 <body>
@@ -142,10 +225,10 @@
             <ul class="bio-list"> 
                 <div class="bio-title">About Jasmine</div> 
                 <li>Coached by Danilo Pizzorno and Sara Errani</li> 
-                <li>Resides in Bagni di Lucca and trains in Forte dei Marmi, Italy</li> 
+                <li>Resides in Bagni di Lucca and trains in Forte dei Marmi</li> 
                 <li>Father is Ugo Paolini, mother is Jacqueline Gardiner. 
                 <li>Mother is of Ghanaian/Polish descent
-                <li>brother is William Paolini. Grandmother lives in Lodz Poland.
+                <li>brother is William Paolini. Grandmother lives in Lodz 
                 <li>Idolizes Roger Federer</li> 
                 <li>Favorite shot is her forehand and favorite surface is clay</li> 
                 <li>Speaks Italian, English and Polish</li> 
@@ -224,8 +307,6 @@
     </script>
 </body>
 </html>
-
-
 
 
 
