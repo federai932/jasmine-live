@@ -10,15 +10,16 @@
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f4; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; padding-bottom: 100px; } 
         h1 { color: #1a5c20; text-transform: uppercase; margin-top: 10px; font-size: 28px; text-align: center; } 
         .image-container { width: 160px; height: 160px; border-radius: 50%; border: 6px solid #2e7d32; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 10px; } 
-        .image-container img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); } 
+        .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-        /* --- NEWS (V1 ORIGINALE) --- */
+        /* --- NEWS V1 ORIGINALE --- */
         .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; } 
         .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
         .news-scroll-container::-webkit-scrollbar { height: 6px; } 
         .news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; } 
-        .news-item { background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; display: flex; border: 1px solid #333; flex: 0 0 280px; height: 100px; transition: 0.3s; } 
+        .news-item { background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; display: flex; border: 1px solid #333; flex: 0 0 280px; height: 100px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); } 
         .news-item:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .news-title { font-size: 14px; font-weight: 600; color: #8ab4f8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
         /* --- BIOGRAFIA E STATS ORIGINALI --- */
         .biography-section { width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 10px; } 
@@ -27,12 +28,15 @@
         .stats-box { background-color: #330066; color: white; padding: 12px 18px; border-radius: 10px; flex: 0 1 280px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); } 
         .stat-value { font-size: 14px; font-weight: bold; } 
 
-        /* --- RANKING ORIGINALE --- */
+        /* --- RANKING E TABELLE ORIGINALI --- */
         .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; margin-bottom: 20px; } 
         .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; } 
         .table-scroll { max-height: 215px; overflow-y: auto; } 
         .table-scroll::-webkit-scrollbar { width: 6px; }
         .table-scroll::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; } 
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; } 
+        thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; }
 
         /* --- NAVBAR --- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 999; }
@@ -49,11 +53,12 @@
 <body>
 
     <div id="home-view" class="page-content active">
-        <div class="image-container" style="margin: 0 auto;"> <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}"> </div> 
+        <div class="image-container" style="margin: 0 auto;"> 
+            <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine Paolini"> 
+        </div> 
         <h1>Game Set Jasmine</h1> 
         <div class="news-wrapper" style="margin: 25px auto;"> 
             <h2>Latest News</h2>
-            <!-- Lo 0 viene gestito dal file app.py per caricare correttamente da Supabase -->
             <div class="news-scroll-container"> {{ news_html | safe }} </div> 
         </div> 
         <div class="biography-section"> 
@@ -61,12 +66,17 @@
                 <li class="bio-title">About Jasmine</li> 
                 <li>Coached by Danilo Pizzorno and Sara Errani</li> 
                 <li>Resides in Bagni di Lucca and trains in Forte dei Marmi, Italy</li> 
-                <li>Father is Ugo Paolini, mother Jacqueline Gardiner, brother William</li> 
+                <li>Father is Ugo Paolini, mother is Jacqueline Gardiner and brother is William Paolini</li> 
+                <li>Grandmother lives in Lodz, Poland. Mother is of Ghanaian/Polish descent</li> 
+                <li>Idolizes Roger Federer</li> 
+                <li>Favorite shot is her forehand and favorite surface is clay</li> 
                 <li>Speaks Italian, English and Polish</li> 
             </ul> 
             <div class="stats-box"> 
                 <div class="stat-label">PLAYS</div><div class="stat-label">CAREER HIGH</div> 
                 <div class="stat-value">Right-Handed</div><div class="stat-value">4</div> 
+                <div class="stat-label">BIRTHDAY</div><div class="stat-label">HEIGHT</div> 
+                <div class="stat-value">January 4, 1996</div><div class="stat-value">1.63m</div> 
                 <div class="stat-label" style="grid-column: span 2;">BIRTHPLACE</div> 
                 <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana, IT</div> 
             </div> 
@@ -106,9 +116,9 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                     <rect x="3" y="3" width="18" height="18" rx="2"></rect>
                     <path d="M3 9h18M3 15h18M9 3v18"></path>
-                    <text x="6" y="6.8" font-family="Arial" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">1</text>
-                    <text x="6" y="12.8" font-family="Arial" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">2</text>
-                    <text x="6" y="18.8" font-family="Arial" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">3</text>
+                    <text x="6" y="6.8" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">1</text>
+                    <text x="6" y="12.8" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">2</text>
+                    <text x="6" y="18.8" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">3</text>
                 </svg>
             </span>
             <span class="nav-text">Ranking</span>
