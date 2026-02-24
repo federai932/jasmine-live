@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
     <title>Game Set Jasmine | App</title> 
     <style> 
-        /* --- STILE GENERALE --- */
+        /* --- STILE GENERALE CENTRATO --- */
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background-color: #f4f7f4; 
@@ -26,42 +26,38 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-        /* --- SEZIONE NEWS LOOK GAZZETTA + EFFETTO SALTO --- */
-        .news-wrapper { 
-            width: 100%; max-width: 700px; background: #121212; border-radius: 16px; 
-            padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; 
-        } 
-        .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; }
-
+        /* --- SEZIONE NEWS (RIPRISTINATI EFFETTI ORIGINALI) --- */
+        .news-wrapper { width: 100%; max-width: 700px; background: #121212; border-radius: 16px; padding: 20px; margin-top: 25px; margin-bottom: 20px; color: white; box-shadow: 0 4px 20px rgba(0,0,0,0.2); box-sizing: border-box; } 
+        .news-wrapper h2 { font-size: 18px; margin-top: 0; margin-bottom: 15px; border-left: 4px solid #2e7d32; padding-left: 10px; text-transform: uppercase; } 
+        
         .news-scroll-container { display: flex; overflow-x: auto; padding: 15px 5px; gap: 15px; } 
+        
+        /* Barra scorrimento verde ripristinata */
         .news-scroll-container::-webkit-scrollbar { height: 6px; } 
         .news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; } 
 
         .news-item { 
-            background: #1e1e1e; padding: 10px; border-radius: 12px; text-decoration: none; color: white; 
-            display: flex; justify-content: space-between; align-items: flex-start; 
-            border: 1px solid #333; overflow: hidden; 
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            flex: 0 0 280px; height: 100px; position: relative; gap: 10px;
+            background: #1e1e1e; padding: 10px; border-radius: 10px; text-decoration: none; color: white; 
+            display: flex; border: 1px solid #333; overflow: hidden; 
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Effetto salto */
+            flex: 0 0 280px; height: 100px; position: relative; 
         } 
-
+        
+        /* Effetto salto allo sfioro ripristinato */
         .news-item:hover { 
-            background: #252525; border-color: #2e7d32; 
+            background: #252525; 
+            border-color: #2e7d32; 
             transform: translateY(-10px) scale(1.02); 
             box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
             z-index: 10;
         }
 
-        .news-content-left { display: flex; flex-direction: column; flex: 1; height: 100%; overflow: hidden; }
-        .news-source-tag { font-size: 10px; font-weight: bold; color: #bfa0ff; text-transform: uppercase; margin-bottom: 4px; }
-        .news-title { 
-            font-size: 13px; font-weight: 500; line-height: 1.3; color: #4a9eff; 
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-        }
-
-        .news-image-right { width: 80px; height: 80px; flex-shrink: 0; }
-        .news-image-right img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+        .news-source { font-size: 11px; color: #a2cfa5; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; display: block; } 
+        .news-title { font-size: 14px; font-weight: 600; margin: 0; line-height: 1.3; color: #8ab4f8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; } 
+        .news-image-container { width: 90px; height: 80px; border-radius: 4px; overflow: hidden; margin-left: 10px; flex-shrink: 0; order: 2; } 
+        .news-image-container img { width: 100%; height: 100%; object-fit: cover; } 
+        .news-content { flex-grow: 1; min-width: 0; order: 1; display: flex; flex-direction: column; justify-content: space-between; } 
+        .news-time { font-size: 10px; color: #666; display: block; margin-top: 4px; } 
 
         /* --- BIOGRAFIA --- */
         .biography-section { 
@@ -70,50 +66,90 @@
         } 
         .bio-list { 
             flex: 1; min-width: 300px; list-style: disc; text-align: left; 
-            padding-left: 10px; margin: 0; line-height: 2.0; color: #330066; 
+            padding-left: 20px; margin: 0; line-height: 2.0; color: #330066; 
         } 
-        .bio-list li { margin-bottom: 18px; font-size: 15px; } 
+        .bio-list li { margin-bottom: 8px; font-size: 14px; } 
         .bio-title { 
             width: 100%; text-align: center; font-weight: bold; color: #330066; 
-            margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 5px; text-transform: uppercase; 
+            margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; text-transform: uppercase; 
         } 
 
-        /* --- STATS BOX --- */
-        .stats-box { 
-            height: fit-content; background-color: #330066; color: white; padding: 15px; border-radius: 10px; 
-            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; 
-            align-content: start; gap: 0px 30px; flex: 0 1 300px;
-        } 
-        .stat-label { font-size: 11px; text-transform: uppercase; color: #bfa0ff; line-height: 1; margin-bottom: 5px; } 
-        .stat-value { font-size: 14px; font-weight: bold; line-height: 1.2; margin-bottom: 20px; }
+       /* --- STATS BOX --- */
+.stats-box { 
+    height: fit-content; /* Il box si stringe attorno al contenuto */
+    background-color: #330066; color: white; padding: 20px; border-radius: 10px; 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: auto auto; /* Forza le righe a stringersi sul testo */
+    align-content: start;          /* Spinge tutto verso l'alto */
+    gap: 0px 20px;                 /* 0px verticale, 20px orizzontale */
+} 
 
-        /* --- TABELLE RANKING --- */
-        .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
-        .ranking-card { flex: 1; min-width: 320px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
-        .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
-        .table-scroll { max-height: 250px; overflow-y: auto; } 
+.stat-label { 
+    font-size: 12px; text-transform: uppercase; color: #bfa0ff; 
+    line-height: 1; 
+    margin-bottom: 10px; /* REGOLA QUESTO: per avvicinare la label al valore */
+} 
+
+.stat-value { 
+    font-size: 14px; font-weight: bold; 
+    line-height: 1; 
+    margin-bottom: 25px; /* REGOLA QUESTO: per dare distanza tra i blocchi (es. tra "4" e la riga sotto) */
+}
+ 
+        /* Altezza alzata a 215px per mostrare la 4a riga senza tagli */
+        .table-scroll { max-height: 215px; overflow-y: auto; } 
 
         table { width: 100%; border-collapse: collapse; } 
         th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
         thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
         tbody tr:nth-child(even) { background-color: #f9f9f9; } 
 
-        /* --- NAVBAR & PAGES --- */
+        /* --- NAVBAR --- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 999; }
         .nav-item { text-align: center; text-decoration: none; color: #2e7d32; flex: 1; display: flex; flex-direction: column; align-items: center; }
-        .nav-item.active { color: #1a5c20; font-weight: bold; transform: scale(1.05); }
+        .nav-item.active { transform: scale(1.08); color: #1a5c20; }
         .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-        .nav-text { font-size: 10px; text-transform: uppercase; margin-top: 4px; }
+        .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
 
-        .page-content { display: none; width: 100%; }
-        .page-content.active { display: block; }
-        .full-page-view { position: fixed; top: 0; left: 0; width: 100vw; height: calc(100vh - 75px); background: white; z-index: 100; overflow: hidden; }
-        .iframe-container { width: 100%; height: 100%; border: none; }
+       /* --- PAGINE A TUTTO SCHERMO --- */
+.page-content { 
+    display: none; 
+    width: 100%; 
+    /* Rimosso il max-width: 1000px che bloccava tutto al centro */
+}
+
+.page-content.active { 
+    display: block; 
+}
+
+.full-page-view { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; /* Usa l'intera larghezza del display */
+    height: calc(100vh - 75px); /* Lascia spazio esatto per la tua barra sotto */
+    background: white; 
+    z-index: 100; 
+    overflow: hidden;
+}
+
+.iframe-container { 
+    width: 100%; 
+    height: 100%; 
+    border: none; 
+}
+
+/* Applica altezza totale anche al tag iframe interno */
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
     </style>
 </head>
 <body>
 
-    <!-- VISTA HOME -->
     <div id="home-view" class="page-content active">
         <div class="image-container" style="margin: 0 auto;"> 
             <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine Paolini"> 
@@ -130,10 +166,10 @@
                 <div class="bio-title">About Jasmine</div> 
                 <li>Coached by Danilo Pizzorno and Sara Errani</li> 
                 <li>Resides in Bagni di Lucca and trains in Forte dei Marmi</li> 
-                <li>Father is Ugo Paolini, mother is Jacqueline Gardiner</li> 
-                <li>Mother is of Ghanaian/Polish descent</li>
-                <li>Brother is William Paolini. Grandmother lives in Lodz</li> 
-                <li>Idolizes Roger Federer</li> 
+                <li>Father is Ugo Paolini, mother is Jacqueline Gardiner 
+                <li>Mother is of Ghanaian/Polish descent</li> 
+                <li>Idolizes Roger Federer</li>
+                <li>brother is William Paolini
                 <li>Favorite shot is her forehand and favorite surface is clay</li> 
                 <li>Speaks Italian, English and Polish</li> 
             </ul> 
@@ -142,14 +178,13 @@
                 <div class="stat-label">PLAYS</div><div class="stat-label">CAREER HIGH</div> 
                 <div class="stat-value">Right-Handed</div><div class="stat-value">4</div> 
                 <div class="stat-label">BIRTHDAY</div><div class="stat-label">HEIGHT</div> 
-                <div class="stat-value">January 4, 1996</div><div class="stat-value">1.63m</div> 
+                <div class="stat-value">04/01/1996</div><div class="stat-value">1.63m</div> 
                 <div class="stat-label">BIRTHPLACE</div> 
-                <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana, IT</div> 
+                <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana IT</div> 
             </div> 
         </div> 
     </div>
 
-    <!-- VISTA RANKING -->
     <div id="ranking-view" class="page-content">
         <h1 style="text-align: center;">Live Rankings</h1>
         <div class="ranking-wrapper" style="margin-top: 20px;"> 
@@ -164,17 +199,16 @@
         </div> 
     </div>
 
-    <!-- VISTA CALENDARIO -->
+     <!-- VISTA CALENDARIO A TUTTO SCHERMO -->
     <div id="calendar-view" class="page-content full-page-view">
-        <iframe src="/proxy/://www.wtatennis.com" class="iframe-container"></iframe>
+        <iframe src="/proxy/www.wtatennis.com/tournaments" class="iframe-container"></iframe>
     </div>
 
-    <!-- VISTA MATCH -->
+    <!-- VISTA MATCH A TUTTO SCHERMO -->
     <div id="match-view" class="page-content full-page-view">
         <iframe src="/proxy/berry-airmail-9a7.notion.site/JPS-1fcd17fa491b80f782b5d996df9bc1fd" class="iframe-container"></iframe>
     </div>
 
-    <!-- NAVBAR IN BASSO -->
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
             <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v11H15v-4a3 3 0 0 0-6 0v4H3V10z"></path></svg></span>
@@ -189,9 +223,14 @@
             <span class="nav-text">Match</span>
         </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-ranking" onclick="showTab('ranking')">
-            <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                <path d="M3 9h18M3 15h18M9 3v18"></path></svg>
+            <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    <path d="M3 9h18M3 15h18M9 3v18"></path>
+                    <text x="6" y="6.8" font-family="Arial" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">1</text>
+                    <text x="6" y="12.8" font-family="Arial" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">2</text>
+                    <text x="6" y="18.8" font-family="Arial" font-size="5" font-weight="900" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="middle">3</text>
+                </svg>
             </span>
             <span class="nav-text">Ranking</span>
         </a>
@@ -199,21 +238,15 @@
 
     <script>
         function showTab(tabName) {
-            // Nasconde tutte le sezioni
             document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
-            // Disattiva tutti i bottoni nav
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // Mostra la sezione cliccata
             document.getElementById(tabName + '-view').classList.add('active');
-            // Attiva il bottone cliccato
             document.getElementById('btn-' + tabName).classList.add('active');
-            // Torna in cima alla pagina
             window.scrollTo(0,0);
         }
     </script>
 </body>
 </html>
-
 
 
 
