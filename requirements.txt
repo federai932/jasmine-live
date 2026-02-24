@@ -4,7 +4,8 @@ supabase
 playwright
 google-generativeai
 requests
-
-
+beautifulsoup4
+unidecode
+lxml
 
 
