@@ -97,6 +97,11 @@
     margin-bottom: 25px; /* REGOLA QUESTO: per dare distanza tra i blocchi (es. tra "4" e la riga sotto) */
 }
  
+       /* --- TABELLE (CORRETTA ALTEZZA PER 4 RIGHE INTERE) --- */
+        .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
+        .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
+        .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
+        
         /* Altezza alzata a 215px per mostrare la 4a riga senza tagli */
         .table-scroll { max-height: 215px; overflow-y: auto; } 
 
@@ -105,6 +110,7 @@
         thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
         tbody tr:nth-child(even) { background-color: #f9f9f9; } 
 
+
         /* --- NAVBAR --- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 999; }
         .nav-item { text-align: center; text-decoration: none; color: #2e7d32; flex: 1; display: flex; flex-direction: column; align-items: center; }
@@ -112,26 +118,49 @@
         .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
         .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
 
-       /* --- PAGINE A TUTTO SCHERMO --- */
+      /* --- GESTIONE PAGINE E BOX CALENDARIO --- */
 .page-content { 
     display: none; 
     width: 100%; 
-    /* Rimosso il max-width: 1000px che bloccava tutto al centro */
 }
 
 .page-content.active { 
     display: block; 
 }
 
+/* BOX PROSSIMO TORNEO (Sostituisce vecchio Iframe Calendario) */
+.calendar-section { 
+    width: 100%; 
+    max-width: 600px; 
+    padding: 20px; 
+    margin: 0 auto;
+    text-align: center; 
+}
+
+.next-tournament-card { 
+    background: linear-gradient(135deg, #330066 0%, #4b0082 100%); 
+    color: white; 
+    padding: 30px 20px; 
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(51, 0, 102, 0.4); 
+    border: 1px solid rgba(255,255,255,0.1); 
+}
+
+.card-label { font-size: 11px; text-transform: uppercase; color: #bfa0ff; letter-spacing: 2px; margin-bottom: 15px; display: block; }
+.t-name { font-size: 26px; font-weight: 900; margin-bottom: 8px; display: block; }
+.t-date { font-size: 15px; opacity: 0.8; display: block; margin-bottom: 20px; }
+.t-status { background: #2e7d32; padding: 6px 15px; border-radius: 30px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+
+/* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
 .full-page-view { 
     position: fixed; 
     top: 0; 
     left: 0; 
-    width: 100vw; /* Usa l'intera larghezza del display */
-    height: calc(100vh - 75px); /* Lascia spazio esatto per la tua barra sotto */
+    width: 100vw; 
+    height: calc(100vh - 75px); 
     background: white; 
     z-index: 100; 
-    overflow: hidden;
+    overflow: hidden; 
 }
 
 .iframe-container { 
@@ -140,12 +169,12 @@
     border: none; 
 }
 
-/* Applica altezza totale anche al tag iframe interno */
 .iframe-container iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
+
     </style>
 </head>
 <body>
@@ -199,10 +228,28 @@
         </div> 
     </div>
 
-     <!-- VISTA CALENDARIO A TUTTO SCHERMO -->
-    <div id="calendar-view" class="page-content full-page-view">
-        <iframe src="/proxy/www.wtatennis.com/tournaments" class="iframe-container"></iframe>
+   <!-- VISTA CALENDARIO (CARD PROSSIMO TORNEO) -->
+<div id="calendar-view" class="page-content" style="padding-top: 50px;">
+    <h1 style="text-align: center; margin-bottom: 30px;">Prossimo Torneo</h1>
+    
+    <div class="calendar-section">
+        <div class="next-tournament-card">
+            <span class="card-label">Jasmine's Next Stop</span>
+            
+            <!-- Queste variabili devono essere passate da app.py -->
+            <span class="t-name">{{ tournament_name if tournament_name else "Indian Wells Open" }}</span>
+            <span class="t-date">{{ tournament_date if tournament_date else "08 - 21 Marzo 2026" }}</span>
+            
+            <div style="margin-top: 20px;">
+                <span class="t-status">Status: Confirmed</span>
+            </div>
+        </div>
+        
+        <p style="margin-top: 40px; color: #666; font-size: 13px; font-style: italic;">
+            Dati estratti automaticamente dalle Entry List ufficiali WTA
+        </p>
     </div>
+</div>
 
     <!-- VISTA MATCH A TUTTO SCHERMO -->
     <div id="match-view" class="page-content full-page-view">
@@ -247,6 +294,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
