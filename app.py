@@ -1,9 +1,8 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, render_template_string
 from supabase import create_client
 
 app = Flask(__name__)
-
 # --- CONFIGURAZIONE SUPABASE ---
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
@@ -95,6 +94,7 @@ def home():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
