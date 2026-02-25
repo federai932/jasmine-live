@@ -19,33 +19,92 @@ def leggi_da_db(id_rank):
     except Exception:
         return f"<p>Errore Database {id_rank}</p>"
 
+# --- 2. FUNZIONE AGGIORNATA PER LEGGERE IL TORNEO (COLONNE NUOVE) ---
 def leggi_torneo():
-    """Recupera i dati specifici per la card del calendario."""
     try:
-        # Cerchiamo la riga con id 'next_tournament'
+        # Legge la riga 'next_tournament' con tutte le sue colonne
         res = supabase.table("ranking_data").select("*").eq("id", "next_tournament").execute()
         if res.data:
-            return res.data[0] # Restituisce l'intero dizionario con nome, data, status
-        return {"tournament_name": "In aggiornamento...", "tournament_date": "Entry List WTA", "tournament_status": "Checking"}
-    except Exception:
-        return {"tournament_name": "Errore Connessione", "tournament_date": "-", "tournament_status": "Error"}
+            d = res.data[0]
+            # Restituiamo un dizionario pulito con valori di default se sono NULL
+            return {
+                "name": d.get('tournament_name') or "In aggiornamento...",
+                "date": d.get('tournament_date') or "Entry List WTA",
+                "cat": d.get('tournament_cat') or "WTA",
+                "surf": d.get('tournament_surf') or "Hard",
+                "logo_cat": d.get('logo_cat_file') or "default_cat.png",
+                "logo_torneo": d.get('logo_torneo_file') or "default_torneo.png"
+            }
+        return {"name": "Dati non trovati", "date": "-", "cat": "WTA", "surf": "-", "logo_cat": "", "logo_torneo": ""}
+    except Exception as e:
+        print(f"Errore lettura torneo: {e}")
+        return {"name": "Errore Connessione", "date": "-", "cat": "WTA", "surf": "-", "logo_cat": "", "logo_torneo": ""}
 
+# --- 3. ROTTA ADMIN PER AGGIORNARE IL TORNEO ---
+@app.route('/admin-torneo', methods=['GET', 'POST'])
+def admin_torneo():
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        data = request.form.get('data')
+        cat = request.form.get('categoria')
+        surf = request.form.get('superficie')
+        
+        # Generazione automatica nomi file per cartella static
+        # Esempio: "Indian Wells" -> "indian_wells.png"
+        logo_t = nome.lower().replace(" ", "_") + ".png"
+        logo_c = cat.lower().replace(" ", "") + ".png"
+
+        payload = {
+            "id": "next_tournament",
+            "tournament_name": nome,
+            "tournament_date": data,
+            "tournament_cat": cat,
+            "tournament_surf": surf,
+            "logo_torneo_file": logo_t,
+            "logo_cat_file": logo_c
+        }
+
+        try:
+            supabase.table("ranking_data").upsert(payload).execute()
+            return "<h1>✅ Torneo Aggiornato!</h1><a href='/'>Torna alla Home</a>"
+        except Exception as e:
+            return f"<h1>❌ Errore: {e}</h1>"
+
+    return render_template_string('''
+        <div style="max-width:400px; margin:50px auto; font-family:sans-serif; border:1px solid #ddd; padding:20px; border-radius:10px;">
+            <h2>🏆 Admin Calendario</h2>
+            <form method="POST">
+                <label>Nome Torneo:</label><br>
+                <input type="text" name="nome" placeholder="es: Indian Wells Open" style="width:100%; margin-bottom:15px;" required><br>
+                <label>Data:</label><br>
+                <input type="text" name="data" placeholder="es: 05 - 16 Marzo" style="width:100%; margin-bottom:15px;" required><br>
+                <label>Categoria:</label><br>
+                <select name="categoria" style="width:100%; margin-bottom:15px;">
+                    <option value="WTA 1000">WTA 1000</option>
+                    <option value="WTA 500">WTA 500</option>
+                    <option value="WTA 250">WTA 250</option>
+                    <option value="Grand Slam">Grand Slam</option>
+                </select><br>
+                <label>Superficie:</label><br>
+                <input type="text" name="superficie" placeholder="es: Hard" style="width:100%; margin-bottom:15px;" required><br>
+                <button type="submit" style="width:100%; padding:10px; background:green; color:white; border:none; cursor:pointer;">AGGIORNA SITO</button>
+            </form>
+        </div>
+    ''')
+
+# --- 4. ROTTA HOME ---
 @app.route('/')
 def home():
-    """Rotta principale."""
-    # Recuperiamo i dati del torneo
-    torneo = leggi_torneo()
-    
+    t = leggi_torneo()
     return render_template('index.html', 
                            tabella_html=leggi_da_db("singolo"), 
                            tabella_doppio_html=leggi_da_db("doppio"), 
                            news_html=leggi_da_db("news"),
-                           # --- NUOVE VARIABILI PER IL CALENDARIO ---
-                           tournament_name=torneo.get('tournament_name'),
-                           tournament_date=torneo.get('tournament_date'),
-                           tournament_status=torneo.get('tournament_status'))
+                           # Passiamo l'intero dizionario del torneo
+                           torneo=t)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
 
