@@ -128,16 +128,27 @@
     display: block; 
 }
 
-/* --- CARD TORNEO STILE UFFICIALE --- */
+/* Titolo della Sezione */
+.section-title {
+    color: #330066;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .tournament-card-wrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Per mettere titolo sopra la card */
+    align-items: center;
     padding: 20px;
 }
 
 .t-card {
     background-color: #330066; 
-    width: 400px;
+    width: 420px;
     height: 150px;
     border-radius: 45px; 
     display: flex;
@@ -147,10 +158,11 @@
     position: relative;
 }
 
+/* Logo a Sinistra - ORA TRASPARENTE */
 .t-logo-left {
     width: 110px;
     height: 110px;
-    background: white;
+    background: transparent; /* RIMOSSO IL BIANCO */
     border-radius: 25px;
     display: flex;
     justify-content: center;
@@ -160,42 +172,39 @@
 }
 
 .t-logo-left img {
-    width: 90%;
-    height: 90%;
-    object-fit: contain; /* Evita che l'immagine si schiacci */
+    width: 100%; /* Leggermente più grande visto che non c'è il box */
+    height: 100%;
+    object-fit: contain;
 }
 
 .t-info-right {
     flex: 1;
     padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
+/* Badge WTA - CORRETTO (niente più effetto bianco totale) */
 .t-cat-badge {
     position: absolute;
-    top: 20px;
-    right: 30px;
+    top: 25px;
+    right: 35px;
 }
 
 .t-cat-badge img {
     height: 25px;
     width: auto;
-    filter: brightness(0) invert(1); /* Rende il logo bianco */
+    /* Rimosso il filtro che rendeva tutto bianco */
 }
 
 .t-name-title {
     color: white;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 800;
-    margin: 0;
-    text-transform: uppercase;
+    margin-top: 10px;
 }
 
 .t-date-label {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -278,22 +287,22 @@
 
 <div id="calendar-view" class="page-content" style="padding-top: 50px;">
     <div class="tournament-card-wrapper">
+        <!-- Titolo Sezione in Inglese -->
+        <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
+        
         <div class="t-card">
-            <!-- Logo a sinistra (Logo Torneo) -->
+            <!-- Logo a sinistra (Senza box bianco) -->
             <div class="t-logo-left">
-                <!-- Usiamo torneo.logo_torneo come definito in app.py -->
                 <img src="{{ url_for('static', filename=torneo.logo_torneo) }}" alt="Tournament">
             </div>
             
             <!-- Testo a destra -->
             <div class="t-info-right">
-                <!-- Badge Categoria (WTA 1000/500 ecc) -->
                 <div class="t-cat-badge">
-                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA Category">
+                    <!-- Logo Categoria (Ora visibile) -->
+                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA">
                 </div>
-                <!-- Nome Torneo -->
                 <div class="t-name-title">{{ torneo.name }}</div>
-                <!-- Data Torneo -->
                 <div class="t-date-label">{{ torneo.date }}</div>
             </div>
         </div>
@@ -343,7 +352,6 @@
     </script>
 </body>
 </html>
-
 
 
 
