@@ -3,41 +3,45 @@ from flask import Flask, render_template, request, redirect, render_template_str
 from supabase import create_client
 
 app = Flask(__name__)
+
 # --- CONFIGURAZIONE SUPABASE ---
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def leggi_da_db(id_rank):
-    """Recupera il contenuto HTML (Ranking e News)."""
+    """Funzione per recuperare il contenuto HTML dal database."""
     try:
+        # Recupera la riga dal database dove l'id è 'singolo', 'doppio' o 'news'
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
+        # Se trova i dati, li restituisce; altrimenti, mostra un messaggio
         if res.data:
             return res.data[0]['html_content']
-        return f"<p>Dati {id_rank} non trovati.</p>"
-    except Exception:
-        return f"<p>Errore Database {id_rank}</p>"
-
-# --- FUNZIONE LETTURA TORNEO AGGIORNATA ---
+        return f"<p>Dati {id_rank} non trovati nel database.</p>"
+    except Exception as e:
+        return f"<p>Errore di connessione al Database: {e}</p>"
+        
 def leggi_torneo():
+    """Recupera i dati del torneo in modo sicuro."""
     try:
         res = supabase.table("ranking_data").select("*").eq("id", "next_tournament").execute()
         if res.data and len(res.data) > 0:
-            d = res.data[0]
+            d = res.data[0] # Prendiamo il primo risultato
             return {
-                "name": d.get('tournament_name') or "In aggiornamento...",
-                "date_iso": d.get('tournament_date') or "2025-01-01", 
-                "date_show": d.get('tournament_date_full') or "Data da definire",
-                "cat": d.get('tournament_cat') or "WTA",
-                "logo_cat": d.get('logo_cat_file') or "default_cat.png",
-                "logo_torneo": d.get('logo_torneo_file') or "default_torneo.png",
-                "url": d.get('tournament_url') or "#"
+                "name": d.get('tournament_name', "In aggiornamento..."),
+                "date_iso": d.get('tournament_date', "2025-01-01"), 
+                "date_show": d.get('tournament_date_full', "Data da definire"), 
+                "cat": d.get('tournament_cat', "WTA"),
+                "logo_cat": d.get('logo_cat_file', "default_cat.png"),
+                "logo_torneo": d.get('logo_torneo_file', "default_torneo.png"),
+                "url": d.get('tournament_url', "#")
             }
-        return {"name": "Dati non trovati", "date_iso": "2025-01-01"}
-    except Exception:
-        return {"name": "Errore Connessione", "date_iso": "2025-01-01"}
+        # Valori di emergenza se la riga non esiste
+        return {"name": "In aggiornamento...", "date_iso": "2025-01-01", "date_show": "-", "cat": "WTA", "url": "#"}
+    except Exception as e:
+        print(f"Errore lettura torneo: {e}")
+        return {"name": "Errore Connessione", "date_iso": "2025-01-01", "url": "#"}
 
-# --- ROTTA ADMIN ---
 @app.route('/admin-torneo', methods=['GET', 'POST'])
 def admin_torneo():
     if request.method == 'POST':
@@ -74,7 +78,7 @@ def admin_torneo():
                 <input type="text" name="nome" placeholder="Nome Torneo" style="width:100%; margin-bottom:10px;" required>
                 <input type="text" name="data_iso" placeholder="Data Countdown (AAAA-MM-GG)" style="width:100%; margin-bottom:10px;" required>
                 <input type="text" name="data_show" placeholder="Data da mostrare (es: 4-15 Marzo)" style="width:100%; margin-bottom:10px;" required>
-                <input type="text" name="url_sito" placeholder="Link Sito Ufficiale (http://...)" style="width:100%; margin-bottom:10px;" required>
+                <input type="text" name="url_sito" placeholder="Link Sito Ufficiale" style="width:100%; margin-bottom:10px;" required>
                 <select name="categoria" style="width:100%; margin-bottom:10px;">
                     <option value="WTA 1000">WTA 1000</option>
                     <option value="WTA 500">WTA 500</option>
@@ -85,7 +89,6 @@ def admin_torneo():
         </div>
     ''')
 
-# --- ROTTA HOME (MANCANTE NEL TUO PEZZO) ---
 @app.route('/')
 def home():
     t = leggi_torneo()
@@ -96,8 +99,10 @@ def home():
                            torneo=t)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    # Usa la porta di Render (10000) o la 5000 se sei in locale
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
