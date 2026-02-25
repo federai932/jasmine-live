@@ -118,7 +118,7 @@
         .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
         .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
 
-  /* --- GESTIONE PAGINE E BOX CALENDARIO --- */
+ /* --- GESTIONE PAGINE E BOX CALENDARIO --- */
 .page-content { 
     display: none; 
     width: 100%; 
@@ -128,28 +128,27 @@
     display: block; 
 }
 
-/* Titolo della Sezione */
 .section-title {
     color: #330066;
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 800;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .tournament-card-wrapper {
     display: flex;
-    flex-direction: column; /* Per mettere titolo sopra la card */
+    flex-direction: column;
     align-items: center;
     padding: 20px;
 }
 
 .t-card {
     background-color: #330066; 
-    width: 420px;
-    height: 150px;
+    width: 440px; /* Leggermente più larga per far stare tutto */
+    height: 160px;
     border-radius: 45px; 
     display: flex;
     align-items: center;
@@ -158,21 +157,18 @@
     position: relative;
 }
 
-/* Logo a Sinistra - ORA TRASPARENTE */
 .t-logo-left {
-    width: 110px;
-    height: 110px;
-    background: transparent; /* RIMOSSO IL BIANCO */
-    border-radius: 25px;
+    width: 115px;
+    height: 115px;
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    overflow: hidden;
 }
 
 .t-logo-left img {
-    width: 100%; /* Leggermente più grande visto che non c'è il box */
+    width: 100%;
     height: 100%;
     object-fit: contain;
 }
@@ -180,32 +176,63 @@
 .t-info-right {
     flex: 1;
     padding-left: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Badge WTA - CORRETTO (niente più effetto bianco totale) */
+/* Badge WTA - INGRANDITO */
 .t-cat-badge {
     position: absolute;
-    top: 25px;
-    right: 35px;
+    top: 20px;
+    right: 30px;
 }
 
 .t-cat-badge img {
-    height: 25px;
+    height: 35px; /* Ingrandito da 25px a 35px */
     width: auto;
-    /* Rimosso il filtro che rendeva tutto bianco */
 }
 
 .t-name-title {
     color: white;
     font-size: 26px;
     font-weight: 800;
-    margin-top: 10px;
+    margin: 0;
 }
 
 .t-date-label {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
+}
+
+/* Bottone Link (Info) */
+.t-more-info {
+    display: inline-block;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 15px;
+    margin-top: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    width: fit-content;
+    transition: 0.3s;
+}
+
+.t-more-info:hover {
+    background: white;
+    color: #330066;
+}
+
+/* Countdown Giallo */
+.t-countdown {
+    color: #FFD700;
+    font-size: 15px;
+    font-weight: 800;
+    margin-top: 8px;
+    text-transform: uppercase;
 }
 
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
@@ -287,27 +314,54 @@
 
 <div id="calendar-view" class="page-content" style="padding-top: 50px;">
     <div class="tournament-card-wrapper">
-        <!-- Titolo Sezione in Inglese -->
-        <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
+        <h2 class="section-title">Jasmine's Upcoming Tournaments</h2>
         
         <div class="t-card">
-            <!-- Logo a sinistra (Senza box bianco) -->
+            <!-- Logo Torneo -->
             <div class="t-logo-left">
                 <img src="{{ url_for('static', filename=torneo.logo_torneo) }}" alt="Tournament">
             </div>
             
-            <!-- Testo a destra -->
+            <!-- Info a Destra -->
             <div class="t-info-right">
                 <div class="t-cat-badge">
-                    <!-- Logo Categoria (Ora visibile) -->
-                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA">
+                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA Category">
                 </div>
                 <div class="t-name-title">{{ torneo.name }}</div>
-                <div class="t-date-label">{{ torneo.date }}</div>
+                <div class="t-date-label">{{ torneo.date_show }}</div>
+                
+                <!-- Bottone Info -->
+                <a href="{{ torneo.url }}" target="_blank" class="t-more-info">More Info</a>
+                
+                <!-- Timer Countdown -->
+                <div class="t-countdown" id="countdown-timer">Starts in: --d --h</div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function updateCountdown() {
+    const startDateStr = "{{ torneo.date_iso }}"; // Formato AAAA-MM-GG
+    const startDate = new Date(startDateStr + "T00:00:00").getTime();
+    const now = new Date().getTime();
+    const distance = startDate - now;
+
+    const timerElement = document.getElementById("countdown-timer");
+
+    if (distance < 0) {
+        timerElement.innerHTML = "Tournament Started! 🎾";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    timerElement.innerHTML = "Starts in: " + days + "d " + hours + "h";
+}
+// Aggiorna ogni minuto
+setInterval(updateCountdown, 60000);
+updateCountdown();
+</script>
 
     <!-- VISTA MATCH A TUTTO SCHERMO -->
     <div id="match-view" class="page-content full-page-view">
