@@ -26,8 +26,8 @@ def leggi_torneo():
             d = res.data[0]
             return {
                 "name": d.get('tournament_name') or "In aggiornamento...",
-                "date_iso": d.get('tournament_date') or "2025-01-01", # Per il Countdown
-                "date_show": d.get('tournament_date_full') or "Data da definire", # Per la Card
+                "date_iso": d.get('tournament_date') or "2025-01-01", 
+                "date_show": d.get('tournament_date_full') or "Data da definire",
                 "cat": d.get('tournament_cat') or "WTA",
                 "logo_cat": d.get('logo_cat_file') or "default_cat.png",
                 "logo_torneo": d.get('logo_torneo_file') or "default_torneo.png",
@@ -37,13 +37,13 @@ def leggi_torneo():
     except Exception:
         return {"name": "Errore Connessione", "date_iso": "2025-01-01"}
 
-# --- ROTTA ADMIN AGGIORNATA ---
+# --- ROTTA ADMIN ---
 @app.route('/admin-torneo', methods=['GET', 'POST'])
 def admin_torneo():
     if request.method == 'POST':
         nome = request.form.get('nome')
-        data_iso = request.form.get('data_iso')   # es: 2025-03-04
-        data_show = request.form.get('data_show') # es: 4 - 15 Marzo
+        data_iso = request.form.get('data_iso')   
+        data_show = request.form.get('data_show') 
         url_sito = request.form.get('url_sito')
         cat = request.form.get('categoria')
         
@@ -85,9 +85,20 @@ def admin_torneo():
         </div>
     ''')
 
+# --- ROTTA HOME (MANCANTE NEL TUO PEZZO) ---
+@app.route('/')
+def home():
+    t = leggi_torneo()
+    return render_template('index.html', 
+                           tabella_html=leggi_da_db("singolo"), 
+                           tabella_doppio_html=leggi_da_db("doppio"), 
+                           news_html=leggi_da_db("news"),
+                           torneo=t)
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
