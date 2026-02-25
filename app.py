@@ -19,14 +19,12 @@ def leggi_da_db(id_rank):
     except Exception:
         return f"<p>Errore Database {id_rank}</p>"
 
-# --- 2. FUNZIONE AGGIORNATA PER LEGGERE IL TORNEO (COLONNE NUOVE) ---
 def leggi_torneo():
+    """Recupera i dati per la card del calendario dalle nuove colonne."""
     try:
-        # Legge la riga 'next_tournament' con tutte le sue colonne
         res = supabase.table("ranking_data").select("*").eq("id", "next_tournament").execute()
-        if res.data:
+        if res.data and len(res.data) > 0:
             d = res.data[0]
-            # Restituiamo un dizionario pulito con valori di default se sono NULL
             return {
                 "name": d.get('tournament_name') or "In aggiornamento...",
                 "date": d.get('tournament_date') or "Entry List WTA",
@@ -35,12 +33,11 @@ def leggi_torneo():
                 "logo_cat": d.get('logo_cat_file') or "default_cat.png",
                 "logo_torneo": d.get('logo_torneo_file') or "default_torneo.png"
             }
-        return {"name": "Dati non trovati", "date": "-", "cat": "WTA", "surf": "-", "logo_cat": "", "logo_torneo": ""}
+        return {"name": "Dati non trovati", "date": "-", "cat": "WTA"}
     except Exception as e:
         print(f"Errore lettura torneo: {e}")
-        return {"name": "Errore Connessione", "date": "-", "cat": "WTA", "surf": "-", "logo_cat": "", "logo_torneo": ""}
+        return {"name": "Errore Connessione", "date": "-"}
 
-# --- 3. ROTTA ADMIN PER AGGIORNARE IL TORNEO ---
 @app.route('/admin-torneo', methods=['GET', 'POST'])
 def admin_torneo():
     if request.method == 'POST':
@@ -49,8 +46,7 @@ def admin_torneo():
         cat = request.form.get('categoria')
         surf = request.form.get('superficie')
         
-        # Generazione automatica nomi file per cartella static
-        # Esempio: "Indian Wells" -> "indian_wells.png"
+        # Generazione nomi file: "Indian Wells" -> "indian_wells.png"
         logo_t = nome.lower().replace(" ", "_") + ".png"
         logo_c = cat.lower().replace(" ", "") + ".png"
 
@@ -66,7 +62,7 @@ def admin_torneo():
 
         try:
             supabase.table("ranking_data").upsert(payload).execute()
-            return "<h1>✅ Torneo Aggiornato!</h1><a href='/'>Torna alla Home</a>"
+            return "<h1>✅ Torneo Aggiornato!</h1><a href='/'>Vai alla Home</a>"
         except Exception as e:
             return f"<h1>❌ Errore: {e}</h1>"
 
@@ -74,25 +70,19 @@ def admin_torneo():
         <div style="max-width:400px; margin:50px auto; font-family:sans-serif; border:1px solid #ddd; padding:20px; border-radius:10px;">
             <h2>🏆 Admin Calendario</h2>
             <form method="POST">
-                <label>Nome Torneo:</label><br>
-                <input type="text" name="nome" placeholder="es: Indian Wells Open" style="width:100%; margin-bottom:15px;" required><br>
-                <label>Data:</label><br>
-                <input type="text" name="data" placeholder="es: 05 - 16 Marzo" style="width:100%; margin-bottom:15px;" required><br>
-                <label>Categoria:</label><br>
-                <select name="categoria" style="width:100%; margin-bottom:15px;">
+                <input type="text" name="nome" placeholder="Nome Torneo" style="width:100%; margin-bottom:10px;" required><br>
+                <input type="text" name="data" placeholder="Data (es: 10-20 Marzo)" style="width:100%; margin-bottom:10px;" required><br>
+                <select name="categoria" style="width:100%; margin-bottom:10px;">
                     <option value="WTA 1000">WTA 1000</option>
                     <option value="WTA 500">WTA 500</option>
                     <option value="WTA 250">WTA 250</option>
-                    <option value="Grand Slam">Grand Slam</option>
                 </select><br>
-                <label>Superficie:</label><br>
-                <input type="text" name="superficie" placeholder="es: Hard" style="width:100%; margin-bottom:15px;" required><br>
-                <button type="submit" style="width:100%; padding:10px; background:green; color:white; border:none; cursor:pointer;">AGGIORNA SITO</button>
+                <input type="text" name="superficie" placeholder="Superficie (es: Hard)" style="width:100%; margin-bottom:10px;" required><br>
+                <button type="submit" style="width:100%; padding:10px; background:blue; color:white;">AGGIORNA</button>
             </form>
         </div>
     ''')
 
-# --- 4. ROTTA HOME ---
 @app.route('/')
 def home():
     t = leggi_torneo()
@@ -100,11 +90,11 @@ def home():
                            tabella_html=leggi_da_db("singolo"), 
                            tabella_doppio_html=leggi_da_db("doppio"), 
                            news_html=leggi_da_db("news"),
-                           # Passiamo l'intero dizionario del torneo
                            torneo=t)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+
 
 
