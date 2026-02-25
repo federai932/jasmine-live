@@ -128,68 +128,80 @@
     display: block; 
 }
 
-/* BOX PROSSIMO TORNEO (STILE PROFESSIONALE WTA) */
-.next-tournament-card {
-    background: linear-gradient(135deg, #330066 0%, #4b0082 100%);
+/* --- NUOVA CARD TORNEO STILE UFFICIALE (Logo a Sinistra, Testo a Destra) --- */
+.tournament-card-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.t-card {
+    background-color: #330066; /* Il viola scuro della foto */
+    width: 400px;
+    height: 150px;
+    border-radius: 45px; /* Angoli molto arrotondati come nell'immagine */
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Quadrato Bianco con Logo Torneo */
+.t-logo-left {
+    width: 115px;
+    height: 115px;
+    background: white;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.t-logo-left img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+}
+
+/* Info a Destra */
+.t-info-right {
+    flex: 1;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Badge WTA 1000/500 in alto a destra */
+.t-cat-badge {
+    align-self: flex-end;
+    margin-bottom: 5px;
+}
+
+.t-cat-badge img {
+    height: 28px;
+    filter: brightness(0) invert(1); /* Trasforma il logo nero in bianco */
+}
+
+/* Titolo Torneo (es: Indian Wells) */
+.t-name-title {
     color: white;
-    padding: 30px 20px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(51, 0, 102, 0.4);
-    border: 1px solid rgba(255,255,255,0.1);
-    max-width: 400px;
-    margin: 40px auto; /* Centra il box e dà spazio sopra */
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 4px 0;
 }
 
-.card-label { 
-    font-size: 11px; 
-    text-transform: uppercase; 
-    color: #bfa0ff; 
-    letter-spacing: 2px; 
-    font-weight: bold; 
-    margin-bottom: 15px; 
-    display: block; 
+/* Data (es: 05-16 March) */
+.t-date-label {
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    opacity: 0.9;
 }
 
-.t-name { 
-    display: block; 
-    font-size: 28px; 
-    font-weight: 900; 
-    margin: 10px 0; 
-}
-
-.t-date { 
-    display: block; 
-    font-size: 16px; 
-    opacity: 0.9; 
-    margin-bottom: 20px; 
-}
-
-.t-details { 
-    display: flex; 
-    justify-content: center; 
-    gap: 15px; 
-    align-items: center; 
-}
-
-.t-surf { 
-    font-size: 11px; 
-    color: #bfa0ff; 
-    border: 1px solid #bfa0ff; 
-    padding: 3px 10px; 
-    border-radius: 6px; 
-    text-transform: uppercase;
-}
-
-.t-status { 
-    background: #2e7d32; 
-    padding: 5px 15px; 
-    border-radius: 30px; 
-    font-size: 11px; 
-    font-weight: bold; 
-    text-transform: uppercase;
-}
-      
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
 .full-page-view { 
     position: fixed; 
@@ -267,37 +279,22 @@
         </div> 
     </div>
 
-<!-- VISTA CALENDARIO (VERSIONE GOOGLE SHEETS) -->
 <div id="calendar-view" class="page-content" style="padding-top: 50px;">
-    <h1 style="text-align: center; margin-bottom: 30px;">Prossimo Torneo</h1>
-    
-    <div class="calendar-section">
-        <div class="next-tournament-card">
-            <!-- Categoria (es: WTA 1000) -->
-            <span class="card-label">{{ tournament_cat if tournament_cat else "WTA 1000" }}</span>
-            
-            <!-- Nome Torneo -->
-            <span class="t-name">{{ tournament_name if tournament_name else "Indian Wells Open" }}</span>
-            
-            <!-- Date -->
-            <span class="t-date">{{ tournament_date if tournament_date else "04 - 15 Marzo 2026" }}</span>
-            
-            <div class="t-details" style="display: flex; justify-content: center; gap: 15px; align-items: center; margin-top: 10px;">
-                <!-- Superficie -->
-                <span class="t-surf" style="border: 1px solid #bfa0ff; color: #bfa0ff; padding: 2px 8px; border-radius: 5px; font-size: 11px; text-transform: uppercase;">
-                    {{ tournament_surf if tournament_surf else "Hard" }}
-                </span>
-                
-                <!-- Status -->
-                <span class="t-status" style="background: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold;">
-                    {{ tournament_status if tournament_status else "Confirmed" }}
-                </span>
+    <div class="tournament-card-wrapper">
+        <div class="t-card">
+            <!-- Logo a sinistra -->
+            <div class="t-logo-left">
+                <img src="/static/{{ logo_torneo_file }}" alt="Tournament">
+            </div>
+            <!-- Testo a destra -->
+            <div class="t-info-right">
+                <div class="t-cat-badge">
+                    <img src="/static/{{ logo_cat_file }}" alt="WTA">
+                </div>
+                <div class="t-name-title">{{ tournament_name }}</div>
+                <div class="t-date-label">{{ tournament_date }}</div>
             </div>
         </div>
-        
-        <p style="margin-top: 40px; color: #666; font-size: 12px; text-align: center; font-style: italic;">
-            Dati sincronizzati dal Pannello di Controllo Google Sheets
-        </p>
     </div>
 </div>
 
@@ -344,6 +341,7 @@
     </script>
 </body>
 </html>
+
 
 
 
