@@ -319,9 +319,9 @@
     <div class="tournament-card-wrapper" style="display: flex; flex-direction: column; gap: 20px;">
         {% for t in tornei %}
         <div class="t-card">
-            <!-- 1. Logo Torneo -->
+            <!-- 1. Logo Torneo (Aggiunto "or ''" per evitare crash se il campo è vuoto) -->
             <div class="t-logo-left">
-                <img src="{{ url_for('static', filename=t.logo_torneo) }}" alt="Tournament">
+                <img src="{{ url_for('static', filename=t.logo_torneo or '') }}" alt="Tournament">
             </div>
             
             <!-- 2. Info Centrali (Nome e Data) -->
@@ -333,13 +333,13 @@
             <!-- 3. Colonna Destra (Badge, Bottone, Timer) -->
             <div class="t-column-right">
                 <div class="t-cat-badge">
-                    <img src="{{ url_for('static', filename=t.logo_cat) }}" alt="WTA">
+                    <img src="{{ url_for('static', filename=t.logo_cat or '') }}" alt="WTA">
                 </div>
 
                 <!-- Bottone Info -->
                 <a href="{{ t.url }}" target="_blank" class="t-more-info">Tournament Info</a>
                 
-                <!-- Countdown: usiamo una classe e salviamo la data in un attributo data-date -->
+                <!-- Countdown: js-timer legge la data dall'attributo data-date senza chiamare variabili Python nel JS -->
                 <div class="t-countdown js-timer" data-date="{{ t.date_iso }}">Starts in: --d</div>
             </div>
         </div>
@@ -349,13 +349,14 @@
 
 <script>
 function updateAllCountdowns() {
-    // Cerchiamo tutti gli elementi con la classe js-timer
+    // Seleziona tutti gli elementi con la classe js-timer caricati dal ciclo for
     const timers = document.querySelectorAll('.js-timer');
     
     timers.forEach(timer => {
         const startDateStr = timer.getAttribute('data-date'); 
-        if (!startDateStr) return;
+        if (!startDateStr || startDateStr === "None") return;
 
+        // Creiamo la data. L'aggiunta di T08:00:00 serve a stabilizzare il fuso orario
         const startDate = new Date(startDateStr + "T08:00:00").getTime();
         const now = new Date().getTime();
         const distance = startDate - now;
@@ -363,16 +364,16 @@ function updateAllCountdowns() {
         if (distance < 0) {
             timer.innerHTML = "Started! 🎾";
         } else {
+            // Calcolo dei giorni rimanenti arrotondato per eccesso
             const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
             timer.innerHTML = "Starts in: " + days + "d";
         }
     });
 }
 
-// Avvia il calcolo per tutti i tornei nella lista
+// Esegui la funzione immediatamente al caricamento della pagina
 updateAllCountdowns();
 </script>
-
 
     <!-- VISTA MATCH A TUTTO SCHERMO -->
     <div id="match-view" class="page-content full-page-view">
@@ -417,8 +418,6 @@ updateAllCountdowns();
     </script>
 </body>
 </html>
-
-
 
 
 
