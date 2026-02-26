@@ -244,28 +244,72 @@
     letter-spacing: 0.5px;
 }
 
-/* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
-.full-page-view { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: calc(100vh - 75px); 
-    background: white; 
-    z-index: 100; 
-    overflow: hidden; 
+/* --- SEZIONE QUIZ --- */
+#match-view {
+    background: #f4f4f9;
+    padding: 20px;
+    text-align: center;
 }
 
-.iframe-container { 
-    width: 100%; 
-    height: 100%; 
-    border: none; 
+.quiz-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-.iframe-container iframe {
-    width: 100%;
-    height: 100%;
+.quiz-question {
+    font-size: 20px;
+    font-weight: 800;
+    color: #330066;
+    margin-bottom: 20px;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-btn {
+    background: #eee;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.option-btn:active {
+    transform: scale(0.98);
+}
+
+/* Colori feedback */
+.correct {
+    background-color: #d4edda !important;
+    border-color: #28a745 !important;
+    color: #155724 !important;
+}
+
+.wrong {
+    background-color: #f8d7da !important;
+    border-color: #dc3545 !important;
+    color: #721c24 !important;
+}
+
+.next-btn {
+    margin-top: 20px;
+    background: #330066;
+    color: white;
     border: none;
+    padding: 12px 25px;
+    border-radius: 20px;
+    font-weight: 800;
+    display: none; /* Appare solo dopo la risposta */
 }
 
     </style>
@@ -373,10 +417,92 @@ function updateAllCountdowns() {
 updateAllCountdowns();
 </script>
   
-    <!-- VISTA MATCH A TUTTO SCHERMO -->
-    <div id="match-view" class="page-content full-page-view">
-        <iframe src="/proxy/berry-airmail-9a7.notion.site/JPS-1fcd17fa491b80f782b5d996df9bc1fd" class="iframe-container"></iframe>
+   <div id="match-view" class="page-content">
+    <h2 class="section-title">Jasmine Quiz 🎾</h2>
+    
+    <div class="quiz-container">
+        <div id="question-box">
+            <p class="quiz-question" id="q-text">Caricamento domanda...</p>
+            <div class="quiz-options" id="options-container">
+                <!-- Le opzioni appariranno qui -->
+            </div>
+        </div>
+        <button id="next-question" class="next-btn" onclick="loadNextQuestion()">Prossima domanda</button>
+        <p id="score-text" style="margin-top:15px; font-weight:700; color:#330066;"></p>
     </div>
+</div>
+  
+  <script>
+const quizData = [
+    {
+        question: "In che anno è nata Jasmine Paolini?",
+        options: ["1994", "1996", "1998"],
+        correct: 1 // 1996
+    },
+    {
+        question: "Quanti titoli WTA ha vinto Jasmine in carriera (singolare)?",
+        options: ["1", "2", "3"],
+        correct: 1 // 2 (Portorose e Dubai)
+    },
+    {
+        question: "Qual è la superficie preferita dichiarata da Jasmine?",
+        options: ["Erba", "Cemento", "Terra Rossa"],
+        correct: 2
+    },
+    {
+        question: "In quale città è nata Jasmine?",
+        options: ["Firenze", "Castelnuovo di Garfagnana", "Lucca"],
+        correct: 1
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadNextQuestion() {
+    if (currentQuestion >= quizData.length) {
+        document.getElementById('question-box').innerHTML = `<h3 style="color:#330066">Quiz Completato! 🏆</h3><p>Punteggio: ${score}/${quizData.length}</p>`;
+        document.getElementById('next-question').style.display = 'none';
+        return;
+    }
+
+    const data = quizData[currentQuestion];
+    document.getElementById('q-text').innerText = data.question;
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    document.getElementById('next-question').style.display = 'none';
+
+    data.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.classList.add('option-btn');
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(index, btn);
+        container.appendChild(btn);
+    });
+}
+
+function checkAnswer(index, btn) {
+    const data = quizData[currentQuestion];
+    const allButtons = document.querySelectorAll('.option-btn');
+    
+    // Disabilita altri click
+    allButtons.forEach(b => b.disabled = true);
+
+    if (index === data.correct) {
+        btn.classList.add('correct');
+        score++;
+    } else {
+        btn.classList.add('wrong');
+        allButtons[data.correct].classList.add('correct'); // Mostra quella giusta
+    }
+
+    document.getElementById('next-question').style.display = 'block';
+    currentQuestion++;
+}
+
+// Avvia il quiz la prima volta
+loadNextQuestion();
+</script>
 
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
@@ -388,9 +514,16 @@ updateAllCountdowns();
             <span class="nav-text">Calendario</span>
         </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
-            <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></span>
-            <span class="nav-text">Match</span>
-        </a>
+    <span class="nav-icon">
+        <!-- Nuova icona Punto di Domanda più adatta al Quiz -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+    </span>
+    <span class="nav-text">Quiz & Play</span>
+</a>
         <a href="javascript:void(0)" class="nav-item" id="btn-ranking" onclick="showTab('ranking')">
             <span class="nav-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -416,6 +549,4 @@ updateAllCountdowns();
     </script>
 </body>
 </html>
-
-
 
