@@ -128,23 +128,27 @@
     display: block; 
 }
 
-/* Titolo Pagina - Ingrandito e staccato */
+/* Titolo - Alzato e ingrandito */
 .section-title {
     color: #330066;
-    font-size: 24px; 
+    font-size: 26px; 
     font-weight: 900;
     text-align: center;
-    margin: 35px 0 25px 0;
+    margin: 10px 0 20px 0; /* Ridotto il margine sopra (10) per mandarlo su */
     text-transform: uppercase;
 }
 
+/* WRAPPER - Fondamentale: mette i box uno sotto l'altro con distacco */
 .tournament-card-wrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* LI METTE IN COLONNA */
+    align-items: center;    /* LI CENTRA */
+    gap: 15px;              /* DISTACCO TRA I BOX */
     padding: 10px;
+    width: 100%;
 }
 
-/* BOX ORIGINALE (Ripristinato) */
+/* BOX - Sistemato per mobile */
 .t-card {
     background-color: #330066; 
     width: 95%; 
@@ -155,11 +159,12 @@
     align-items: center;
     padding: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    flex-shrink: 0; /* Impedisce al box di schiacciarsi */
 }
 
 .t-logo-left {
-    width: 85px;
-    height: 85px;
+    width: 75px; /* Leggermente ridotto per far stare meglio il resto */
+    height: 75px;
     background: transparent;
     flex-shrink: 0;
 }
@@ -170,40 +175,37 @@
     object-fit: contain;
 }
 
-/* Info Centrali - Aggiunto solo margin tra nome e data */
 .t-info-center {
     flex: 1;
-    padding-left: 12px;
+    padding-left: 10px;
 }
 
 .t-name-title {
     color: white;
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 800;
-    margin-bottom: 5px; /* Spazio aggiunto tra nome e data */
+    margin-bottom: 4px;
 }
 
 .t-date-label {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 18px; 
+    font-size: 16px; 
     font-weight: 600;
 }
 
-/* COLONNA DESTRA - Sistemata per il countdown lungo */
 .t-column-right {
     display: flex;
     flex-direction: column;
     align-items: center; 
     justify-content: space-between;
     height: 90%;
-    width: 115px; /* Leggermente più larga per contenere "Days" */
-    padding-right: 5px;
+    width: 110px; 
 }
 
 .t-cat-badge img {
-    height: 22px; 
+    height: 20px; 
     width: auto;
-    border-radius: 8px;
+    border-radius: 6px;
     object-fit: contain;
 }
 
@@ -213,22 +215,22 @@
     font-weight: 700;
     text-decoration: none;
     background: rgba(255, 255, 255, 0.2);
-    padding: 5px 8px;
+    padding: 4px 6px;
     border-radius: 12px;
     border: 1px solid white;
     text-align: center;
     white-space: nowrap;
 }
 
-/* COUNTDOWN - Tutto su una riga */
 .t-countdown {
     color: #FFD700;
-    font-size: 11px; /* Ridotto leggermente per stare su una riga */
+    font-size: 10px; /* Ridotto di 1px per sicurezza su schermi piccoli */
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    white-space: nowrap; /* Impedisce di andare a capo */
+    white-space: nowrap;
 }
+
 
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
 .full-page-view { 
@@ -307,7 +309,7 @@
         </div> 
     </div>
 
-<div id="calendar-view" class="page-content" style="padding-top: 10px;">
+<div id="calendar-view" class="page-content"> <!-- Tolto il padding-top: 10px -->
     <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
 
     <div class="tournament-card-wrapper">
@@ -327,13 +329,13 @@
                     <img src="{{ url_for('static', filename=t.logo_cat or '') }}" alt="WTA">
                 </div>
                 <a href="{{ t.url }}" target="_blank" class="t-more-info">Tournament Info</a>
-                <!-- Testo iniziale cambiato in Days -->
                 <div class="t-countdown js-timer" data-date="{{ t.date_iso }}">Starts in: -- Days</div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
 
 <script>
 function updateAllCountdowns() {
