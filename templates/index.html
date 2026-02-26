@@ -128,13 +128,13 @@
     display: block; 
 }
 
-/* Titolo in cima alla pagina */
+/* Titolo Pagina - Ingrandito e staccato */
 .section-title {
     color: #330066;
-    font-size: 25px; 
-    font-weight: 800;
+    font-size: 24px; 
+    font-weight: 900;
     text-align: center;
-    margin: 25px 0 10px 0;
+    margin: 35px 0 25px 0;
     text-transform: uppercase;
 }
 
@@ -144,6 +144,7 @@
     padding: 10px;
 }
 
+/* BOX ORIGINALE (Ripristinato) */
 .t-card {
     background-color: #330066; 
     width: 95%; 
@@ -169,7 +170,7 @@
     object-fit: contain;
 }
 
-/* Info Centrali (Nome e Data) */
+/* Info Centrali - Aggiunto solo margin tra nome e data */
 .t-info-center {
     flex: 1;
     padding-left: 12px;
@@ -179,36 +180,33 @@
     color: white;
     font-size: 19px;
     font-weight: 800;
-    margin: 0;
+    margin-bottom: 5px; /* Spazio aggiunto tra nome e data */
 }
 
 .t-date-label {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 19px;
+    font-size: 18px; 
     font-weight: 600;
 }
 
-/* --- COLONNA DI DESTRA ALLARGATA --- */
+/* COLONNA DESTRA - Sistemata per il countdown lungo */
 .t-column-right {
     display: flex;
     flex-direction: column;
     align-items: center; 
     justify-content: space-between;
     height: 90%;
-    /* Aumentato da 105px a 130px per far stare il testo largo */
-    width: 131px; 
+    width: 115px; /* Leggermente più larga per contenere "Days" */
     padding-right: 5px;
 }
-      
-/* Badge WTA - Arrotondato e rimpicciolito */
+
 .t-cat-badge img {
     height: 22px; 
     width: auto;
-    border-radius: 8px; /* Arrotonda gli spigoli della tua foto */
+    border-radius: 8px;
     object-fit: contain;
 }
 
-/* Bottone Tournament Info */
 .t-more-info {
     color: white;
     font-size: 10px;
@@ -222,21 +220,14 @@
     white-space: nowrap;
 }
 
-.t-more-info:hover {
-    background: white;
-    color: #330066;
-}
-
-/* Countdown tutto su una riga */
+/* COUNTDOWN - Tutto su una riga */
 .t-countdown {
     color: #FFD700;
-    font-size: 12px; /* Leggermente ridotto per sicurezza */
+    font-size: 11px; /* Ridotto leggermente per stare su una riga */
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
-    /* Forza il testo a stare su una riga sola */
-    white-space: nowrap; 
-    width: 100%;
+    white-space: nowrap; /* Impedisce di andare a capo */
 }
 
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
@@ -411,7 +402,6 @@ updateAllCountdowns();
     </script>
 </body>
 </html>
-
 
 
 
