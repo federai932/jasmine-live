@@ -118,7 +118,7 @@
         .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
         .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
 
- /* --- GESTIONE PAGINE E BOX CALENDARIO --- */
+/* --- GESTIONE PAGINE E BOX CALENDARIO --- */
 .page-content { 
     display: none; 
     width: 100%; 
@@ -128,42 +128,38 @@
     display: block; 
 }
 
+/* Titolo in cima alla pagina */
 .section-title {
     color: #330066;
-    font-size: 24px;
+    font-size: 19px; 
     font-weight: 800;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 25px 0 10px 0;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .tournament-card-wrapper {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    justify-content: center;
+    padding: 10px;
 }
 
 .t-card {
     background-color: #330066; 
-    width: 440px; /* Leggermente più larga per far stare tutto */
-    height: 160px;
-    border-radius: 45px; 
+    width: 95%; 
+    max-width: 380px;
+    height: 135px;
+    border-radius: 35px; 
     display: flex;
     align-items: center;
-    padding: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    position: relative;
+    padding: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 .t-logo-left {
-    width: 115px;
-    height: 115px;
+    width: 85px;
+    height: 85px;
     background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-shrink: 0;
 }
 
@@ -173,52 +169,56 @@
     object-fit: contain;
 }
 
-.t-info-right {
+/* Info Centrali (Nome e Data) */
+.t-info-center {
     flex: 1;
-    padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Badge WTA - INGRANDITO */
-.t-cat-badge {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-}
-
-.t-cat-badge img {
-    height: 35px; /* Ingrandito da 25px a 35px */
-    width: auto;
+    padding-left: 12px;
 }
 
 .t-name-title {
     color: white;
-    font-size: 26px;
+    font-size: 19px;
     font-weight: 800;
     margin: 0;
 }
 
 .t-date-label {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 17px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 19px;
     font-weight: 600;
 }
 
-/* Bottone Link (Info) */
+/* --- NUOVA COLONNA DI DESTRA --- */
+.t-column-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between;
+    height: 90%;
+    width: 105px;
+    padding-right: 5px;
+}
+
+/* Badge WTA - Arrotondato e rimpicciolito */
+.t-cat-badge img {
+    height: 22px; 
+    width: auto;
+    border-radius: 8px; /* Arrotonda gli spigoli della tua foto */
+    object-fit: contain;
+}
+
+/* Bottone Tournament Info */
 .t-more-info {
-    display: inline-block;
     color: white;
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 700;
     text-decoration: none;
     background: rgba(255, 255, 255, 0.2);
-    padding: 4px 12px;
-    border-radius: 15px;
-    margin-top: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    width: fit-content;
-    transition: 0.3s;
+    padding: 5px 8px;
+    border-radius: 12px;
+    border: 1px solid white;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .t-more-info:hover {
@@ -226,13 +226,13 @@
     color: #330066;
 }
 
-/* Countdown Giallo */
+/* Countdown solo GIORNI */
 .t-countdown {
     color: #FFD700;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 800;
-    margin-top: 8px;
     text-transform: uppercase;
+    text-align: center;
 }
 
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
@@ -312,29 +312,34 @@
         </div> 
     </div>
 
-<div id="calendar-view" class="page-content" style="padding-top: 50px;">
+<div id="calendar-view" class="page-content" style="padding-top: 10px;">
+    <!-- Titolo in cima -->
+    <h2 class="section-title">Jasmine's Upcoming Tournaments</h2>
+
     <div class="tournament-card-wrapper">
-        <h2 class="section-title">Jasmine's Upcoming Tournaments</h2>
-        
         <div class="t-card">
-            <!-- Logo Torneo -->
+            <!-- 1. Logo Torneo -->
             <div class="t-logo-left">
                 <img src="{{ url_for('static', filename=torneo.logo_torneo) }}" alt="Tournament">
             </div>
             
-            <!-- Info a Destra -->
-            <div class="t-info-right">
-                <div class="t-cat-badge">
-                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA Category">
-                </div>
+            <!-- 2. Info Centrali (Nome e Data) -->
+            <div class="t-info-center">
                 <div class="t-name-title">{{ torneo.name }}</div>
                 <div class="t-date-label">{{ torneo.date_show }}</div>
+            </div>
+
+            <!-- 3. Colonna Destra (Badge, Bottone, Timer) -->
+            <div class="t-column-right">
+                <div class="t-cat-badge">
+                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA">
+                </div>
+
+                <!-- Bottone Rinominato -->
+                <a href="{{ torneo.url }}" target="_blank" class="t-more-info">Tournament Info</a>
                 
-                <!-- Bottone Info -->
-                <a href="{{ torneo.url }}" target="_blank" class="t-more-info">More Info</a>
-                
-                <!-- Timer Countdown -->
-                <div class="t-countdown" id="countdown-timer">Starts in: --d --h</div>
+                <!-- Countdown solo GIORNI -->
+                <div class="t-countdown" id="countdown-timer">Starts in: --days</div>
             </div>
         </div>
     </div>
@@ -342,26 +347,26 @@
 
 <script>
 function updateCountdown() {
-    const startDateStr = "{{ torneo.date_iso }}"; // Formato AAAA-MM-GG
-    const startDate = new Date(startDateStr + "T00:00:00").getTime();
+    const startDateStr = "{{ torneo.date_iso }}"; // Prende AAAA-MM-GG
+    // Impostiamo l'inizio alla mattina per evitare errori di fuso orario
+    const startDate = new Date(startDateStr + "T08:00:00").getTime();
     const now = new Date().getTime();
     const distance = startDate - now;
 
     const timerElement = document.getElementById("countdown-timer");
 
     if (distance < 0) {
-        timerElement.innerHTML = "Tournament Started! 🎾";
+        timerElement.innerHTML = "Started! 🎾";
         return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    timerElement.innerHTML = "Starts in: " + days + "d " + hours + "h";
+    // Calcolo solo dei giorni rimanenti
+    const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
+    timerElement.innerHTML = "Starts in: " + days + "d";
 }
-// Aggiorna ogni minuto
-setInterval(updateCountdown, 60000);
 updateCountdown();
 </script>
+
 
     <!-- VISTA MATCH A TUTTO SCHERMO -->
     <div id="match-view" class="page-content full-page-view">
@@ -406,6 +411,7 @@ updateCountdown();
     </script>
 </body>
 </html>
+
 
 
 
