@@ -104,17 +104,21 @@ def admin_torneo():
     
 @app.route('/')
 def home():
-   t_lista = leggi_tornei()
+    # 1. Recupera la lista dei tornei (corretta indentazione)
+    t_lista = leggi_tornei()
+    
+    # 2. Passa i dati usando il nome 'tornei' (plurale) che serve al ciclo {% for t in tornei %}
     return render_template('index.html', 
                            tabella_html=leggi_da_db("singolo"), 
                            tabella_doppio_html=leggi_da_db("doppio"), 
                            news_html=leggi_da_db("news"),
-                           torneo=t)
+                           tornei=t_lista) # <--- CORRETTO: Nome deve essere 'tornei'
 
 if __name__ == "__main__":
     # Usa la porta di Render (10000) o la 5000 se sei in locale
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
