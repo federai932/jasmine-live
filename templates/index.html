@@ -306,7 +306,88 @@
     display: none; /* Appare via JS */
     width: fit-content;
 }
+      
+ /* Copertina ridotta */
+.quiz-cover {
+    width: 60%; /* Ridotta dal 100% */
+    max-width: 200px;
+    margin: 0 auto 20px;
+    display: block;
+}
 
+/* Copertina Cruciverba (Stessa dimensione Quiz) */
+.cruci-cover-img {
+    width: 60%;
+    max-width: 200px;
+    margin: 0 auto 15px;
+    display: block;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+/* POP-UP (MODAL) */
+.modal-cruci {
+    display: none; 
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    padding-top: 20px;
+}
+
+.modal-content-cruci {
+    background-color: #f4f4f9;
+    margin: auto;
+    padding: 15px;
+    border-radius: 25px;
+    width: 95%;
+    max-width: 500px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Griglia con Scroll per Mobile */
+.crossword-scroll-container {
+    flex: 1;
+    overflow: auto; 
+    background: #330066;
+    padding: 10px;
+    border-radius: 15px;
+    border: 3px solid #330066;
+}
+
+.grid-jasmine {
+    display: grid;
+    grid-template-columns: repeat(14, 35px); /* 14 colonne */
+    gap: 2px;
+}
+
+.c-cell {
+    width: 35px; height: 35px;
+    background: white; border: none;
+    text-align: center; font-size: 16px; font-weight: 800;
+    text-transform: uppercase; color: #330066;
+    border-radius: 4px;
+}
+
+.c-black { background: transparent; }
+
+/* Pulsanti */
+.btn-area { display: flex; justify-content: space-around; padding: 15px 0; }
+.btn-pop { padding: 12px 20px; border-radius: 15px; border: none; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+.btn-check { background: #330066; color: white; }
+.btn-close { background: #ff4444; color: white; }
+
+.hints-list {
+    height: 120px; overflow-y: auto;
+    background: #eee; padding: 10px; border-radius: 10px;
+    font-size: 13px; text-align: left; margin-top: 10px;
+}
+      
     </style>
 </head>
 <body>
@@ -440,7 +521,7 @@ updateAllCountdowns();
             <button class="quiz-nav-btn" style="display:block; margin: 20px auto;" onclick="restartQuiz()">Ricomincia</button>
         </div>
     </div>
-</div>
+</div>  
   
  <script>
 const quizData = [
@@ -538,6 +619,109 @@ function restartQuiz() {
 }
 </script>
 
+<div class="quiz-container" style="margin-top: 20px;">
+    <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" 
+         class="cruci-cover-img" onclick="openCruci()">
+    <p style="font-weight:700; color:#330066;">Tocca per giocare al Cruciverba!</p>
+</div>
+
+<!-- MODAL CRUCIVERBA -->
+<div id="modalCruci" class="modal-cruci">
+    <div class="modal-content-cruci">
+        <h2 style="color:#330066; margin-bottom: 5px;">Jasmine Crossword ✍️</h2>
+        
+        <div class="crossword-scroll-container">
+            <div id="jasmine-grid" class="grid-jasmine">
+                <!-- Generato da JS -->
+            </div>
+        </div>
+
+        <div class="hints-list">
+            <strong>ORIZZONTALI:</strong><br>
+            1. Il cognome di Jasmine (7) - 4. Lo sport che pratica (6) - 7. Colpo per iniziare il punto (8) - 10. Superficie su cui ha brillato (5) - 13. Classifica mondiale (7)<br><br>
+            <strong>VERTICALI:</strong><br>
+            2. Il suo nome (7) - 3. I tornei più importanti (4) - 5. Sede degli Internazionali d’Italia (4) - 8. Punto diretto al servizio (3) - 9. Incontro di tennis (5)
+        </div>
+
+        <div class="btn-area">
+            <button class="btn-pop btn-check" onclick="checkCruci()">CORREGGI</button>
+            <button class="btn-pop btn-close" onclick="closeCruci()">ESCI</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Mappa delle caselle bianche (Coordinate [riga, colonna])
+const whiteCells = [
+    // PAOLINI (Orizzontale riga 2)
+    [2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[2,9],
+    // JASMINE (Verticale colonna 4)
+    [0,4],[1,4],[2,4],[3,4],[4,4],[5,4],[6,4],
+    // TENNIS (Orizzontale riga 5)
+    [5,1],[5,2],[5,3],[5,4],[5,5],[5,6],
+    // SLAM (Verticale colonna 7)
+    [1,7],[2,7],[3,7],[4,7],
+    // ROMA (Verticale colonna 9)
+    [2,9],[3,9],[4,9],[5,9]
+];
+
+function openCruci() {
+    document.getElementById("modalCruci").style.display = "block";
+    document.body.style.overflow = "hidden";
+    drawGrid();
+}
+
+function closeCruci() {
+    document.getElementById("modalCruci").style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+function drawGrid() {
+    const grid = document.getElementById("jasmine-grid");
+    grid.innerHTML = '';
+    
+    for (let r = 0; r < 14; r++) {
+        for (let c = 0; c < 14; c++) {
+            const isWhite = whiteCells.some(cell => cell[0] === r && cell[1] === c);
+            if (isWhite) {
+                let input = document.createElement('input');
+                input.className = 'c-cell';
+                input.maxLength = 1;
+                input.id = `cell-${r}-${c}`;
+                // Auto-avanzamento
+                input.oninput = function() {
+                    if(this.value) focusNext(r, c);
+                };
+                grid.appendChild(input);
+            } else {
+                let div = document.createElement('div');
+                div.className = 'c-cell c-black';
+                grid.appendChild(div);
+            }
+        }
+    }
+}
+
+function focusNext(r, c) {
+    // Cerca la prossima cella bianca nella stessa riga
+    let next = document.getElementById(`cell-${r}-${c+1}`);
+    if(!next) next = document.getElementById(`cell-${r+1}-${c}`); // O nella riga sotto
+    if(next) next.focus();
+}
+
+function checkCruci() {
+    // Esempio controllo parola PAOLINI
+    let p = "";
+    for(let i=3; i<=9; i++) p += document.getElementById(`cell-2-${i}`).value;
+    
+    if (p.toUpperCase() === "PAOLINI") {
+        alert("Bravo! 'PAOLINI' è corretta! Continua così! 🎉");
+    } else {
+        alert("Ci sono errori. Controlla le lettere!");
+    }
+}
+</script>
+  
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
             <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v11H15v-4a3 3 0 0 0-6 0v4H3V10z"></path></svg></span>
@@ -583,5 +767,3 @@ function restartQuiz() {
     </script>
 </body>
 </html>
-
-
