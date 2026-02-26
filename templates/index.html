@@ -316,55 +316,61 @@
     <!-- Titolo in cima -->
     <h2 class="section-title">Jasmine's Upcoming Tournaments</h2>
 
-    <div class="tournament-card-wrapper">
+    <div class="tournament-card-wrapper" style="display: flex; flex-direction: column; gap: 20px;">
+        {% for t in tornei %}
         <div class="t-card">
             <!-- 1. Logo Torneo -->
             <div class="t-logo-left">
-                <img src="{{ url_for('static', filename=torneo.logo_torneo) }}" alt="Tournament">
+                <img src="{{ url_for('static', filename=t.logo_torneo) }}" alt="Tournament">
             </div>
             
             <!-- 2. Info Centrali (Nome e Data) -->
             <div class="t-info-center">
-                <div class="t-name-title">{{ torneo.name }}</div>
-                <div class="t-date-label">{{ torneo.date_show }}</div>
+                <div class="t-name-title">{{ t.name }}</div>
+                <div class="t-date-label">{{ t.date_show }}</div>
             </div>
 
             <!-- 3. Colonna Destra (Badge, Bottone, Timer) -->
             <div class="t-column-right">
                 <div class="t-cat-badge">
-                    <img src="{{ url_for('static', filename=torneo.logo_cat) }}" alt="WTA">
+                    <img src="{{ url_for('static', filename=t.logo_cat) }}" alt="WTA">
                 </div>
 
-                <!-- Bottone Rinominato -->
-                <a href="{{ torneo.url }}" target="_blank" class="t-more-info">Tournament Info</a>
+                <!-- Bottone Info -->
+                <a href="{{ t.url }}" target="_blank" class="t-more-info">Tournament Info</a>
                 
-                <!-- Countdown solo GIORNI -->
-                <div class="t-countdown" id="countdown-timer">Starts in: --days</div>
+                <!-- Countdown: usiamo una classe e salviamo la data in un attributo data-date -->
+                <div class="t-countdown js-timer" data-date="{{ t.date_iso }}">Starts in: --d</div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 
 <script>
-function updateCountdown() {
-    const startDateStr = "{{ torneo.date_iso }}"; // Prende AAAA-MM-GG
-    // Impostiamo l'inizio alla mattina per evitare errori di fuso orario
-    const startDate = new Date(startDateStr + "T08:00:00").getTime();
-    const now = new Date().getTime();
-    const distance = startDate - now;
+function updateAllCountdowns() {
+    // Cerchiamo tutti gli elementi con la classe js-timer
+    const timers = document.querySelectorAll('.js-timer');
+    
+    timers.forEach(timer => {
+        const startDateStr = timer.getAttribute('data-date'); 
+        if (!startDateStr) return;
 
-    const timerElement = document.getElementById("countdown-timer");
+        const startDate = new Date(startDateStr + "T08:00:00").getTime();
+        const now = new Date().getTime();
+        const distance = startDate - now;
 
-    if (distance < 0) {
-        timerElement.innerHTML = "Started! 🎾";
-        return;
-    }
-
-    // Calcolo solo dei giorni rimanenti
-    const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
-    timerElement.innerHTML = "Starts in: " + days + "d";
+        if (distance < 0) {
+            timer.innerHTML = "Started! 🎾";
+        } else {
+            const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
+            timer.innerHTML = "Starts in: " + days + "d";
+        }
+    });
 }
-updateCountdown();
+
+// Avvia il calcolo per tutti i tornei nella lista
+updateAllCountdowns();
 </script>
 
 
@@ -411,6 +417,7 @@ updateCountdown();
     </script>
 </body>
 </html>
+
 
 
 
