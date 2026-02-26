@@ -244,7 +244,7 @@
     letter-spacing: 0.5px;
 }
 
-/* --- SEZIONE QUIZ --- */
+/* --- SEZIONE QUIZ & PLAY --- */
 #match-view {
     background: #f4f4f9;
     padding: 20px;
@@ -258,58 +258,53 @@
     border-radius: 25px;
     padding: 25px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-.quiz-question {
-    font-size: 20px;
-    font-weight: 800;
-    color: #330066;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra tutto il contenuto */
 }
 
 .quiz-options {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
 }
 
 .option-btn {
-    background: #eee;
+    background: #f8f9fa;
     border: 2px solid #ddd;
     border-radius: 15px;
     padding: 15px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
+    color: #333;
 }
 
-.option-btn:active {
-    transform: scale(0.98);
+/* Stato quando clicchi ma non hai ancora confermato */
+.option-btn.selected {
+    border-color: #330066;
+    background-color: #eaddff;
+    transform: scale(1.02);
 }
 
-/* Colori feedback */
-.correct {
-    background-color: #d4edda !important;
-    border-color: #28a745 !important;
-    color: #155724 !important;
-}
+.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
+.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
 
-.wrong {
-    background-color: #f8d7da !important;
-    border-color: #dc3545 !important;
-    color: #721c24 !important;
-}
-
-.next-btn {
-    margin-top: 20px;
+/* Tasto Conferma e Ricomincia - Centrati */
+.quiz-nav-btn {
+    margin-top: 25px;
     background: #330066;
     color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 14px 30px;
     border-radius: 20px;
     font-weight: 800;
-    display: none; /* Appare solo dopo la risposta */
+    font-size: 16px;
+    cursor: pointer;
+    display: none; /* Appare via JS */
+    width: fit-content;
 }
 
     </style>
@@ -417,91 +412,130 @@ function updateAllCountdowns() {
 updateAllCountdowns();
 </script>
   
-   <div id="match-view" class="page-content">
-    <h2 class="section-title">Jasmine Quiz 🎾</h2>
+<div id="match-view" class="page-content">
+    <h2 class="section-title">Quiz & Play 🎾</h2>
     
-    <div class="quiz-container">
-        <div id="question-box">
-            <p class="quiz-question" id="q-text">Caricamento domanda...</p>
-            <div class="quiz-options" id="options-container">
-                <!-- Le opzioni appariranno qui -->
-            </div>
+    <div class="quiz-container" id="quiz-main-container">
+        <!-- Copertina Cliccabile -->
+        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
+             id="quiz-cover-img" 
+             class="quiz-cover" 
+             onclick="startQuiz()" 
+             style="width: 100%; cursor: pointer; border-radius: 20px;"
+             alt="Start Quiz">
+
+        <!-- Contenuto del Quiz -->
+        <div id="quiz-content" style="width: 100%; display: none;">
+            <p id="q-text" style="font-size: 20px; font-weight: 800; color: #330066; margin-bottom: 20px;"></p>
+            <div class="quiz-options" id="options-container"></div>
         </div>
-        <button id="next-question" class="next-btn" onclick="loadNextQuestion()">Prossima domanda</button>
-        <p id="score-text" style="margin-top:15px; font-weight:700; color:#330066;"></p>
+        
+        <!-- Tasto Conferma/Prossima -->
+        <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display: none; margin: 20px auto 0 auto;">Conferma Risposta</button>
+        
+        <!-- Schermata Finale -->
+        <div id="final-screen" style="display:none; text-align: center; width: 100%;">
+            <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
+            <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
+            <button class="quiz-nav-btn" style="display:block; margin: 20px auto;" onclick="restartQuiz()">Ricomincia</button>
+        </div>
     </div>
 </div>
   
-  <script>
+ <script>
 const quizData = [
-    {
-        question: "In che anno è nata Jasmine Paolini?",
-        options: ["1994", "1996", "1998"],
-        correct: 1 // 1996
-    },
-    {
-        question: "Quanti titoli WTA ha vinto Jasmine in carriera (singolare)?",
-        options: ["1", "2", "3"],
-        correct: 1 // 2 (Portorose e Dubai)
-    },
-    {
-        question: "Qual è la superficie preferita dichiarata da Jasmine?",
-        options: ["Erba", "Cemento", "Terra Rossa"],
-        correct: 2
-    },
-    {
-        question: "In quale città è nata Jasmine?",
-        options: ["Firenze", "Castelnuovo di Garfagnana", "Lucca"],
-        correct: 1
-    }
+    { question: "In che anno è nata Jasmine Paolini?", options: ["1994", "1996", "1998"], correct: 1 },
+    { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
+    { question: "In quale città è nata Jasmine?", options: ["Firenze", "Castelnuovo di Garfagnana", "Lucca"], correct: 1 },
+    { question: "Qual è la superficie preferita dichiarata da Jasmine?", options: ["Erba", "Cemento", "Terra Rossa"], correct: 2 }
 ];
 
-let currentQuestion = 0;
+let currentIdx = 0;
 let score = 0;
+let selectedIdx = -1;
+let hasConfirmed = false;
 
-function loadNextQuestion() {
-    if (currentQuestion >= quizData.length) {
-        document.getElementById('question-box').innerHTML = `<h3 style="color:#330066">Quiz Completato! 🏆</h3><p>Punteggio: ${score}/${quizData.length}</p>`;
-        document.getElementById('next-question').style.display = 'none';
-        return;
-    }
+function startQuiz() {
+    document.getElementById('quiz-cover-img').style.display = 'none';
+    document.getElementById('quiz-content').style.display = 'block';
+    loadQuestion();
+}
 
-    const data = quizData[currentQuestion];
+function loadQuestion() {
+    hasConfirmed = false;
+    selectedIdx = -1;
+    const data = quizData[currentIdx];
+    
     document.getElementById('q-text').innerText = data.question;
     const container = document.getElementById('options-container');
     container.innerHTML = '';
-    document.getElementById('next-question').style.display = 'none';
+    
+    const actionBtn = document.getElementById('action-btn');
+    actionBtn.style.display = 'none';
+    actionBtn.innerText = "Conferma Risposta";
 
-    data.options.forEach((opt, index) => {
+    data.options.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.classList.add('option-btn');
         btn.innerText = opt;
-        btn.onclick = () => checkAnswer(index, btn);
+        btn.onclick = () => selectOption(i, btn);
         container.appendChild(btn);
     });
 }
 
-function checkAnswer(index, btn) {
-    const data = quizData[currentQuestion];
-    const allButtons = document.querySelectorAll('.option-btn');
-    
-    // Disabilita altri click
-    allButtons.forEach(b => b.disabled = true);
-
-    if (index === data.correct) {
-        btn.classList.add('correct');
-        score++;
-    } else {
-        btn.classList.add('wrong');
-        allButtons[data.correct].classList.add('correct'); // Mostra quella giusta
-    }
-
-    document.getElementById('next-question').style.display = 'block';
-    currentQuestion++;
+function selectOption(idx, btn) {
+    if (hasConfirmed) return;
+    selectedIdx = idx;
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('action-btn').style.display = 'block';
 }
 
-// Avvia il quiz la prima volta
-loadNextQuestion();
+function handleAction() {
+    if (!hasConfirmed) {
+        verifyAnswer();
+    } else {
+        currentIdx++;
+        if (currentIdx < quizData.length) {
+            loadQuestion();
+        } else {
+            showEnd();
+        }
+    }
+}
+
+function verifyAnswer() {
+    hasConfirmed = true;
+    const data = quizData[currentIdx];
+    const buttons = document.querySelectorAll('.option-btn');
+    
+    if (selectedIdx === data.correct) {
+        score++;
+    }
+
+    buttons.forEach((btn, i) => {
+        btn.disabled = true; // Impedisce altri click
+        if (i === data.correct) btn.classList.add('correct');
+        if (i === selectedIdx && i !== data.correct) btn.classList.add('wrong');
+    });
+
+    document.getElementById('action-btn').innerText = "Prossima Domanda";
+}
+
+function showEnd() {
+    document.getElementById('quiz-content').style.display = 'none';
+    document.getElementById('action-btn').style.display = 'none';
+    document.getElementById('final-screen').style.display = 'block';
+    document.getElementById('final-score').innerText = `Punteggio finale: ${score}/${quizData.length}`;
+}
+
+function restartQuiz() {
+    currentIdx = 0;
+    score = 0;
+    document.getElementById('final-screen').style.display = 'none';
+    document.getElementById('quiz-content').style.display = 'block';
+    loadQuestion();
+}
 </script>
 
     <nav class="bottom-nav">
@@ -549,4 +583,5 @@ loadNextQuestion();
     </script>
 </body>
 </html>
+
 
