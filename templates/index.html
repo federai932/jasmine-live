@@ -131,7 +131,7 @@
 /* Titolo in cima alla pagina */
 .section-title {
     color: #330066;
-    font-size: 19px; 
+    font-size: 25px; 
     font-weight: 800;
     text-align: center;
     margin: 25px 0 10px 0;
@@ -188,17 +188,18 @@
     font-weight: 600;
 }
 
-/* --- NUOVA COLONNA DI DESTRA --- */
+/* --- COLONNA DI DESTRA ALLARGATA --- */
 .t-column-right {
     display: flex;
     flex-direction: column;
     align-items: center; 
     justify-content: space-between;
     height: 90%;
-    width: 105px;
+    /* Aumentato da 105px a 130px per far stare il testo largo */
+    width: 131px; 
     padding-right: 5px;
 }
-
+      
 /* Badge WTA - Arrotondato e rimpicciolito */
 .t-cat-badge img {
     height: 22px; 
@@ -226,13 +227,16 @@
     color: #330066;
 }
 
-/* Countdown solo GIORNI */
+/* Countdown tutto su una riga */
 .t-countdown {
     color: #FFD700;
-    font-size: 12px;
+    font-size: 12px; /* Leggermente ridotto per sicurezza */
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
+    /* Forza il testo a stare su una riga sola */
+    white-space: nowrap; 
+    width: 100%;
 }
 
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
@@ -313,34 +317,27 @@
     </div>
 
 <div id="calendar-view" class="page-content" style="padding-top: 10px;">
-    <!-- Titolo in cima -->
-    <h2 class="section-title">Jasmine's Upcoming Tournaments</h2>
+    <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
 
-    <div class="tournament-card-wrapper" style="display: flex; flex-direction: column; gap: 20px;">
+    <div class="tournament-card-wrapper">
         {% for t in tornei %}
         <div class="t-card">
-            <!-- 1. Logo Torneo (Aggiunto "or ''" per evitare crash se il campo è vuoto) -->
             <div class="t-logo-left">
                 <img src="{{ url_for('static', filename=t.logo_torneo or '') }}" alt="Tournament">
             </div>
             
-            <!-- 2. Info Centrali (Nome e Data) -->
             <div class="t-info-center">
                 <div class="t-name-title">{{ t.name }}</div>
                 <div class="t-date-label">{{ t.date_show }}</div>
             </div>
 
-            <!-- 3. Colonna Destra (Badge, Bottone, Timer) -->
             <div class="t-column-right">
                 <div class="t-cat-badge">
                     <img src="{{ url_for('static', filename=t.logo_cat or '') }}" alt="WTA">
                 </div>
-
-                <!-- Bottone Info -->
                 <a href="{{ t.url }}" target="_blank" class="t-more-info">Tournament Info</a>
-                
-                <!-- Countdown: js-timer legge la data dall'attributo data-date senza chiamare variabili Python nel JS -->
-                <div class="t-countdown js-timer" data-date="{{ t.date_iso }}">Starts in: --d</div>
+                <!-- Testo iniziale cambiato in Days -->
+                <div class="t-countdown js-timer" data-date="{{ t.date_iso }}">Starts in: -- Days</div>
             </div>
         </div>
         {% endfor %}
@@ -349,14 +346,12 @@
 
 <script>
 function updateAllCountdowns() {
-    // Seleziona tutti gli elementi con la classe js-timer caricati dal ciclo for
     const timers = document.querySelectorAll('.js-timer');
     
     timers.forEach(timer => {
         const startDateStr = timer.getAttribute('data-date'); 
         if (!startDateStr || startDateStr === "None") return;
 
-        // Creiamo la data. L'aggiunta di T08:00:00 serve a stabilizzare il fuso orario
         const startDate = new Date(startDateStr + "T08:00:00").getTime();
         const now = new Date().getTime();
         const distance = startDate - now;
@@ -364,17 +359,15 @@ function updateAllCountdowns() {
         if (distance < 0) {
             timer.innerHTML = "Started! 🎾";
         } else {
-            // Calcolo dei giorni rimanenti arrotondato per eccesso
             const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
-            timer.innerHTML = "Starts in: " + days + "d";
+            // Sostituito "d" con "Days"
+            timer.innerHTML = "Starts in: " + days + " Days";
         }
     });
 }
-
-// Esegui la funzione immediatamente al caricamento della pagina
 updateAllCountdowns();
 </script>
-
+  
     <!-- VISTA MATCH A TUTTO SCHERMO -->
     <div id="match-view" class="page-content full-page-view">
         <iframe src="/proxy/berry-airmail-9a7.notion.site/JPS-1fcd17fa491b80f782b5d996df9bc1fd" class="iframe-container"></iframe>
