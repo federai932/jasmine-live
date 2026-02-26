@@ -131,36 +131,37 @@
 /* Titolo Pagina - Alzato e centrato */
 .section-title {
     color: #330066;
-    font-size: 26px; 
+    font-size: 24px; 
     font-weight: 900;
     text-align: center;
-    margin: 10px 0 25px 0; /* Ridotto margine sopra per alzarlo */
+    margin: 15px 0 25px 0;
     text-transform: uppercase;
 }
 
-/* WRAPPER - CENTRATURA TOTALE DEL BOX NELLA PAGINA */
+/* WRAPPER - Forza la centratura totale nella pagina */
 .tournament-card-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;    /* Centra i box orizzontalmente rispetto alla pagina */
     justify-content: center;
-    gap: 20px;              /* Distanza tra i due box */
-    padding: 0;             /* Reset padding per evitare spostamenti laterali */
-    width: 100%;            /* Occupa tutta la larghezza per centrare il contenuto */
+    gap: 20px;
+    padding: 10px 0;
+    width: 100%;
 }
 
-/* BOX - Centrato e bilanciato */
+/* BOX - CENTRATO E PROPORZIONATO */
 .t-card {
     background-color: #330066; 
-    width: 92%;             /* Leggermente ridotto per garantire bordi uguali ai lati */
-    max-width: 380px;
-    height: 150px;          /* Aumentato per far stare i tasti grandi */
+    width: 92%;             /* Larghezza bilanciata per i bordi laterali */
+    max-width: 385px;
+    height: 140px;          /* Altezza proporzionata al contenuto */
     border-radius: 35px; 
     display: flex;
     align-items: center;
-    padding: 15px 20px;     /* Più respiro ai lati interni */
+    padding: 15px 20px;     /* Padding interno simmetrico */
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    margin: 0 auto;         /* Forza la centratura orizzontale */
+    margin-left: auto;      /* Centratura automatica a sinistra... */
+    margin-right: auto;     /* ...e a destra */
     box-sizing: border-box;
 }
 
@@ -180,68 +181,68 @@
 /* Info Centrali (Nome e Data) */
 .t-info-center {
     flex: 1;
-    padding-left: 15px;     /* Più distacco dal logo */
+    padding-left: 15px;
 }
 
 .t-name-title {
     color: white;
-    font-size: 20px;        /* Nome torneo più grande */
+    font-size: 18px;        /* Font armonioso */
     font-weight: 800;
     margin-bottom: 4px;
 }
 
 .t-date-label {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 17px; 
+    font-size: 16px; 
     font-weight: 600;
 }
 
-/* COLONNA DESTRA - Più spaziosa per i tasti grandi */
+/* COLONNA DESTRA - Distribuita bene */
 .t-column-right {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; 
+    align-items: center; 
     justify-content: space-between;
-    height: 100%;
-    width: 135px; 
+    height: 90%;
+    width: 130px; 
 }
 
-/* Badge WTA */
+/* Badge WTA - Arrotondato */
 .t-cat-badge img {
-    height: 25px; 
+    height: 24px; 
     width: auto;
+    border-radius: 8px;
 }
 
-/* BOTTONE - ORA SI VEDE E SI CLICCA BENE */
+/* BOTTONE - PROPORZIONATO (Né gigante né minuscolo) */
 .t-more-info {
     color: white;
-    font-size: 12px;        /* Font aumentato */
+    font-size: 12px;        /* Misura standard leggibile */
     font-weight: 800;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 4px 5px;     /* Molto più grande per il pollice */
-    border-radius: 14px;
-    border: 1px solid white; /* Bordo più spesso */
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;      /* Spazio interno bilanciato */
+    border-radius: 15px;
+    border: 1.5px solid white;
     text-align: center;
     white-space: nowrap;
 }
 
-.t-more-info:active {       /* Effetto al tocco sul telefono */
+.t-more-info:hover {
     background: white;
     color: #330066;
 }
 
-/* COUNTDOWN - GRANDE E GIALLO */
+/* COUNTDOWN - PROPORZIONATO E CHIARO */
 .t-countdown {
     color: #FFD700;
-    font-size: 13px;        /* Ingrandito come richiesto */
+    font-size: 12px;        /* Uguale al bottone per coerenza visiva */
     font-weight: 900;
     text-transform: uppercase;
-    text-align: right;
+    text-align: center;
     white-space: nowrap;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.5px;
 }
-
 
 /* VISTA MATCH A TUTTO SCHERMO (Rimane Iframe) */
 .full-page-view { 
@@ -415,8 +416,6 @@ updateAllCountdowns();
     </script>
 </body>
 </html>
-
-
 
 
 
