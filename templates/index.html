@@ -26,7 +26,7 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-/* --- SEZIONE NEWS INTELLIGENTE (AUTO-ADATTIVA) --- */
+/* --- SEZIONE NEWS DEFINITIVA (AUTO-ADATTIVA E PULITA) --- */
 .news-wrapper { 
     width: 100%; 
     max-width: 800px; 
@@ -53,10 +53,11 @@
     overflow-x: auto; 
     gap: 15px; 
     padding-bottom: 15px; 
-    align-items: stretch; /* Allinea le card se una è più lunga delle altre */
+    /* Impedisce alle card corte di allungarsi se quella vicina è lunga */
+    align-items: flex-start; 
 }
 
-/* Card Notizia - Altezza dinamica basata sul testo */
+/* Card Notizia - Si adatta perfettamente al testo */
 .news-item { 
     flex: 0 0 310px; 
     background: #1e1e1e; 
@@ -67,67 +68,72 @@
     gap: 15px; 
     border: 1px solid #333;
     
-    /* MODIFICA CHIAVE: */
-    height: auto;        /* Si allunga da solo */
-    min-height: 120px;   /* Altezza minima per estetica */
+    /* ALTEZZA INTELLIGENTE: Si chiude subito dopo il testo */
+    height: fit-content; 
+    min-height: 110px; 
     
     overflow: visible; 
     position: relative;
     box-sizing: border-box;
-    transition: transform 0.3s;
+    transition: transform 0.3s, border-color 0.3s;
 }
 
-.news-item:hover { transform: translateY(-5px); border-color: #2e7d32; }
+.news-item:hover { 
+    transform: translateY(-5px); 
+    border-color: #2e7d32; 
+}
 
 /* Contenitore Testo */
 .news-content {
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow: visible; 
 }
 
-.news-meta { display: flex; align-items: center; margin-bottom: 8px; }
-.source-icon { width: 16px; height: 16px; margin-right: 8px; border-radius: 3px; background: white; padding: 1px; }
+/* Meta Fonte - Senza icona, solo testo colorato */
+.news-meta { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 8px; 
+}
 
 .news-source { 
-    color: #2e7d32 !important; 
-    font-weight: 800; 
+    /* Il colore viene iniettato dal Python (es. style="color: #2e7d32") */
+    font-weight: 900; 
     font-size: 11px; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Titolo - Mostra tutto il testo senza limiti */
+/* Titolo - Mostra tutto il testo pulito dal Python */
 .news-title { 
     color: #8ab4f8 !important; 
     font-size: 13px; 
     line-height: 1.4; 
     margin: 0;
     font-weight: 600;
-    
-    /* RIMOSSI TUTTI I TAGLI E I PUNTINI: */
     white-space: normal;
     display: block; 
     overflow: visible;
-    text-overflow: clip;
 }
 
-/* Data in fondo */
+/* Data - Posizionata sotto il titolo */
 .news-time { 
     font-size: 10px; 
-    color: #707070; 
-    margin-top: 15px; /* Spazio dal titolo */
+    color: #606060; 
+    margin-top: 10px; 
     font-weight: bold;
     display: block;
 }
 
-/* Immagine - Posizione fissa in alto a destra */
+/* Immagine - Dimensioni fisse e posizione stabile */
 .news-image-container { 
-    width: 100px; 
-    height: 100px; 
+    width: 95px; 
+    height: 95px; 
     border-radius: 10px; 
     overflow: hidden; 
     flex-shrink: 0; 
-    align-self: flex-start; /* Fondamentale: la foto non si muove se il testo scende */
+    align-self: flex-start; /* Fondamentale per bloccare la foto in alto */
 }
 
 .news-image-container img { 
@@ -136,9 +142,14 @@
     object-fit: cover; 
 }
 
-/* Barra scorrimento */
-.news-scroll-container::-webkit-scrollbar { height: 6px; }
-.news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; }
+/* Barra scorrimento orizzontale */
+.news-scroll-container::-webkit-scrollbar { 
+    height: 6px; 
+}
+.news-scroll-container::-webkit-scrollbar-thumb { 
+    background: #2e7d32; 
+    border-radius: 10px; 
+}
 
         /* --- BIOGRAFIA --- */
         .biography-section { 
@@ -885,6 +896,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
