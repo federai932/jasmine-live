@@ -26,7 +26,7 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-/* --- SEZIONE NEWS AGGIORNATA (TAGLIO ALLA RIGA ROSSA) --- */
+/* --- SEZIONE NEWS INTELLIGENTE (AUTO-ADATTIVA) --- */
 .news-wrapper { 
     width: 100%; 
     max-width: 800px; 
@@ -53,9 +53,10 @@
     overflow-x: auto; 
     gap: 15px; 
     padding-bottom: 15px; 
+    align-items: stretch; /* Allinea le card se una è più lunga delle altre */
 }
 
-/* Card Notizia - Altezza bloccata alla riga rossa */
+/* Card Notizia - Altezza dinamica basata sul testo */
 .news-item { 
     flex: 0 0 310px; 
     background: #1e1e1e; 
@@ -66,9 +67,11 @@
     gap: 15px; 
     border: 1px solid #333;
     
-    /* ALTEZZA FISSA: Questo blocca il box esattamente come in foto */
-    height: 135px; 
-    overflow: hidden; 
+    /* MODIFICA CHIAVE: */
+    height: auto;        /* Si allunga da solo */
+    min-height: 120px;   /* Altezza minima per estetica */
+    
+    overflow: visible; 
     position: relative;
     box-sizing: border-box;
     transition: transform 0.3s;
@@ -81,7 +84,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow: hidden; 
+    overflow: visible; 
 }
 
 .news-meta { display: flex; align-items: center; margin-bottom: 8px; }
@@ -93,38 +96,38 @@
     font-size: 11px; 
 }
 
-/* Titolo - Niente più puntini, testo pulito dal Python */
+/* Titolo - Mostra tutto il testo senza limiti */
 .news-title { 
     color: #8ab4f8 !important; 
     font-size: 13px; 
     line-height: 1.4; 
     margin: 0;
     font-weight: 600;
+    
+    /* RIMOSSI TUTTI I TAGLI E I PUNTINI: */
     white-space: normal;
-    word-wrap: break-word;
-    /* Protezione extra per il layout: massimo 4 righe prima del taglio */
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    display: block; 
+    overflow: visible;
+    text-overflow: clip;
 }
 
-/* Data spinta in fondo sopra il bordo inferiore */
+/* Data in fondo */
 .news-time { 
     font-size: 10px; 
     color: #707070; 
-    margin-top: auto; 
-    padding-top: 5px;
+    margin-top: 15px; /* Spazio dal titolo */
     font-weight: bold;
+    display: block;
 }
 
-/* Immagine - Più grande (100px) e definita */
+/* Immagine - Posizione fissa in alto a destra */
 .news-image-container { 
     width: 100px; 
     height: 100px; 
     border-radius: 10px; 
     overflow: hidden; 
     flex-shrink: 0; 
+    align-self: flex-start; /* Fondamentale: la foto non si muove se il testo scende */
 }
 
 .news-image-container img { 
@@ -882,6 +885,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
