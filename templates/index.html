@@ -244,48 +244,49 @@
     letter-spacing: 0.5px;
 }
 
-/* --- SEZIONE QUIZ & PLAY - FIX GRAFICA --- */
+/* --- SEZIONE QUIZ & PLAY - FIX PROPORZIONI --- */
 #match-view {
     background: #f4f4f9;
-    padding: 15px;
+    padding: 10px 15px 80px 15px; /* Padding sotto per la navbar */
     text-align: center;
-    min-height: 100vh;
+    min-height: auto; /* Toglie lo scroll infinito */
 }
 
-/* Contenitore principale trasparente */
 .quiz-container {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto 20px auto;
+    margin: 0 auto 15px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: transparent;
 }
 
-/* BOX BIANCO (Quando il gioco è attivo) */
+/* Copertine grandi come richiesto (85% dello schermo) */
+.quiz-cover, .cruci-cover-img {
+    width: 85%; 
+    max-width: 300px;
+    height: auto;
+    border-radius: 20px;
+    cursor: pointer;
+    display: block;
+    margin: 5px auto;
+}
+
+/* BOX DEI GIOCHI: Tornati alle dimensioni normali e compatte */
 .active-game-box {
     background: white;
     border-radius: 20px;
-    padding: 20px; /* Spazio interno bilanciato */
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    width: 95%; /* Leggermente meno del 100% per non toccare i bordi schermo */
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 350px; /* Dimensione standard dei tuoi box precedenti */
+    margin: 10px auto;
     box-sizing: border-box;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra tutto il contenuto interno */
 }
 
-/* COPERTINE */
-.quiz-cover, .cruci-cover-img {
-    width: 60%;
-    max-width: 180px;
-    height: auto;
-    cursor: pointer;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    display: block;
-}
-
-/* BOTTONI DEL QUIZ (Opzioni) */
+/* --- TASTI E OPZIONI CENTRATI --- */
 .quiz-options {
     display: flex;
     flex-direction: column;
@@ -298,12 +299,13 @@
     background: #f8f9fa;
     border: 2px solid #ddd;
     border-radius: 12px;
-    padding: 12px;
+    padding: 14px;
     font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+    font-weight: 700;
     color: #333;
-    width: 100%; /* Occupa tutta la larghezza del box bianco */
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
 }
 
 .option-btn.selected {
@@ -311,58 +313,72 @@
     background-color: #eaddff;
 }
 
-/* BOTTONE NAVIGAZIONE (Conferma/Verifica/Ricomincia) */
+/* Tasto Navigazione Centrato */
 .quiz-nav-btn {
     background: #330066;
-    color: white;
+    color: white !important;
     border: none;
-    padding: 12px 25px;
-    border-radius: 15px;
+    padding: 12px 30px;
+    border-radius: 18px;
     font-weight: 800;
     font-size: 15px;
     margin: 20px auto 0 auto;
     cursor: pointer;
-    display: block; /* Assicura che sia centrato */
+    display: block; 
     width: fit-content;
 }
 
-/* GRIGLIA CRUCIVERBA FIX */
+/* --- CRUCIVERBA COMPATTO --- */
 .crossword-grid {
     display: grid;
-    gap: 4px;
+    gap: 5px;
     margin: 15px auto;
-    justify-content: center; /* Centra la griglia nel box */
+    justify-content: center;
 }
 
 .crossword-cell {
-    width: 40px; 
-    height: 40px;
+    width: 42px;
+    height: 42px;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
     border: 2px solid #330066;
     border-radius: 5px;
-    background: white;
 }
 
-.cell-black {
-    background-color: #330066;
-    border-radius: 5px;
-}
+.cell-black { background-color: #330066; }
 
-/* COLORI RISPOSTE */
-.correct { background: #d4edda !important; border-color: #28a745 !important; }
-.wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
-
-/* HINTS */
 .crossword-hints {
     font-size: 13px;
-    background: #f1f1f1;
+    background: #f0f0f0;
     padding: 12px;
     border-radius: 10px;
     text-align: left;
     margin-top: 15px;
-    color: #444;
+    width: 100%;
+}
+ 
+ /* --- COLORI STATI QUIZ --- */
+
+/* 1. SELEZIONE (Viola chiaro/Bluastro) */
+.option-btn.selected {
+    background-color: #e0e7ff !important; /* Bluastro molto chiaro */
+    border-color: #330066 !important;
+    color: #330066 !important;
+}
+
+/* 2. ERRORE (Rosso chiaro) */
+.option-btn.wrong {
+    background-color: #fde8e8 !important; /* Rosso pastello */
+    border-color: #f05252 !important;
+    color: #9b1c1c !important;
+}
+
+/* 3. CORRETTO (Verde chiaro) */
+.option-btn.correct {
+    background-color: #def7ec !important; /* Verde pastello */
+    border-color: #31c48d !important;
+    color: #03543f !important;
 }
       
     </style>
@@ -472,25 +488,36 @@ updateAllCountdowns();
 <div id="match-view" class="page-content">
     <h2 class="section-title">Quiz & Play 🎾</h2>
     
-    <!-- QUIZ -->
-    <div class="quiz-container">
-        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
-             id="quiz-cover-img" class="quiz-cover" onclick="startQuiz()">
+   <!-- QUIZ -->
+<div class="quiz-container">
+    <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
+         id="quiz-cover-img" class="quiz-cover" onclick="startQuiz()">
 
-        <div id="quiz-content-wrapper" class="active-game-box" style="display: none;">
-            <div id="quiz-content">
-                <p id="q-text" style="font-size: 18px; font-weight: 800; color: #330066;"></p>
-                <div class="quiz-options" id="options-container"></div>
-                <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()">Conferma</button>
-            </div>
-            <div id="final-screen" style="display:none;">
-                <h3 style="color:#330066;">Fine! 🏆</h3>
-                <p id="final-score"></p>
-                <button class="quiz-nav-btn" style="display:block;" onclick="restartQuiz()">Ricomincia</button>
-            </div>
+    <div id="quiz-content-wrapper" class="active-game-box" style="display: none;">
+        <!-- Schermata Domande -->
+        <div id="quiz-content">
+            <p id="q-text" style="font-size: 18px; font-weight: 800; color: #330066;"></p>
+            <div class="quiz-options" id="options-container"></div>
+            <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none; margin: 20px auto 0 auto;">Conferma</button>
         </div>
-    </div>
 
+        <!-- Schermata Finale (UNICA) -->
+        <div id="final-screen" style="display:none; text-align: center; width: 100%;">
+    <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
+    <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
+    
+    <!-- Rivedi: guarda gli errori -->
+    <button class="quiz-nav-btn" style="display:block; margin: 10px auto;" onclick="reviewQuiz()">Rivedi Risposte</button>
+    
+    <!-- Riprova: rigioca da zero -->
+    <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #28a745;" onclick="retryQuiz()">Riprova</button>
+    
+    <!-- Esci: torna alle copertine -->
+    <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #666;" onclick="restartQuiz()">Esci</button>
+         </div>
+    </div>
+</div>
+  
     <!-- CRUCIVERBA -->
     <div class="quiz-container">
         <!-- CORRETTO: copertina_cruciverba.png -->
@@ -524,7 +551,7 @@ updateAllCountdowns();
 </div>
   
 <script>
-/* --- LOGICA QUIZ --- */
+/* --- LOGICA QUIZ AGGIORNATA --- */
 const quizData = [
     { question: "In che anno è nata Jasmine Paolini?", options: ["1994", "1996", "1998"], correct: 1 },
     { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
@@ -536,15 +563,18 @@ let currentIdx = 0;
 let score = 0;
 let selectedIdx = -1;
 let hasConfirmed = false;
+let isReviewing = false; // Nuova modalità per vedere gli errori
+let userChoices = [];    // Memorizza cosa hai risposto
 
 function startQuiz() {
-    // Nasconde la copertina
     document.getElementById('quiz-cover-img').style.display = 'none';
-    // Mostra il contenitore bianco (wrapper) e il contenuto del quiz
-    const wrapper = document.getElementById('quiz-content-wrapper');
-    if(wrapper) wrapper.style.display = 'block';
-    
+    document.getElementById('quiz-content-wrapper').style.display = 'block';
     document.getElementById('quiz-content').style.display = 'block';
+    document.getElementById('final-screen').style.display = 'none';
+    currentIdx = 0;
+    score = 0;
+    userChoices = [];
+    isReviewing = false;
     loadQuestion();
 }
 
@@ -552,24 +582,43 @@ function loadQuestion() {
     hasConfirmed = false;
     selectedIdx = -1;
     const data = quizData[currentIdx];
-    document.getElementById('q-text').innerText = data.question;
     const container = document.getElementById('options-container');
-    container.innerHTML = '';
     const actionBtn = document.getElementById('action-btn');
-    actionBtn.style.display = 'none';
-    actionBtn.innerText = "Conferma Risposta";
-
-    data.options.forEach((opt, i) => {
-        const btn = document.createElement('button');
-        btn.classList.add('option-btn');
-        btn.innerText = opt;
-        btn.onclick = () => selectOption(i, btn);
-        container.appendChild(btn);
-    });
+    
+    document.getElementById('q-text').innerText = data.question;
+    container.innerHTML = '';
+    
+    // Se stiamo REVISIONANDO, mostriamo subito i colori e il tasto "Avanti"
+    if (isReviewing) {
+        const savedChoice = userChoices[currentIdx];
+        actionBtn.style.display = 'block';
+        actionBtn.innerText = (currentIdx === quizData.length - 1) ? "Torna ai Risultati" : "Prossima";
+        
+        data.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.classList.add('option-btn');
+            btn.innerText = opt;
+            btn.disabled = true;
+            if (i === data.correct) btn.classList.add('correct');
+            if (i === savedChoice && i !== data.correct) btn.classList.add('wrong');
+            container.appendChild(btn);
+        });
+    } else {
+        // Modalità GIOCO NORMALE
+        actionBtn.style.display = 'none';
+        actionBtn.innerText = "Conferma";
+        data.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.classList.add('option-btn');
+            btn.innerText = opt;
+            btn.onclick = () => selectOption(i, btn);
+            container.appendChild(btn);
+        });
+    }
 }
 
 function selectOption(idx, btn) {
-    if (hasConfirmed) return;
+    if (hasConfirmed || isReviewing) return;
     selectedIdx = idx;
     document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
@@ -577,44 +626,83 @@ function selectOption(idx, btn) {
 }
 
 function handleAction() {
-    if (!hasConfirmed) {
-        verifyAnswer();
-    } else {
+    if (isReviewing) {
         currentIdx++;
         if (currentIdx < quizData.length) {
             loadQuestion();
         } else {
-            showEnd();
+            showEnd(); // Torna alla schermata finale
         }
+        return;
+    }
+
+    if (!hasConfirmed && selectedIdx !== -1) {
+        verifyAnswer();
     }
 }
 
 function verifyAnswer() {
     hasConfirmed = true;
+    userChoices.push(selectedIdx); // Salva la scelta per la revisione
     const data = quizData[currentIdx];
     const buttons = document.querySelectorAll('.option-btn');
+    
     if (selectedIdx === data.correct) score++;
+
     buttons.forEach((btn, i) => {
         btn.disabled = true;
         if (i === data.correct) btn.classList.add('correct');
         if (i === selectedIdx && i !== data.correct) btn.classList.add('wrong');
     });
-    document.getElementById('action-btn').innerText = "Prossima Domanda";
+
+    setTimeout(() => {
+        if (!isReviewing) {
+            currentIdx++;
+            if (currentIdx < quizData.length) {
+                loadQuestion();
+            } else {
+                showEnd();
+            }
+        }
+    }, 1500);
 }
 
 function showEnd() {
     document.getElementById('quiz-content').style.display = 'none';
-    document.getElementById('action-btn').style.display = 'none';
     document.getElementById('final-screen').style.display = 'block';
-    document.getElementById('final-score').innerText = `Punteggio finale: ${score}/${quizData.length}`;
+    document.getElementById('final-score').innerText = `Punteggio: ${score}/${quizData.length}`;
 }
 
-function restartQuiz() {
+// MODALITÀ REVISIONE: Fa vedere le risposte date
+function reviewQuiz() {
+    isReviewing = true;
     currentIdx = 0;
-    score = 0;
     document.getElementById('final-screen').style.display = 'none';
     document.getElementById('quiz-content').style.display = 'block';
     loadQuestion();
+}
+
+function restartQuiz() {
+    // 1. Nasconde la schermata finale e il contenuto del quiz
+    document.getElementById('final-screen').style.display = 'none';
+    document.getElementById('quiz-content').style.display = 'none';
+    
+    // 2. Nasconde l'intero box bianco (il wrapper con l'ombra)
+    const wrapper = document.getElementById('quiz-content-wrapper');
+    if(wrapper) wrapper.style.display = 'none';
+    
+    // 3. Fa riapparire la copertina del quiz
+    document.getElementById('quiz-cover-img').style.display = 'block';
+    
+    // 4. Reset variabili per sicurezza
+    currentIdx = 0;
+    score = 0;
+    isReviewing = false;
+}  
+  
+// RIPROVA: Resetta tutto e fa rigiocare
+function retryQuiz() {
+    startQuiz();
 }
 
 /* --- LOGICA MINI CROSSWORD --- */
@@ -716,3 +804,4 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
