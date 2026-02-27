@@ -249,20 +249,47 @@
     background: #f4f4f9;
     padding: 20px;
     text-align: center;
+    min-height: 100vh;
 }
 
+/* Contenitore esterno: ora è trasparente per non mostrare il box bianco sotto la copertina */
 .quiz-container {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent; /* Rimosso bianco */
+    box-shadow: none;        /* Rimossa ombra */
+    padding: 0;
+}
+
+/* Questa classe verrà usata per il contenuto dei giochi (Appare solo dopo il click) */
+.active-game-box {
     background: white;
     border-radius: 25px;
     padding: 25px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra tutto il contenuto */
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* --- COPERTINE (Uniformate) --- */
+.quiz-cover, .cruci-cover-img {
+    width: 60%; 
+    max-width: 200px;
+    margin: 0 auto 10px;
+    display: block;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.quiz-cover:hover, .cruci-cover-img:hover {
+    transform: scale(1.05);
+}
+
+/* --- LOGICA QUIZ --- */
 .quiz-options {
     display: flex;
     flex-direction: column;
@@ -282,7 +309,6 @@
     color: #333;
 }
 
-/* Stato quando clicchi ma non hai ancora confermato */
 .option-btn.selected {
     border-color: #330066;
     background-color: #eaddff;
@@ -292,7 +318,6 @@
 .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
 .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
 
-/* Tasto Conferma e Ricomincia - Centrati */
 .quiz-nav-btn {
     margin-top: 25px;
     background: #330066;
@@ -303,30 +328,45 @@
     font-weight: 800;
     font-size: 16px;
     cursor: pointer;
-    display: none; /* Appare via JS */
+    display: none; 
     width: fit-content;
 }
-      
- /* Copertina ridotta */
-.quiz-cover {
-    width: 60%; /* Ridotta dal 100% */
-    max-width: 200px;
-    margin: 0 auto 20px;
-    display: block;
+
+/* --- LOGICA CRUCIVERBA (Griglia jasmine) --- */
+.crossword-grid {
+    display: grid;
+    gap: 5px;
+    margin: 10px auto;
 }
 
-/* Copertina Cruciverba (Stessa dimensione Quiz) */
-.cruci-cover-img {
-    width: 60%;
-    max-width: 200px;
-    margin: 0 auto 15px;
-    display: block;
-    cursor: pointer;
-    border-radius: 20px;
-    transition: 0.3s;
+.crossword-cell {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid #330066;
+    border-radius: 5px;
+    text-transform: uppercase;
 }
 
-/* POP-UP (MODAL) */
+.cell-black {
+    background-color: #330066;
+    border: 2px solid #330066;
+}
+
+/* --- HINTS & LISTS --- */
+.crossword-hints {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+    margin-top: 15px;
+    padding: 10px;
+    background: #eee;
+    border-radius: 10px;
+}
+
+/* --- MODAL (Se ancora necessario per versioni popup) --- */
 .modal-cruci {
     display: none; 
     position: fixed;
@@ -334,7 +374,6 @@
     left: 0; top: 0;
     width: 100%; height: 100%;
     background-color: rgba(0,0,0,0.95);
-    padding-top: 20px;
 }
 
 .modal-content-cruci {
@@ -347,45 +386,6 @@
     height: 90vh;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
-}
-
-/* Griglia con Scroll per Mobile */
-.crossword-scroll-container {
-    flex: 1;
-    overflow: auto; 
-    background: #330066;
-    padding: 10px;
-    border-radius: 15px;
-    border: 3px solid #330066;
-}
-
-.grid-jasmine {
-    display: grid;
-    grid-template-columns: repeat(14, 35px); /* 14 colonne */
-    gap: 2px;
-}
-
-.c-cell {
-    width: 35px; height: 35px;
-    background: white; border: none;
-    text-align: center; font-size: 16px; font-weight: 800;
-    text-transform: uppercase; color: #330066;
-    border-radius: 4px;
-}
-
-.c-black { background: transparent; }
-
-/* Pulsanti */
-.btn-area { display: flex; justify-content: space-around; padding: 15px 0; }
-.btn-pop { padding: 12px 20px; border-radius: 15px; border: none; font-weight: 800; text-transform: uppercase; cursor: pointer; }
-.btn-check { background: #330066; color: white; }
-.btn-close { background: #ff4444; color: white; }
-
-.hints-list {
-    height: 120px; overflow-y: auto;
-    background: #eee; padding: 10px; border-radius: 10px;
-    font-size: 13px; text-align: left; margin-top: 10px;
 }
       
     </style>
@@ -426,7 +426,6 @@
             </div> 
         </div> 
     </div>
-
     <div id="ranking-view" class="page-content">
         <h1 style="text-align: center;">Live Rankings</h1>
         <div class="ranking-wrapper" style="margin-top: 20px;"> 
@@ -496,34 +495,101 @@ updateAllCountdowns();
 <div id="match-view" class="page-content">
     <h2 class="section-title">Quiz & Play 🎾</h2>
     
+    <!-- SEZIONE 1: IL QUIZ -->
     <div class="quiz-container" id="quiz-main-container">
-        <!-- Copertina Cliccabile -->
+        <!-- Copertina Quiz (Senza box bianco sotto) -->
         <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
              id="quiz-cover-img" 
              class="quiz-cover" 
              onclick="startQuiz()" 
-             style="width: 100%; cursor: pointer; border-radius: 20px;"
              alt="Start Quiz">
 
-        <!-- Contenuto del Quiz -->
-        <div id="quiz-content" style="width: 100%; display: none;">
-            <p id="q-text" style="font-size: 20px; font-weight: 800; color: #330066; margin-bottom: 20px;"></p>
-            <div class="quiz-options" id="options-container"></div>
-        </div>
-        
-        <!-- Tasto Conferma/Prossima -->
-        <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display: none; margin: 20px auto 0 auto;">Conferma Risposta</button>
-        
-        <!-- Schermata Finale -->
-        <div id="final-screen" style="display:none; text-align: center; width: 100%;">
-            <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
-            <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
-            <button class="quiz-nav-btn" style="display:block; margin: 20px auto;" onclick="restartQuiz()">Ricomincia</button>
+        <!-- Contenuto del Quiz (Il box bianco appare qui) -->
+        <div id="quiz-content-wrapper" class="active-game-box" style="display: none;">
+            <div id="quiz-content">
+                <p id="q-text" style="font-size: 20px; font-weight: 800; color: #330066; margin-bottom: 20px;"></p>
+                <div class="quiz-options" id="options-container"></div>
+                <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="margin: 20px auto 0 auto;">Conferma Risposta</button>
+            </div>
+            
+            <!-- Schermata Finale -->
+            <div id="final-screen" style="display:none; text-align: center; width: 100%;">
+                <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
+                <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
+                <button class="quiz-nav-btn" style="display:block; margin: 20px auto;" onclick="restartQuiz()">Ricomincia</button>
+            </div>
         </div>
     </div>
-</div>  
+
+    <!-- SEZIONE 2: IL CRUCIVERBA -->
+    <div class="quiz-container" id="crossword-main-container">
+        <!-- Copertina Cruciverba (Uguale al quiz, senza box bianco) -->
+        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
+             id="crossword-cover-img" 
+             class="cruci-cover-img" 
+             onclick="startCrossword()" 
+             alt="Start Crossword">
+
+        <!-- Contenuto del Cruciverba (Il box bianco appare qui) -->
+        <div id="crossword-content-wrapper" class="active-game-box" style="display: none;">
+            <h3 style="color:#330066; margin-bottom: 10px;">Mini Crossword ✍️</h3>
+            
+            <div class="crossword-grid" style="display: grid; grid-template-columns: repeat(5, 45px); grid-template-rows: repeat(6, 45px); justify-content: center;">
+                <!-- RIGA 1: L - U - C - C - A -->
+                <input maxlength="1" class="crossword-cell" id="c-0-0">
+                <input maxlength="1" class="crossword-cell" id="c-0-1">
+                <input maxlength="1" class="crossword-cell" id="c-0-2">
+                <input maxlength="1" class="crossword-cell" id="c-0-3">
+                <input maxlength="1" class="crossword-cell" id="c-0-4">
+                
+                <!-- RIGA 2 -->
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+                <input maxlength="1" class="crossword-cell" id="c-1-2">
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+
+                <!-- RIGA 3 -->
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+                <input maxlength="1" class="crossword-cell" id="c-2-2">
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+
+                <!-- RIGA 4 -->
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+                <input maxlength="1" class="crossword-cell" id="c-3-2">
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+
+                <!-- RIGA 5 -->
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+                <input maxlength="1" class="crossword-cell" id="c-4-2">
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+
+                <!-- RIGA 6 -->
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+                <input maxlength="1" class="crossword-cell" id="c-5-2">
+                <div class="crossword-cell cell-black"></div>
+                <div class="crossword-cell cell-black"></div>
+            </div>
+
+            <div class="crossword-hints">
+                <strong>Orizzontale:</strong> 1. La sua provincia (5 lett.)<br>
+                <strong>Verticale:</strong> 2. Inizio città natale (6 lett.)
+            </div>
+            
+            <button class="quiz-nav-btn" style="display:block; margin: 20px auto 0 auto;" onclick="checkCrossword()">Verifica</button>
+        </div>
+    </div>
+</div>
   
- <script>
+<script>
+/* --- LOGICA QUIZ --- */
 const quizData = [
     { question: "In che anno è nata Jasmine Paolini?", options: ["1994", "1996", "1998"], correct: 1 },
     { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
@@ -537,7 +603,12 @@ let selectedIdx = -1;
 let hasConfirmed = false;
 
 function startQuiz() {
+    // Nasconde la copertina
     document.getElementById('quiz-cover-img').style.display = 'none';
+    // Mostra il contenitore bianco (wrapper) e il contenuto del quiz
+    const wrapper = document.getElementById('quiz-content-wrapper');
+    if(wrapper) wrapper.style.display = 'block';
+    
     document.getElementById('quiz-content').style.display = 'block';
     loadQuestion();
 }
@@ -546,11 +617,9 @@ function loadQuestion() {
     hasConfirmed = false;
     selectedIdx = -1;
     const data = quizData[currentIdx];
-    
     document.getElementById('q-text').innerText = data.question;
     const container = document.getElementById('options-container');
     container.innerHTML = '';
-    
     const actionBtn = document.getElementById('action-btn');
     actionBtn.style.display = 'none';
     actionBtn.innerText = "Conferma Risposta";
@@ -589,17 +658,12 @@ function verifyAnswer() {
     hasConfirmed = true;
     const data = quizData[currentIdx];
     const buttons = document.querySelectorAll('.option-btn');
-    
-    if (selectedIdx === data.correct) {
-        score++;
-    }
-
+    if (selectedIdx === data.correct) score++;
     buttons.forEach((btn, i) => {
-        btn.disabled = true; // Impedisce altri click
+        btn.disabled = true;
         if (i === data.correct) btn.classList.add('correct');
         if (i === selectedIdx && i !== data.correct) btn.classList.add('wrong');
     });
-
     document.getElementById('action-btn').innerText = "Prossima Domanda";
 }
 
@@ -617,107 +681,57 @@ function restartQuiz() {
     document.getElementById('quiz-content').style.display = 'block';
     loadQuestion();
 }
-</script>
 
-<div class="quiz-container" style="margin-top: 20px;">
-    <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" 
-         class="cruci-cover-img" onclick="openCruci()">
-    <p style="font-weight:700; color:#330066;">Tocca per giocare al Cruciverba!</p>
-</div>
+/* --- LOGICA MINI CROSSWORD --- */
 
-<!-- MODAL CRUCIVERBA -->
-<div id="modalCruci" class="modal-cruci">
-    <div class="modal-content-cruci">
-        <h2 style="color:#330066; margin-bottom: 5px;">Jasmine Crossword ✍️</h2>
-        
-        <div class="crossword-scroll-container">
-            <div id="jasmine-grid" class="grid-jasmine">
-                <!-- Generato da JS -->
-            </div>
-        </div>
-
-        <div class="hints-list">
-            <strong>ORIZZONTALI:</strong><br>
-            1. Il cognome di Jasmine (7) - 4. Lo sport che pratica (6) - 7. Colpo per iniziare il punto (8) - 10. Superficie su cui ha brillato (5) - 13. Classifica mondiale (7)<br><br>
-            <strong>VERTICALI:</strong><br>
-            2. Il suo nome (7) - 3. I tornei più importanti (4) - 5. Sede degli Internazionali d’Italia (4) - 8. Punto diretto al servizio (3) - 9. Incontro di tennis (5)
-        </div>
-
-        <div class="btn-area">
-            <button class="btn-pop btn-check" onclick="checkCruci()">CORREGGI</button>
-            <button class="btn-pop btn-close" onclick="closeCruci()">ESCI</button>
-        </div>
-    </div>
-</div>
-
-<script>
-// Mappa delle caselle bianche (Coordinate [riga, colonna])
-const whiteCells = [
-    // PAOLINI (Orizzontale riga 2)
-    [2,3],[2,4],[2,5],[2,6],[2,7],[2,8],[2,9],
-    // JASMINE (Verticale colonna 4)
-    [0,4],[1,4],[2,4],[3,4],[4,4],[5,4],[6,4],
-    // TENNIS (Orizzontale riga 5)
-    [5,1],[5,2],[5,3],[5,4],[5,5],[5,6],
-    // SLAM (Verticale colonna 7)
-    [1,7],[2,7],[3,7],[4,7],
-    // ROMA (Verticale colonna 9)
-    [2,9],[3,9],[4,9],[5,9]
-];
-
-function openCruci() {
-    document.getElementById("modalCruci").style.display = "block";
-    document.body.style.overflow = "hidden";
-    drawGrid();
+function startCrossword() {
+    // Nasconde la copertina del cruciverba
+    document.getElementById('crossword-cover-img').style.display = 'none';
+    // Mostra il contenitore bianco del cruciverba
+    const wrapper = document.getElementById('crossword-content-wrapper');
+    if(wrapper) wrapper.style.display = 'block';
 }
 
-function closeCruci() {
-    document.getElementById("modalCruci").style.display = "none";
-    document.body.style.overflow = "auto";
-}
-
-function drawGrid() {
-    const grid = document.getElementById("jasmine-grid");
-    grid.innerHTML = '';
-    
-    for (let r = 0; r < 14; r++) {
-        for (let c = 0; c < 14; c++) {
-            const isWhite = whiteCells.some(cell => cell[0] === r && cell[1] === c);
-            if (isWhite) {
-                let input = document.createElement('input');
-                input.className = 'c-cell';
-                input.maxLength = 1;
-                input.id = `cell-${r}-${c}`;
-                // Auto-avanzamento
-                input.oninput = function() {
-                    if(this.value) focusNext(r, c);
-                };
-                grid.appendChild(input);
-            } else {
-                let div = document.createElement('div');
-                div.className = 'c-cell c-black';
-                grid.appendChild(div);
-            }
+document.querySelectorAll('.crossword-cell').forEach(cell => {
+    cell.addEventListener('input', function() {
+        if (this.value.length >= 1) {
+            const next = getNextId(this.id);
+            if (next) document.getElementById(next).focus();
         }
-    }
+    });
+    cell.addEventListener('keydown', function(e) {
+        if (e.key === "Backspace" && this.value === "") {
+            const prev = getPrevId(this.id);
+            if (prev) document.getElementById(prev).focus();
+        }
+    });
+});
+
+function getNextId(id) {
+    const sequence = ['c-0-0', 'c-0-1', 'c-0-2', 'c-0-3', 'c-0-4', 'c-1-2', 'c-2-2', 'c-3-2', 'c-4-2', 'c-5-2'];
+    const index = sequence.indexOf(id);
+    return (index !== -1 && index < sequence.length - 1) ? sequence[index + 1] : null;
 }
 
-function focusNext(r, c) {
-    // Cerca la prossima cella bianca nella stessa riga
-    let next = document.getElementById(`cell-${r}-${c+1}`);
-    if(!next) next = document.getElementById(`cell-${r+1}-${c}`); // O nella riga sotto
-    if(next) next.focus();
+function getPrevId(id) {
+    const sequence = ['c-0-0', 'c-0-1', 'c-0-2', 'c-0-3', 'c-0-4', 'c-1-2', 'c-2-2', 'c-3-2', 'c-4-2', 'c-5-2'];
+    const index = sequence.indexOf(id);
+    return (index > 0) ? sequence[index - 1] : null;
 }
 
-function checkCruci() {
-    // Esempio controllo parola PAOLINI
-    let p = "";
-    for(let i=3; i<=9; i++) p += document.getElementById(`cell-2-${i}`).value;
-    
-    if (p.toUpperCase() === "PAOLINI") {
-        alert("Bravo! 'PAOLINI' è corretta! Continua così! 🎉");
+function checkCrossword() {
+    const getVal = (id) => (document.getElementById(id).value || "").toUpperCase().trim();
+    let h1 = getVal('c-0-0') + getVal('c-0-1') + getVal('c-0-2') + getVal('c-0-3') + getVal('c-0-4');
+    let v1 = getVal('c-0-2') + getVal('c-1-2') + getVal('c-2-2') + getVal('c-3-2') + getVal('c-4-2') + getVal('c-5-2');
+
+    if (h1 === "LUCCA" && v1 === "CASTEL") {
+        alert("ECCELLENTE! 🎉🎾");
+        document.querySelectorAll('.crossword-cell:not(.cell-black)').forEach(c => {
+            c.style.backgroundColor = "#d4edda";
+            c.style.boxShadow = "inset 0 0 0 2px #28a745";
+        });
     } else {
-        alert("Ci sono errori. Controlla le lettere!");
+        alert("C'è un errore! Riprova.");
     }
 }
 </script>
@@ -767,3 +781,4 @@ function checkCruci() {
     </script>
 </body>
 </html>
+
