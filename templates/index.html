@@ -210,7 +210,7 @@
         .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
         .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
 
-/* --- GESTIONE PAGINE E BOX CALENDARIO --- */
+/* --- GESTIONE PAGINE E BOX CALENDARIO (STILE PC SU TUTTI I DISPOSITIVI) --- */
 .page-content { 
     display: none; 
     width: 100%; 
@@ -234,33 +234,33 @@
 .tournament-card-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;    /* Centra i box orizzontalmente rispetto alla pagina */
+    align-items: center;    
     justify-content: center;
     gap: 20px;
     padding: 10px 0;
     width: 100%;
 }
 
-/* BOX - CENTRATO E PROPORZIONATO */
+/* BOX CALENDARIO - ALLARGATO PER EVITARE TESTO A CAPO */
 .t-card {
     background-color: #330066; 
-    width: 92%;             /* Larghezza bilanciata per i bordi laterali */
-    max-width: 385px;
-    height: 140px;          /* Altezza proporzionata al contenuto */
+    width: 96%;             /* Usa più spazio laterale su mobile */
+    max-width: 500px;       /* Allargato: fondamentale per avere il look PC */
+    height: 135px;          
     border-radius: 35px; 
     display: flex;
     align-items: center;
-    padding: 15px 20px;     /* Padding interno simmetrico */
+    padding: 15px 18px;     
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    margin-left: auto;      /* Centratura automatica a sinistra... */
-    margin-right: auto;     /* ...e a destra */
+    margin-left: auto;      
+    margin-right: auto;     
     box-sizing: border-box;
 }
 
 /* Logo a sinistra */
 .t-logo-left {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
     flex-shrink: 0;
 }
 
@@ -270,50 +270,57 @@
     object-fit: contain;
 }
 
-/* Info Centrali (Nome e Data) */
+/* Info Centrali (Nome e Data) - Look PC */
 .t-info-center {
-    flex: 1;
+    flex: 2;                /* Prende la precedenza sullo spazio */
     padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .t-name-title {
     color: white;
-    font-size: 18px;        /* Font armonioso */
+    font-size: 19px;        
     font-weight: 800;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
+    white-space: nowrap;    /* FORZA IL TESTO SU UNA RIGA */
 }
 
 .t-date-label {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.85);
     font-size: 16px; 
     font-weight: 600;
+    white-space: nowrap;    /* FORZA LA DATA SU UNA RIGA */
 }
 
-/* COLONNA DESTRA - Distribuita bene */
+/* COLONNA DESTRA - Compatta e ordinata */
 .t-column-right {
     display: flex;
     flex-direction: column;
     align-items: center; 
     justify-content: space-between;
     height: 90%;
-    width: 130px; 
+    width: auto;            /* Si adatta al bottone */
+    min-width: 120px;
+    flex-shrink: 0;
 }
 
-/* Badge WTA - Arrotondato */
+/* Badge WTA */
 .t-cat-badge img {
-    height: 24px; 
+    height: 22px; 
     width: auto;
     border-radius: 8px;
 }
 
-/* BOTTONE - PROPORZIONATO (Né gigante né minuscolo) */
+/* BOTTONE */
 .t-more-info {
     color: white;
-    font-size: 12px;        /* Misura standard leggibile */
+    font-size: 11px;        
     font-weight: 800;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px 12px;      /* Spazio interno bilanciato */
+    background: rgba(255, 255, 255, 0.15);
+    padding: 7px 12px;      
     border-radius: 15px;
     border: 1.5px solid white;
     text-align: center;
@@ -325,10 +332,10 @@
     color: #330066;
 }
 
-/* COUNTDOWN - PROPORZIONATO E CHIARO */
+/* COUNTDOWN - Sottile e Giallo */
 .t-countdown {
     color: #FFD700;
-    font-size: 12px;        /* Uguale al bottone per coerenza visiva */
+    font-size: 11px;        
     font-weight: 900;
     text-transform: uppercase;
     text-align: center;
@@ -336,6 +343,14 @@
     letter-spacing: 0.5px;
 }
 
+/* OTTIMIZZAZIONE PER TELEFONI MOLTO STRETTI */
+@media (max-width: 370px) {
+    .t-name-title { font-size: 16px; }
+    .t-date-label { font-size: 14px; }
+    .t-logo-left { width: 60px; height: 60px; }
+    .t-column-right { min-width: 100px; }
+}
+      
 /* --- SEZIONE QUIZ & PLAY - FIX PROPORZIONI --- */
 #match-view {
     background: #f4f4f9;
@@ -481,7 +496,7 @@
         <div class="image-container" style="margin: 0 auto;"> 
             <img src="{{ url_for('static', filename='jasmine_paolini.jpeg') }}" alt="Jasmine Paolini"> 
         </div> 
-        <h1>Game Set Jasmine</h1> 
+        
 
         <div class="news-wrapper" style="margin: 25px auto;"> 
             <h2>Latest News</h2> 
@@ -578,7 +593,7 @@ updateAllCountdowns();
 </script>
   
 <div id="match-view" class="page-content">
-    <h2 class="section-title">Quiz & Play 🎾</h2>
+    <h2 class="section-title">Quiz & Play </h2>
     
    <!-- QUIZ -->
 <div class="quiz-container">
@@ -896,6 +911,8 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
+
 
 
 
