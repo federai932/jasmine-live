@@ -26,11 +26,11 @@
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-/* --- SEZIONE NEWS DEFINITIVA --- */
+/* --- SEZIONE NEWS AGGIORNATA (DIMENSIONI AUTOMATICHE) --- */
 .news-wrapper { 
     width: 100%; 
     max-width: 800px; 
-    background: #121212; /* BOX NERO RIPRISTINATO */
+    background: #121212; 
     border-radius: 20px; 
     padding: 20px; 
     margin: 25px auto; 
@@ -38,7 +38,6 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* Scritta LATEST NEWS sopra bianca */
 .news-wrapper h2 { 
     color: #ffffff !important; 
     font-size: 18px; 
@@ -53,56 +52,80 @@
     display: flex; 
     overflow-x: auto; 
     gap: 15px; 
-    padding-bottom: 10px;
+    padding-bottom: 15px; /* Spazio per la scrollbar */
+    align-items: stretch; /* Allinea le card alla stessa altezza se necessario */
 }
 
-/* Card Notizia */
+/* Card Notizia - Dimensioni dinamiche */
 .news-item { 
-    flex: 0 0 280px; 
+    flex: 0 0 320px; /* Leggermente più larga per gestire meglio il testo */
     background: #1e1e1e; 
-    padding: 12px; 
+    padding: 15px; 
     border-radius: 15px; 
     text-decoration: none; 
     display: flex; 
-    justify-content: space-between;
+    gap: 15px; /* Spazio tra testo e immagine */
     border: 1px solid #333;
-    height: 110px;
+    height: auto; /* ALTEZZA AUTOMATICA: si allunga in base al testo */
+    min-height: 110px;
     transition: transform 0.3s;
 }
 
 .news-item:hover { transform: translateY(-5px); border-color: #2e7d32; }
 
-/* Loghi e Testata */
-.news-meta { display: flex; align-items: center; margin-bottom: 5px; }
+/* Contenitore Testo */
+.news-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Prende tutto lo spazio rimanente */
+}
+
+.news-meta { display: flex; align-items: center; margin-bottom: 8px; }
 .source-icon { width: 16px; height: 16px; margin-right: 8px; border-radius: 3px; background: white; padding: 1px; }
 
 .news-source { 
-    color: #2e7d32 !important; /* Verde Ubitennis originale */
+    color: #2e7d32 !important; 
     font-weight: 800; 
     font-size: 11px; 
 }
 
+/* Titolo/Biografia - Visibile per intero */
 .news-title { 
     color: #8ab4f8 !important; 
-    font-size: 13px; 
-    line-height: 1.3; 
+    font-size: 14px; 
+    line-height: 1.4; 
     margin: 0;
     font-weight: 600;
+    white-space: normal; /* Permette al testo di andare a capo */
+    overflow: visible;   /* Rimuove i puntini */
+    text-overflow: clip; /* Rimuove i puntini */
 }
 
-/* DATA PICCOLA (Ripristinata) */
 .news-time { 
     font-size: 10px; 
-    color: #4a4a4a; /* Grigio scuro per non essere gigante */
-    margin-top: auto; 
+    color: #707070; 
+    margin-top: 10px; 
     font-weight: bold;
 }
 
-.news-image-container { width: 80px; height: 80px; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
-.news-image-container img { width: 100%; height: 100%; object-fit: cover; }
+/* Immagine - Più spazio (Larghezza aumentata) */
+.news-image-container { 
+    width: 100px; /* Più grande rispetto a prima */
+    height: 100px; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    flex-shrink: 0; 
+    align-self: flex-start; /* Evita che l'immagine si deformi se la card si allunga molto */
+}
+
+.news-image-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
 
 /* Barra scorrimento */
-.news-scroll-container::-webkit-scrollbar { height: 4px; }
+.news-scroll-container::-webkit-scrollbar { height: 6px; }
 .news-scroll-container::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; }
 
         /* --- BIOGRAFIA --- */
@@ -850,6 +873,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
