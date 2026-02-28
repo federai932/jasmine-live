@@ -5,7 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
     <title>Game Set Jasmine | App</title> 
     <style> 
-        /* --- STILE GENERALE CENTRATO --- */
+     
+      /* --- FIX FOTOCAMERA E BARRA NOTIFICHE --- */
+body {
+    /* Crea uno spazio fisso in alto per la barra di stato/fotocamera */
+    padding-top: 45px; 
+    
+    /* Questo comando dice al browser di rispettare le zone sicure del telefono */
+    padding-top: env(safe-area-inset-top, 45px); 
+    
+    box-sizing: border-box;
+}
+
+/* Se la tua foto è in un contenitore specifico (es. .hero o .header) */
+.header-container, .top-section {
+    margin-top: 0; 
+    /* Assicurati che non ci siano margini negativi che tirano su la foto */
+}
+ 
+      /* --- STILE GENERALE CENTRATO --- */
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background-color: #f4f7f4; 
@@ -98,13 +116,13 @@
 }
 
 .news-source { 
-    /* Il colore viene iniettato dal Python (es. style="color: #2e7d32") */
-    font-weight: 900; 
+    color: #75a478 !important; /* Verdino spento e professionale */
+    font-weight: 800; 
     font-size: 11px; 
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
+      
 /* Titolo - Mostra tutto il testo pulito dal Python */
 .news-title { 
     color: #8ab4f8 !important; 
@@ -203,12 +221,70 @@
         tbody tr:nth-child(even) { background-color: #f9f9f9; } 
 
 
-        /* --- NAVBAR --- */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 999; }
-        .nav-item { text-align: center; text-decoration: none; color: #2e7d32; flex: 1; display: flex; flex-direction: column; align-items: center; }
-        .nav-item.active { transform: scale(1.08); color: #1a5c20; }
-        .nav-icon svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-        .nav-text { font-size: 9px; font-weight: 800; text-transform: uppercase; }
+/* --- NAVBAR AGGIORNATA (FIX SPAZIO E QUADRATO BLU) --- */
+.bottom-nav { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    
+    /* ALTEZZA: Aumentata a 85px per dare spazio alla barra del telefono */
+    height: 85px; 
+    background: white; 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    border-top: 1px solid #eee; 
+    z-index: 999; 
+    
+    /* SPAZIO DI SICUREZZA IN BASSO: 
+       Alza le icone dalla riga nera multifunzione del telefono */
+    padding-bottom: 20px; 
+    box-sizing: border-box; 
+    
+    /* RIMUOVE IL QUADRATO BLU AL TOCCO (Per tutta la barra) */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item { 
+    text-align: center; 
+    text-decoration: none; 
+    color: #2e7d32; 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    
+    /* RIMUOVE IL QUADRATO BLU AL TOCCO (Per le singole icone) */
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+/* Fix extra per evitare il focus blu su alcuni browser */
+.nav-item:focus, .nav-item:active {
+    outline: none;
+    background: none;
+}
+
+.nav-item.active { 
+    transform: scale(1.08); 
+    color: #1a5c20; 
+}
+
+.nav-icon svg { 
+    width: 26px; /* Leggermente ridotto per stare meglio nel nuovo spazio */
+    height: 26px; 
+    fill: none; 
+    stroke: currentColor; 
+    stroke-width: 2.2; 
+}
+
+.nav-text { 
+    font-size: 9px; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+    margin-top: 2px;
+}
 
 /* --- GESTIONE PAGINE E BOX CALENDARIO (STILE PC SU TUTTI I DISPOSITIVI) --- */
 .page-content { 
@@ -911,13 +987,6 @@ function checkCrossword() {
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
