@@ -221,29 +221,28 @@ body {
         tbody tr:nth-child(even) { background-color: #f9f9f9; } 
 
 
-/* --- NAVBAR AGGIORNATA (FIX SPAZIO E QUADRATO BLU) --- */
+/* --- NAVBAR RIPRISTINATA (ICONE GRANDI + ALTEZZA SLIM) --- */
 .bottom-nav { 
     position: fixed; 
     bottom: 0; 
     left: 0; 
     width: 100%; 
     
-    /* ALTEZZA: Aumentata a 85px per dare spazio alla barra del telefono */
-    height: 85px; 
-    background: white; 
+    /* ALTEZZA ORIGINALE SLIM */
+    height: 70px; 
+    background: #FFFFFF; 
     display: flex; 
     justify-content: space-around; 
     align-items: center; 
     border-top: 1px solid #eee; 
     z-index: 999; 
     
-    /* SPAZIO DI SICUREZZA IN BASSO: 
-       Alza le icone dalla riga nera multifunzione del telefono */
-    padding-bottom: 20px; 
+    /* PADDING MINIMO (Nessun distanziamento extra per Android) */
+    padding-bottom: 5px; 
     box-sizing: border-box; 
     
-    /* RIMUOVE IL QUADRATO BLU AL TOCCO (Per tutta la barra) */
-    -webkit-tap-highlight-color: transparent;
+    /* BLOCCO TOTALE QUADRATO BLU */
+    -webkit-tap-highlight-color: transparent !important;
 }
 
 .nav-item { 
@@ -254,23 +253,35 @@ body {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    
-    /* RIMUOVE IL QUADRATO BLU AL TOCCO (Per le singole icone) */
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent !important;
     outline: none;
 }
 
-/* Fix extra per evitare il focus blu su alcuni browser */
 .nav-item:focus, .nav-item:active {
     outline: none;
     background: none;
 }
 
 .nav-item.active { 
-    transform: scale(1.08); 
+    transform: scale(1.1); /* Leggero zoom quando attiva */
     color: #1a5c20; 
 }
 
+/* ICONE INGRANDITE PER COPRIRE BENE LA PAGINA */
+.nav-icon svg { 
+    width: 30px; 
+    height: 30px; 
+    fill: none; 
+    stroke: currentColor; 
+    stroke-width: 2.2; 
+}
+
+.nav-text { 
+    font-size: 10px; /* Testo leggermente più leggibile */
+    font-weight: 800; 
+    text-transform: uppercase; 
+    margin-top: 2px;
+}
 .nav-icon svg { 
     width: 26px; /* Leggermente ridotto per stare meglio nel nuovo spazio */
     height: 26px; 
@@ -987,6 +998,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
