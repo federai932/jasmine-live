@@ -671,9 +671,11 @@ body {
         </div> 
     </div>
 
-<div id="calendar-view" class="page-content"> <!-- Tolto il padding-top: 10px -->
+<div id="calendar-view" class="page-content"> 
+    <!-- TITOLO CALENDARIO -->
     <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
 
+    <!-- LISTA TORNEI (IL TUO CALENDARIO) -->
     <div class="tournament-card-wrapper">
         {% for t in tornei %}
         <div class="t-card">
@@ -696,76 +698,84 @@ body {
         </div>
         {% endfor %}
     </div>
-</div>
 
-<!-- SEZIONE MATCH IN CORSO -->
-<div class="current-matches-section" style="width: 100%; max-width: 500px; margin: 30px auto;">
-    
-    <!-- Titolo stile Latest News -->
-    <div class="news-wrapper" style="margin: 0 0 20px 0;">
-        <h2 class="live-title">Current Matches</h2>
-    </div>
+    <!-- SEZIONE MATCH IN CORSO (Sotto al calendario, dentro page-content) -->
+    <div class="current-matches-section" style="width: 100%; max-width: 500px; margin: 40px auto 20px auto; padding: 0 10px;">
+        
+        <!-- Titolo stile Latest News -->
+        <div class="news-wrapper" style="margin: 0 0 20px 0; border-bottom: 3px solid #28a745; text-align: left;">
+            <h2 class="live-title" style="color: #28a745; font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0; padding-bottom: 5px; display: inline-block;">Current Matches</h2>
+        </div>
 
-    <!-- Tasti Switch Singolare/Doppio -->
-    <div class="match-tabs">
-        <button class="tab-btn active" onclick="openMatch(event, 'singolare')">Singles</button>
-        <button class="tab-btn" onclick="openMatch(event, 'doppio')">Doubles</button>
-    </div>
+        <!-- Tasti Switch Singolare/Doppio -->
+        <div class="match-tabs" style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <button id="btn-singles" class="tab-btn active" onclick="openMatch(event, 'singolare')" style="flex: 1; padding: 12px; border: none; background: #28a745; color: white; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;">Singles</button>
+            <button id="btn-doubles" class="tab-btn" onclick="openMatch(event, 'doppio')" style="flex: 1; padding: 12px; border: none; background: #f1f1f1; color: #333; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;">Doubles</button>
+        </div>
 
-    <!-- Contenuto Singolare -->
-    <div id="singolare" class="match-content active">
+        <!-- Contenuto Singolare -->
+        <div id="singolare" class="match-content" style="display: block; min-height: 200px;">
+            </div>
+        </div>
+
+        <!-- Contenuto Doppio -->
+        <div id="doppio" class="match-content" style="display: none; min-height: 200px;">
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 10px; margin-top: 15px; color: #999;">
+            Powered by <a href="https://www.365scores.com" target="_blank" style="color: #999; text-decoration: none;">365Scores.com</a>
         </div>
     </div>
+</div> <!-- FINE DI CALENDAR-VIEW -->
 
-    <!-- Contenuto Doppio -->
-    <div id="doppio" class="match-content">
-        </div>
-    </div>
+<!-- SCRIPTS (Inseriscili in fondo alla pagina prima di </body>) -->
+<script src="https://widgets.365scores.com"></script>
 
-    <div id="powered-by" style="text-align: center; font-size: 10px; margin-top: 5px;">
-        Powered by <a href="https://www.365scores.com" target="_blank">365Scores.com</a>
-    </div>
-</div>
-
-<!-- Script per il funzionamento dei Tasti e caricamento Widget -->
-<script src="https://widgets.365scores.com/main.js"></script>
 <script>
+// Funzione per cambiare Tab (Singolare/Doppio)
 function openMatch(evt, matchType) {
     var i, tabcontent, tablinks;
+    
+    // Nascondi tutti i contenuti
     tabcontent = document.getElementsByClassName("match-content");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
+    
+    // Reset stile bottoni
     tablinks = document.getElementsByClassName("tab-btn");
     for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
+        tablinks[i].style.background = "#f1f1f1";
+        tablinks[i].style.color = "#333";
+        tablinks[i].classList.remove("active");
     }
+    
+    // Mostra quello selezionato e attiva il bottone
     document.getElementById(matchType).style.display = "block";
-    evt.currentTarget.className += " active";
+    evt.currentTarget.style.background = "#28a745";
+    evt.currentTarget.style.color = "white";
+    evt.currentTarget.classList.add("active");
 }
-</script>  
 
-<script>
+// Funzione Countdown Tornei
 function updateAllCountdowns() {
     const timers = document.querySelectorAll('.js-timer');
-    
     timers.forEach(timer => {
         const startDateStr = timer.getAttribute('data-date'); 
         if (!startDateStr || startDateStr === "None") return;
-
         const startDate = new Date(startDateStr + "T08:00:00").getTime();
         const now = new Date().getTime();
         const distance = startDate - now;
-
         if (distance < 0) {
             timer.innerHTML = "Started! 🎾";
         } else {
             const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
-            // Sostituito "d" con "Days"
             timer.innerHTML = "Starts in: " + days + " Days";
         }
     });
 }
+// Avvia il countdown al caricamento
 updateAllCountdowns();
 </script>
   
