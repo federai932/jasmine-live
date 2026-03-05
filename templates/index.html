@@ -438,6 +438,50 @@ body {
     .t-column-right { min-width: 100px; }
 }
       
+/* Stile Titolo simile a Latest News (Verde con riga) */
+.live-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #28a745; /* Verde News */
+    border-bottom: 3px solid #28a745;
+    display: inline-block;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+/* Container Tab */
+.match-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    background: #28a745;
+    color: white;
+}
+
+/* Nascondi i contenuti non attivi */
+.match-content {
+    display: none;
+}
+
+.match-content.active {
+    display: block;
+}      
+      
 /* --- SEZIONE QUIZ & PLAY - FIX PROPORZIONI --- */
 #match-view {
     background: #f4f4f9;
@@ -654,6 +698,52 @@ body {
     </div>
 </div>
 
+<!-- SEZIONE MATCH IN CORSO -->
+<div class="current-matches-section" style="width: 100%; max-width: 500px; margin: 30px auto;">
+    
+    <!-- Titolo stile Latest News -->
+    <div class="news-wrapper" style="margin: 0 0 20px 0;">
+        <h2 class="live-title">Current Matches</h2>
+    </div>
+
+    <!-- Tasti Switch Singolare/Doppio -->
+    <div class="match-tabs">
+        <button class="tab-btn active" onclick="openMatch(event, 'singolare')">Singles</button>
+        <button class="tab-btn" onclick="openMatch(event, 'doppio')">Doubles</button>
+    </div>
+
+    <!-- Contenuto Singolare -->
+    <div id="singolare" class="match-content active">
+        </div>
+    </div>
+
+    <!-- Contenuto Doppio -->
+    <div id="doppio" class="match-content">
+        </div>
+    </div>
+
+    <div id="powered-by" style="text-align: center; font-size: 10px; margin-top: 5px;">
+        Powered by <a href="https://www.365scores.com" target="_blank">365Scores.com</a>
+    </div>
+</div>
+
+<!-- Script per il funzionamento dei Tasti e caricamento Widget -->
+<script src="https://widgets.365scores.com/main.js"></script>
+<script>
+function openMatch(evt, matchType) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("match-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(matchType).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>  
 
 <script>
 function updateAllCountdowns() {
@@ -998,6 +1088,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
