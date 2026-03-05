@@ -675,19 +675,17 @@ body {
     <!-- TITOLO CALENDARIO -->
     <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
 
-    <!-- LISTA TORNEI (IL TUO CALENDARIO) -->
+    <!-- LISTA TORNEI -->
     <div class="tournament-card-wrapper">
         {% for t in tornei %}
         <div class="t-card">
             <div class="t-logo-left">
                 <img src="{{ url_for('static', filename=t.logo_torneo or '') }}" alt="Tournament">
             </div>
-            
             <div class="t-info-center">
                 <div class="t-name-title">{{ t.name }}</div>
                 <div class="t-date-label">{{ t.date_show }}</div>
             </div>
-
             <div class="t-column-right">
                 <div class="t-cat-badge">
                     <img src="{{ url_for('static', filename=t.logo_cat or '') }}" alt="WTA">
@@ -699,66 +697,65 @@ body {
         {% endfor %}
     </div>
 
-    <!-- SEZIONE MATCH IN CORSO (Sotto al calendario, dentro page-content) -->
-    <div class="current-matches-section" style="width: 100%; max-width: 500px; margin: 40px auto 20px auto; padding: 0 10px;">
+    <!-- SEZIONE MATCH IN CORSO (Solo dentro Calendar View) -->
+    <div class="current-matches-section" style="width: 96%; max-width: 500px; margin: 40px auto; padding: 0 10px;">
         
-        <!-- Titolo stile Latest News -->
+        <!-- Titolo Stile Latest News -->
         <div class="news-wrapper" style="margin: 0 0 20px 0; border-bottom: 3px solid #28a745; text-align: left;">
             <h2 class="live-title" style="color: #28a745; font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0; padding-bottom: 5px; display: inline-block;">Current Matches</h2>
         </div>
 
-        <!-- Tasti Switch Singolare/Doppio -->
-        <div class="match-tabs" style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <button id="btn-singles" class="tab-btn active" onclick="openMatch(event, 'singolare')" style="flex: 1; padding: 12px; border: none; background: #28a745; color: white; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;">Singles</button>
-            <button id="btn-doubles" class="tab-btn" onclick="openMatch(event, 'doppio')" style="flex: 1; padding: 12px; border: none; background: #f1f1f1; color: #333; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;">Doubles</button>
+        <!-- Tasti Switch -->
+        <div class="match-tabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button id="btn-singles" class="tab-btn-match active" onclick="openTennis(event, 'singles-box')" style="flex: 1; padding: 12px; border: none; background: #28a745; color: white; border-radius: 12px; font-weight: 700; cursor: pointer;">Singles</button>
+            <button id="btn-doubles" class="tab-btn-match" onclick="openTennis(event, 'doubles-box')" style="flex: 1; padding: 12px; border: none; background: #f1f1f1; color: #333; border-radius: 12px; font-weight: 700; cursor: pointer;">Doubles</button>
         </div>
 
-        <!-- Contenuto Singolare -->
-        <div id="singolare" class="match-content" style="display: block; min-height: 200px;">
+        <!-- Box Widget Singolare -->
+        <div id="singles-box" class="match-tab-content" style="display: block;">
             </div>
+            <div style="text-align: center; font-size: 10px; margin-top: 5px;">Powered by <a href="https://www.365scores.com" target="_blank" style="color: #999;">365Scores.com</a></div>
+            <script src="https://widgets.365scores.com/main.js"></script>
         </div>
 
-        <!-- Contenuto Doppio -->
-        <div id="doppio" class="match-content" style="display: none; min-height: 200px;">
+        <!-- Box Widget Doppio -->
+        <div id="doubles-box" class="match-tab-content" style="display: none;">
             </div>
-        </div>
-
-        <div style="text-align: center; font-size: 10px; margin-top: 15px; color: #999;">
-            Powered by <a href="https://www.365scores.com" target="_blank" style="color: #999; text-decoration: none;">365Scores.com</a>
+            <div style="text-align: center; font-size: 10px; margin-top: 5px;">Powered by <a href="https://www.365scores.com" target="_blank" style="color: #999;">365Scores.com</a></div>
+            <script src="https://widgets.365scores.com/main.js"></script>
         </div>
     </div>
-</div> <!-- FINE DI CALENDAR-VIEW -->
-
-<!-- SCRIPTS (Inseriscili in fondo alla pagina prima di </body>) -->
-<script src="https://widgets.365scores.com"></script>
+</div> <!-- FINE CALENDAR-VIEW -->
 
 <script>
-// Funzione per cambiare Tab (Singolare/Doppio)
-function openMatch(evt, matchType) {
-    var i, tabcontent, tablinks;
+// Funzione per gestire i Tab e ricaricare i widget
+function openTennis(evt, type) {
+    var i, contents, buttons;
     
-    // Nascondi tutti i contenuti
-    tabcontent = document.getElementsByClassName("match-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+    contents = document.getElementsByClassName("match-tab-content");
+    for (i = 0; i < contents.length; i++) {
+        contents[i].style.display = "none";
     }
     
-    // Reset stile bottoni
-    tablinks = document.getElementsByClassName("tab-btn");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.background = "#f1f1f1";
-        tablinks[i].style.color = "#333";
-        tablinks[i].classList.remove("active");
+    buttons = document.getElementsByClassName("tab-btn-match");
+    for (i = 0; i < buttons.length; i++) {
+        buttons[i].style.background = "#f1f1f1";
+        buttons[i].style.color = "#333";
+        buttons[i].classList.remove("active");
     }
     
-    // Mostra quello selezionato e attiva il bottone
-    document.getElementById(matchType).style.display = "block";
+    document.getElementById(type).style.display = "block";
     evt.currentTarget.style.background = "#28a745";
     evt.currentTarget.style.color = "white";
     evt.currentTarget.classList.add("active");
+
+    // Re-inizializza i widget quando si cambia tab
+    if (window.threeSixtyFive && window.threeSixtyFive.widgets) {
+        window.threeSixtyFive.widgets.render();
+    }
 }
 
-// Funzione Countdown Tornei
+// Countdown Tornei (mantenuto dal tuo codice originale)
 function updateAllCountdowns() {
     const timers = document.querySelectorAll('.js-timer');
     timers.forEach(timer => {
@@ -775,10 +772,9 @@ function updateAllCountdowns() {
         }
     });
 }
-// Avvia il countdown al caricamento
 updateAllCountdowns();
 </script>
-  
+
 <div id="match-view" class="page-content">
     <h2 class="section-title">Quiz & Play </h2>
     
@@ -1098,6 +1094,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
