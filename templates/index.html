@@ -697,10 +697,9 @@ body {
         {% endfor %}
     </div>
 
-    <!-- SEZIONE MATCH IN CORSO (Solo dentro Calendar View) -->
+    <!-- SEZIONE MATCH IN CORSO -->
     <div class="current-matches-section" style="width: 96%; max-width: 500px; margin: 40px auto; padding: 0 10px;">
         
-        <!-- Titolo Stile Latest News -->
         <div class="news-wrapper" style="margin: 0 0 20px 0; border-bottom: 3px solid #28a745; text-align: left;">
             <h2 class="live-title" style="color: #28a745; font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0; padding-bottom: 5px; display: inline-block;">Current Matches</h2>
         </div>
@@ -711,32 +710,70 @@ body {
             <button id="btn-doubles" class="tab-btn-match" onclick="openTennis(event, 'doubles-box')" style="flex: 1; padding: 12px; border: none; background: #f1f1f1; color: #333; border-radius: 12px; font-weight: 700; cursor: pointer;">Doubles</button>
         </div>
 
-        <!-- Box Widget Singolare -->
-        <div id="singles-box" class="match-tab-content" style="display: block;">
-            </div>
-            <div style="text-align: center; font-size: 10px; margin-top: 5px;">Powered by <a href="https://www.365scores.com" target="_blank" style="color: #999;">365Scores.com</a></div>
-            <script src="https://widgets.365scores.com/main.js"></script>
-        </div>
+<!-- Box Widget SINGOLO -->
+<div id="singles-box" class="match-tab-content" style="display:block;">
 
-        <!-- Box Widget Doppio -->
-        <div id="doubles-box" class="match-tab-content" style="display: none;">
-            </div>
-            <div style="text-align: center; font-size: 10px; margin-top: 5px;">Powered by <a href="https://www.365scores.com" target="_blank" style="color: #999;">365Scores.com</a></div>
-            <script src="https://widgets.365scores.com/main.js"></script>
-        </div>
-    </div>
-</div> <!-- FINE CALENDAR-VIEW -->
+<div data-widget-type="entityScores" 
+     data-entity-type="team" 
+     data-entity-id="24855" 
+     data-lang="en" 
+     data-widget-id="8cd00e9f-9d3a-4329-a8b1-6bcd718b6c46" 
+     data-limit-height-display="350" 
+     data-theme="dark"></div>
+
+<div id="powered-by">
+Powered by
+<a id="powered-by-link" href="https://www.365scores.com" target="_blank">365Scores.com</a>
+</div>
+
+</div>
+
+<!-- Box Widget DOPPIO -->
+<div id="doubles-box" class="match-tab-content" style="display:none;">
+
+<div data-widget-type="entityScores" 
+     data-entity-type="team" 
+     data-entity-id="56411" 
+     data-lang="en" 
+     data-widget-id="cd890f80-c9d7-4304-97d1-ff740c0de458" 
+     data-limit-height-display="350" 
+     data-theme="dark"></div>
+
+<div id="powered-by">
+Powered by
+<a id="powered-by-link" href="https://www.365scores.com" target="_blank">365Scores.com</a>
+</div>
+
+</div>
+
+<script src="https://widgets.365scores.com/main.js"></script>
 
 <script>
-// Funzione per gestire i Tab e ricaricare i widget
+function showSingles() {
+  document.getElementById("singles-box").style.display = "block";
+  document.getElementById("doubles-box").style.display = "none";
+}
+
+function showDoubles() {
+  document.getElementById("singles-box").style.display = "none";
+  document.getElementById("doubles-box").style.display = "block";
+}
+</script>
+        </div>
+    </div>
+</div>
+
+<script>
 function openTennis(evt, type) {
     var i, contents, buttons;
     
+    // Nasconde i tab
     contents = document.getElementsByClassName("match-tab-content");
     for (i = 0; i < contents.length; i++) {
         contents[i].style.display = "none";
     }
     
+    // Reset bottoni
     buttons = document.getElementsByClassName("tab-btn-match");
     for (i = 0; i < buttons.length; i++) {
         buttons[i].style.background = "#f1f1f1";
@@ -744,18 +781,18 @@ function openTennis(evt, type) {
         buttons[i].classList.remove("active");
     }
     
+    // Mostra quello selezionato
     document.getElementById(type).style.display = "block";
     evt.currentTarget.style.background = "#28a745";
     evt.currentTarget.style.color = "white";
     evt.currentTarget.classList.add("active");
 
-    // Re-inizializza i widget quando si cambia tab
+    // Re-inizializza widget 365 per farlo apparire al cambio tab
     if (window.threeSixtyFive && window.threeSixtyFive.widgets) {
         window.threeSixtyFive.widgets.render();
     }
 }
 
-// Countdown Tornei (mantenuto dal tuo codice originale)
 function updateAllCountdowns() {
     const timers = document.querySelectorAll('.js-timer');
     timers.forEach(timer => {
@@ -1094,6 +1131,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
