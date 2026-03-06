@@ -10,20 +10,17 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def leggi_da_db(id_rank):
-    """Funzione per recuperare il contenuto HTML dal database per ID specifici."""
+    """Recupera la riga dal database in base all'ID (singolo, doppio, race_singolo, race_doppio, news)."""
     try:
-        # Recupera la riga dal database in base all'ID (singolo, doppio, race_singolo, race_doppio, news)
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
-        
         # Se i dati esistono e la lista non è vuota
         if res.data and len(res.data) > 0:
             return res.data[0]['html_content']
-        
         return f"<p>Dati {id_rank} non ancora disponibili.</p>"
     except Exception as e:
         print(f"Errore DB per {id_rank}: {e}")
         return f"<p>Errore di connessione al Database.</p>"
-        
+ 
 def leggi_tornei():
     """Recupera la lista di tutti i tornei salvati (1, 2, ecc.)."""
     try:
@@ -107,22 +104,21 @@ def admin_torneo():
     
 @app.route('/')
 def home():
-    # 1. Recupera la lista dei tornei (corretta indentazione)
-    t_lista = leggi_tornei()
+    t_lista = leggi_tornei()  # Assicurati che questa funzione esista sopra
     
-    # 2. Passa i dati usando il nome 'tornei' (plurale) che serve al ciclo {% for t in tornei %}
- return render_template('index.html', 
+    return render_template('index.html', 
                            tabella_html=leggi_da_db("singolo"), 
                            tabella_doppio_html=leggi_da_db("doppio"), 
-                           race_singolare_html=leggi_da_db("race_singolo"), # <--- NUOVO
-                           race_doppio_html=leggi_da_db("race_doppio"),       # <--- NUOVO
+                           race_singolare_html=leggi_da_db("race_singolo"), 
+                           race_doppio_html=leggi_da_db("race_doppio"),
                            news_html=leggi_da_db("news"),
-                           tornei=t_lista) 
+                           tornei=t_lista)
 
 if __name__ == "__main__":
     # Usa la porta di Render (10000) o la 5000 se sei in locale
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
