@@ -10,16 +10,19 @@ SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def leggi_da_db(id_rank):
-    """Funzione per recuperare il contenuto HTML dal database."""
+    """Funzione per recuperare il contenuto HTML dal database per ID specifici."""
     try:
-        # Recupera la riga dal database dove l'id è 'singolo', 'doppio' o 'news'
+        # Recupera la riga dal database in base all'ID (singolo, doppio, race_singolo, race_doppio, news)
         res = supabase.table("ranking_data").select("html_content").eq("id", id_rank).execute()
-        # Se trova i dati, li restituisce; altrimenti, mostra un messaggio
-        if res.data:
+        
+        # Se i dati esistono e la lista non è vuota
+        if res.data and len(res.data) > 0:
             return res.data[0]['html_content']
-        return f"<p>Dati {id_rank} non trovati nel database.</p>"
+        
+        return f"<p>Dati {id_rank} non ancora disponibili.</p>"
     except Exception as e:
-        return f"<p>Errore di connessione al Database: {e}</p>"
+        print(f"Errore DB per {id_rank}: {e}")
+        return f"<p>Errore di connessione al Database.</p>"
         
 def leggi_tornei():
     """Recupera la lista di tutti i tornei salvati (1, 2, ecc.)."""
@@ -108,16 +111,19 @@ def home():
     t_lista = leggi_tornei()
     
     # 2. Passa i dati usando il nome 'tornei' (plurale) che serve al ciclo {% for t in tornei %}
-    return render_template('index.html', 
+ return render_template('index.html', 
                            tabella_html=leggi_da_db("singolo"), 
                            tabella_doppio_html=leggi_da_db("doppio"), 
+                           race_singolare_html=leggi_da_db("race_singolo"), # <--- NUOVO
+                           race_doppio_html=leggi_da_db("race_doppio"),       # <--- NUOVO
                            news_html=leggi_da_db("news"),
-                           tornei=t_lista) # <--- CORRETTO: Nome deve essere 'tornei'
+                           tornei=t_lista) 
 
 if __name__ == "__main__":
     # Usa la porta di Render (10000) o la 5000 se sei in locale
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
