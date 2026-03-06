@@ -1034,20 +1034,25 @@ let isReviewing = false; // Nuova modalità per vedere gli errori
 let userChoices = [];    // Memorizza cosa hai risposto
 
 function startQuiz() {
-    // Chiude il cruciverba se aperto
-    document.getElementById('crossword-content-wrapper').style.display = 'none';
-    
-    // Apre il quiz e resetta i contenuti interni
+    // 1. Chiude il cruciverba se è aperto per non sovrapporsi
+    const crossword = document.getElementById('crossword-content-wrapper');
+    if (crossword) crossword.style.display = 'none';
+
+    // 2. Mostra il box del quiz e resetta le schermate interne
     document.getElementById('quiz-content-wrapper').style.display = 'block';
     document.getElementById('quiz-content').style.display = 'block';
     document.getElementById('final-screen').style.display = 'none';
-    
-    // Tua logica originale
+
+    // 3. Reset variabili del gioco (Tua logica originale)
     currentIdx = 0;
     score = 0;
     userChoices = [];
     isReviewing = false;
-    if (typeof loadQuestion === "function") loadQuestion();
+
+    // 4. Avvia il caricamento della prima domanda
+    if (typeof loadQuestion === "function") {
+        loadQuestion();
+    }
 }
   
 function loadQuestion() {
@@ -1345,6 +1350,7 @@ async function handleFileUpload(input) {
     </script>
 </body>
 </html>
+
 
 
 
