@@ -482,6 +482,38 @@ body {
     display: block;
 }      
       
+.match-tab-content{
+    position:relative;
+}
+
+.match-tab-content{
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+}
+
+/* cover sotto widget */
+.match-tab-content::after{
+    content:"";
+    position:absolute;
+    bottom:-17px; /* ← POSIZIONE COVER (puoi regolare) */
+    left:0;
+    width:100%;
+
+    height:60px; /* ← ALTEZZA TOTALE COVER */
+
+    background:linear-gradient(
+        to bottom,
+        #151e22 0px,
+        #151e22 45px,   /* ← ALTEZZA BARRA SCURA (UGUALE A SOPRA) */
+        #f4f7f4 40px,   /* ← COLORE APP */
+        #f4f7f4 100%
+    );
+
+    border-bottom-left-radius:16px;
+    border-bottom-right-radius:16px;
+}
+      
 /* --- SEZIONE QUIZ & PLAY - FIX PROPORZIONI --- */
 #match-view {
     background: #f4f4f9;
@@ -721,12 +753,8 @@ body {
      data-limit-height-display="350" 
      data-theme="dark"></div>
 
-<div id="powered-by">
-Powered by
-<a id="powered-by-link" href="https://www.365scores.com" target="_blank">365Scores.com</a>
 </div>
 
-</div>
 
 <!-- Box Widget DOPPIO -->
 <div id="doubles-box" class="match-tab-content" style="display:none;">
@@ -739,13 +767,8 @@ Powered by
      data-limit-height-display="350" 
      data-theme="dark"></div>
 
-<div id="powered-by">
-Powered by
-<a id="powered-by-link" href="https://www.365scores.com" target="_blank">365Scores.com</a>
 </div>
-
-</div>
-
+      
 <script src="https://widgets.365scores.com/main.js"></script>
 
 <script>
@@ -1131,6 +1154,7 @@ function checkCrossword() {
     </script>
 </body>
 </html>
+
 
 
 
