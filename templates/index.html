@@ -207,19 +207,24 @@ body {
     margin-bottom: 25px; /* REGOLA QUESTO: per dare distanza tra i blocchi (es. tra "4" e la riga sotto) */
 }
  
-       /* --- TABELLE (CORRETTA ALTEZZA PER 4 RIGHE INTERE) --- */
-        .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; } 
-        .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
-        .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
-        
-        /* Altezza alzata a 215px per mostrare la 4a riga senza tagli */
-        .table-scroll { max-height: 215px; overflow-y: auto; } 
+/* --- TUO CODICE ORIGINALE --- */
+.ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 0 auto; } 
+.ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
+.table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
+.table-scroll { max-height: 215px; overflow-y: auto; } 
 
-        table { width: 100%; border-collapse: collapse; } 
-        th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
-        thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
-        tbody tr:nth-child(even) { background-color: #f9f9f9; } 
+table { width: 100%; border-collapse: collapse; } 
+th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
+thead th { position: sticky; top: 0; background-color: #2e7d32; color: white; z-index: 10; } 
+tbody tr:nth-child(even) { background-color: #f9f9f9; } 
 
+/* --- AGGIUNTA PER I BOTTONI --- */
+.toggle-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+.toggle-btn { 
+    padding: 10px 25px; border: 2px solid #2e7d32; background: white; color: #2e7d32; 
+    border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s;
+}
+.toggle-btn.active { background: #2e7d32; color: white; }
 
 /* --- NAVBAR RIPRISTINATA (ICONE GRANDI + ALTEZZA SLIM) --- */
 .bottom-nav { 
@@ -514,46 +519,39 @@ body {
     border-bottom-right-radius:16px;
 }
       
-/* --- SEZIONE QUIZ & PLAY - FIX PROPORZIONI --- */
-#match-view {
-    background: #f4f4f9;
-    padding: 10px 15px 80px 15px; /* Padding sotto per la navbar */
-    text-align: center;
-    min-height: auto; /* Toglie lo scroll infinito */
-}
-
-.quiz-container {
-    width: 100%;
-    margin: 0 auto 15px auto;
+.games-carousel {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 10px 15px;
+    -webkit-overflow-scrolling: touch;
 }
 
-/* Copertine grandi come richiesto (85% dello schermo) */
-.quiz-cover, .cruci-cover-img {
-    width: 85%; 
-    max-width: 300px;
-    height: auto;
-    border-radius: 20px;
+.games-carousel::-webkit-scrollbar { display: none; }
+
+.game-card-img {
+    flex: 0 0 130px; /* Larghezza figurina */
+    height: 180px;   /* Altezza figurina */
+    object-fit: cover;
+    border-radius: 15px;
+    border: 2px solid #2e7d32;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     cursor: pointer;
-    display: block;
-    margin: 5px auto;
+    transition: transform 0.2s;
 }
 
-/* BOX DEI GIOCHI: Tornati alle dimensioni normali e compatte */
+.game-card-img:active {
+    transform: scale(0.95);
+}
+
 .active-game-box {
     background: white;
     border-radius: 20px;
     padding: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 350px; /* Dimensione standard dei tuoi box precedenti */
-    margin: 10px auto;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra tutto il contenuto interno */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    width: 90%;
+    max-width: 400px;
+    margin: 15px auto;
 }
 
 /* --- TASTI E OPZIONI CENTRATI --- */
@@ -651,6 +649,69 @@ body {
     color: #03543f !important;
 }
       
+/* --- SEZIONE NEWSLETTER PDF --- */
+.newsletter-section {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eee; /* Separa visivamente dai quiz */
+}
+
+.newsletter-card {
+    width: 85%;
+    max-width: 280px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 15px;
+    border: 3px solid #2e7d32; /* Verde come il tuo ranking */
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.newsletter-card:active {
+    transform: scale(0.98); /* Effetto pressione al tocco */
+}
+
+/* Il contenitore dell'anteprima PDF */
+#pdf-preview-canvas {
+    width: 100%;
+    height: auto; /* L'altezza si adatterà alla proporzione del PDF */
+    display: block;
+    background-color: #f9f9f9;
+}
+
+.newsletter-info {
+    padding: 15px;
+    background-color: #f1f8e9; /* Verde chiarissimo */
+    border-top: 1px solid #ddd;
+}
+
+.newsletter-info span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1a5c20;
+    display: block;
+}
+
+.newsletter-info p {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Bottone per l'upload (opzionale, stile discreto) */
+.admin-upload-btn {
+    margin-top: 15px;
+    font-size: 11px;
+    color: #999;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+     
     </style>
 </head>
 <body>
@@ -689,20 +750,62 @@ body {
             </div> 
         </div> 
     </div>
-    <div id="ranking-view" class="page-content">
-        <h1 style="text-align: center;">Live Rankings</h1>
-        <div class="ranking-wrapper" style="margin-top: 20px;"> 
-            <div class="ranking-card"> 
-                <div class="table-title">Classifica Singolare WTA (Top 10)</div> 
-                <div class="table-scroll"> {{ tabella_html | safe }} </div> 
-            </div> 
-            <div class="ranking-card"> 
-                <div class="table-title">Classifica Doppio WTA (Top 10)</div> 
-                <div class="table-scroll"> {{ tabella_doppio_html | safe }} </div> 
-            </div> 
+   
+  <div id="ranking-view" class="page-content">
+    <h1 style="text-align: center;">Live Rankings & Race</h1>
+
+    <!-- Bottoni Switch -->
+    <div class="toggle-container">
+        <button id="btn-ranking" class="toggle-btn active" onclick="mostra('ranking')">Ranking</button>
+        <button id="btn-race" class="toggle-btn" onclick="mostra('race')">Race</button>
+    </div>
+
+    <!-- SEZIONE RANKING -->
+    <div id="tabella-ranking" class="ranking-wrapper" style="margin-top: 20px;"> 
+        <div class="ranking-card"> 
+            <div class="table-title">Classifica Singolare WTA (Top 10)</div> 
+            <div class="table-scroll"> {{ tabella_html | safe }} </div> 
+        </div> 
+        <div class="ranking-card"> 
+            <div class="table-title">Classifica Doppio WTA (Top 10)</div> 
+            <div class="table-scroll"> {{ tabella_doppio_html | safe }} </div> 
         </div> 
     </div>
 
+    <!-- SEZIONE RACE (Nascosta all'inizio) -->
+    <div id="tabella-race" class="ranking-wrapper" style="margin-top: 20px; display: none;"> 
+        <div class="ranking-card"> 
+            <div class="table-title">Race Singolare WTA</div> 
+            <div class="table-scroll"> {{ race_singolare_html | safe }} </div> 
+        </div> 
+        <div class="ranking-card"> 
+            <div class="table-title">Race Doppio WTA</div> 
+            <div class="table-scroll"> {{ race_doppio_html | safe }} </div> 
+        </div> 
+    </div>
+</div>
+  
+<script>
+function mostra(tipo) {
+    var ranking = document.getElementById('tabella-ranking');
+    var race = document.getElementById('tabella-race');
+    var btnRanking = document.getElementById('btn-ranking');
+    var btnRace = document.getElementById('btn-race');
+
+    if (tipo === 'ranking') {
+        ranking.style.display = 'flex';
+        race.style.display = 'none';
+        btnRanking.classList.add('active');
+        btnRace.classList.remove('active');
+    } else {
+        ranking.style.display = 'none';
+        race.style.display = 'flex';
+        btnRace.classList.add('active');
+        btnRanking.classList.remove('active');
+    }
+}
+</script>
+  
 <div id="calendar-view" class="page-content"> 
     <!-- TITOLO CALENDARIO -->
     <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
@@ -836,55 +939,46 @@ updateAllCountdowns();
 </script>
 
 <div id="match-view" class="page-content">
-    <h2 class="section-title">Quiz & Play </h2>
+    <h2 class="section-title">Quiz & Play</h2>
     
-   <!-- QUIZ -->
-<div class="quiz-container">
-    <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
-         id="quiz-cover-img" class="quiz-cover" onclick="startQuiz()">
+    <!-- CAROSELLO SOLO COPERTINE -->
+    <div class="games-carousel">
+        <!-- Card Quiz -->
+        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
+             class="game-card-img" onclick="startQuiz()">
 
-    <div id="quiz-content-wrapper" class="active-game-box" style="display: none;">
-        <!-- Schermata Domande -->
-        <div id="quiz-content">
-            <p id="q-text" style="font-size: 18px; font-weight: 800; color: #330066;"></p>
-            <div class="quiz-options" id="options-container"></div>
-            <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none; margin: 20px auto 0 auto;">Conferma</button>
+        <!-- Card Cruciverba -->
+        <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" 
+             class="game-card-img" onclick="startCrossword()">
+    </div>
+
+    <!-- AREA GIOCHI -->
+    <div id="games-content-area">
+        <!-- Quiz -->
+        <div id="quiz-content-wrapper" class="active-game-box" style="display: none;">
+            <div id="quiz-content">
+                <p id="q-text" style="font-size: 18px; font-weight: 800; color: #330066;"></p>
+                <div class="quiz-options" id="options-container"></div>
+                <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none; margin: 20px auto 0 auto;">Conferma</button>
+            </div>
+            <div id="final-screen" style="display:none; text-align: center; width: 100%;">
+                <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
+                <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
+                <button class="quiz-nav-btn" style="display:block; margin: 10px auto;" onclick="reviewQuiz()">Rivedi Risposte</button>
+                <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #28a745;" onclick="retryQuiz()">Riprova</button>
+                <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #666;" onclick="restartQuiz()">Esci</button>
+            </div>
         </div>
 
-        <!-- Schermata Finale (UNICA) -->
-        <div id="final-screen" style="display:none; text-align: center; width: 100%;">
-    <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
-    <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
-    
-    <!-- Rivedi: guarda gli errori -->
-    <button class="quiz-nav-btn" style="display:block; margin: 10px auto;" onclick="reviewQuiz()">Rivedi Risposte</button>
-    
-    <!-- Riprova: rigioca da zero -->
-    <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #28a745;" onclick="retryQuiz()">Riprova</button>
-    
-    <!-- Esci: torna alle copertine -->
-    <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #666;" onclick="restartQuiz()">Esci</button>
-         </div>
-    </div>
-</div>
-  
-    <!-- CRUCIVERBA -->
-    <div class="quiz-container">
-        <!-- CORRETTO: copertina_cruciverba.png -->
-        <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" 
-             id="crossword-cover-img" class="cruci-cover-img" onclick="startCrossword()">
-
+        <!-- Cruciverba -->
         <div id="crossword-content-wrapper" class="active-game-box" style="display: none;">
             <h3 style="color:#330066; margin-bottom: 5px;">Mini Crossword ✍️</h3>
-            <div class="crossword-grid" style="grid-template-columns: repeat(5, 42px); grid-template-rows: repeat(6, 42px);">
-                <!-- RIGA 1: L-U-C-C-A -->
+            <div class="crossword-grid" style="grid-template-columns: repeat(5, 42px); grid-template-rows: repeat(6, 42px); margin: 0 auto; display: grid;">
                 <input maxlength="1" class="crossword-cell" id="c-0-0">
                 <input maxlength="1" class="crossword-cell" id="c-0-1">
                 <input maxlength="1" class="crossword-cell" id="c-0-2">
                 <input maxlength="1" class="crossword-cell" id="c-0-3">
                 <input maxlength="1" class="crossword-cell" id="c-0-4">
-                
-                <!-- RIGHE SUCCESSIVE (Logica Verticale CASTEL) -->
                 <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-1-2"><div class="cell-black"></div><div class="cell-black"></div>
                 <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-2-2"><div class="cell-black"></div><div class="cell-black"></div>
                 <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-3-2"><div class="cell-black"></div><div class="cell-black"></div>
@@ -895,10 +989,33 @@ updateAllCountdowns();
                 <strong>1. Oriz:</strong> Provincia (5 l.)<br>
                 <strong>2. Vert:</strong> Città natale (6 l. - su C)
             </div>
-            <button class="quiz-nav-btn" style="display:block; margin-top:15px;" onclick="checkCrossword()">Verifica</button>
+    <button class="quiz-nav-btn" style="display:block; margin: 15px auto;" onclick="checkCrossword()">Verifica</button>
         </div>
     </div>
-</div>
+
+    <!-- NUOVA SEZIONE NEWSLETTER PDF -->
+    <div class="newsletter-section">
+        <h2 class="section-title">Newsletter del Mese</h2>
+        
+        <div class="newsletter-card" onclick="apriNewsletter()">
+            <!-- Canvas dove PDF.js disegnerà l'anteprima della prima pagina -->
+            <canvas id="pdf-preview-canvas"></canvas>
+            
+            <div class="newsletter-info">
+                <span id="newsletter-month">Edizione Marzo 2026</span>
+                <p>Tocca per leggere il PDF completo 📖</p>
+            </div>
+        </div>
+
+        <!-- Area Caricamento Mensile (Solo per te) -->
+        <div style="margin-top: 20px;">
+            <input type="file" id="pdf-upload-input" accept="application/pdf" style="display: none;" onchange="handleFileUpload(this)">
+            <button class="admin-upload-btn" onclick="document.getElementById('pdf-upload-input').click()">
+                🔄 Aggiorna PDF Mensile
+            </button>
+        </div>
+    </div>
+</div> <!-- Fine match-view -->
   
 <script>
 /* --- LOGICA QUIZ AGGIORNATA --- */
@@ -917,17 +1034,22 @@ let isReviewing = false; // Nuova modalità per vedere gli errori
 let userChoices = [];    // Memorizza cosa hai risposto
 
 function startQuiz() {
-    document.getElementById('quiz-cover-img').style.display = 'none';
+    // Chiude il cruciverba se aperto
+    document.getElementById('crossword-content-wrapper').style.display = 'none';
+    
+    // Apre il quiz e resetta i contenuti interni
     document.getElementById('quiz-content-wrapper').style.display = 'block';
     document.getElementById('quiz-content').style.display = 'block';
     document.getElementById('final-screen').style.display = 'none';
+    
+    // Tua logica originale
     currentIdx = 0;
     score = 0;
     userChoices = [];
     isReviewing = false;
-    loadQuestion();
+    if (typeof loadQuestion === "function") loadQuestion();
 }
-
+  
 function loadQuestion() {
     hasConfirmed = false;
     selectedIdx = -1;
@@ -1058,13 +1180,19 @@ function retryQuiz() {
 /* --- LOGICA MINI CROSSWORD --- */
 
 function startCrossword() {
-    // Nasconde la copertina del cruciverba
-    document.getElementById('crossword-cover-img').style.display = 'none';
-    // Mostra il contenitore bianco del cruciverba
+    // 1. Chiude il quiz se è aperto per non sovrapporsi
+    const quiz = document.getElementById('quiz-content-wrapper');
+    if (quiz) quiz.style.display = 'none';
+    
+    // 2. Mostra il contenitore bianco del cruciverba
     const wrapper = document.getElementById('crossword-content-wrapper');
-    if(wrapper) wrapper.style.display = 'block';
-}
+    if (wrapper) {
+        wrapper.style.display = 'block';
+    }
 
+    // Nota: la copertina nel carosello rimane ora sempre visibile in alto
+}
+  
 document.querySelectorAll('.crossword-cell').forEach(cell => {
     cell.addEventListener('input', function() {
         if (this.value.length >= 1) {
@@ -1107,7 +1235,70 @@ function checkCrossword() {
         alert("C'è un errore! Riprova.");
     }
 }
-</script>
+
+/* --- LOGICA NEWSLETTER PDF --- */
+
+// 1. Configurazione Motore PDF.js (URL COMPLETO E CORRETTO)
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com';
+
+// 2. Il tuo URL Supabase
+const urlPDF = "https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf";
+
+function generaAnteprimaPDF(url) {
+    // Carichiamo il PDF ignorando eventuali blocchi CORS blandi
+    const loadingTask = pdfjsLib.getDocument({
+        url: url + "?t=" + new Date().getTime(),
+        disableAutoFetch: true,
+        disableStream: true
+    });
+
+    loadingTask.promise.then(pdf => {
+        pdf.getPage(1).then(page => {
+            const canvas = document.getElementById('pdf-preview-canvas');
+            if (!canvas) return;
+            const context = canvas.getContext('2d');
+            
+            // Scaliamo per farlo stare bene nella card
+            const viewport = page.getViewport({ scale: 0.6 });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            page.render(renderContext);
+        });
+    }).catch(err => {
+        console.error("Errore PDF:", err);
+    });
+}
+
+function apriNewsletter() {
+    window.open(urlPDF, '_blank');
+}
+
+// Funzione di avvio corretta per CodePen
+window.addEventListener('load', function() {
+    // Aspettiamo un attimo che Supabase risponda
+    setTimeout(() => {
+        generaAnteprimaPDF(urlPDF);
+    }, 1500);
+});
+
+// Gestione Upload (Placeholder)
+async function handleFileUpload(input) {
+    const file = input.files[0];
+    if (!file || file.type !== "application/pdf") {
+        alert("Seleziona un PDF valido");
+        return;
+    }
+    alert("Pronto per l'upload su Supabase!");
+}
+
+<!-- LIBRERIA PDF.JS COMPLETA -->
+<script src="https://cdnjs.cloudflare.com"></script>
   
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
@@ -1154,8 +1345,6 @@ function checkCrossword() {
     </script>
 </body>
 </html>
-
-
 
 
 
