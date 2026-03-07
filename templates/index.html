@@ -519,136 +519,199 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     border-bottom-right-radius:16px;
 }
       
-.games-carousel {
-    display: flex;
-    overflow-x: auto;
-    gap: 12px;
-    padding: 10px 15px;
-    -webkit-overflow-scrolling: touch;
+/* -------------------------
+CAROSELLO GIOCHI
+--------------------------*/
+
+.games-carousel{
+display:flex;
+gap:14px;
+overflow-x:auto;
+padding:10px 15px 15px 15px;
+scroll-snap-type:x mandatory;
 }
 
-.games-carousel::-webkit-scrollbar { display: none; }
-
-.game-card-img {
-    flex: 0 0 130px; /* Larghezza figurina */
-    height: 180px;   /* Altezza figurina */
-    object-fit: cover;
-    border-radius: 15px;
-    border: 2px solid #2e7d32;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.2s;
+.games-carousel::-webkit-scrollbar{
+display:none;
 }
 
-.game-card-img:active {
-    transform: scale(0.95);
+.game-card{
+flex:0 0 140px;
+height:190px;
+border-radius:16px;
+overflow:hidden;
+cursor:pointer;
+position:relative;
+scroll-snap-align:start;
+transition:transform .25s ease, box-shadow .25s ease;
 }
 
-.active-game-box {
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    width: 90%;
-    max-width: 400px;
-    margin: 15px auto;
+.game-card img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-/* --- TASTI E OPZIONI CENTRATI --- */
-.quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    margin-top: 15px;
+.game-card:hover{
+transform:translateY(-6px) scale(1.03);
+box-shadow:0 10px 25px rgba(0,0,0,.3);
 }
 
-.option-btn {
-    background: #f8f9fa;
-    border: 2px solid #ddd;
-    border-radius: 12px;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: 700;
-    color: #333;
-    width: 100%;
-    cursor: pointer;
-    text-align: center;
+.game-card-title{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+background:linear-gradient(transparent,rgba(0,0,0,.8));
+color:white;
+font-weight:700;
+font-size:14px;
+padding:8px;
+text-align:center;
 }
 
-.option-btn.selected {
-    border-color: #330066;
-    background-color: #eaddff;
+
+/* -------------------------
+OVERLAY GIOCHI
+--------------------------*/
+
+.game-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:999999;
+opacity:0;
+pointer-events:none;
+transition:opacity .25s ease;
 }
 
-/* Tasto Navigazione Centrato */
-.quiz-nav-btn {
-    background: #330066;
-    color: white !important;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 18px;
-    font-weight: 800;
-    font-size: 15px;
-    margin: 20px auto 0 auto;
-    cursor: pointer;
-    display: block; 
-    width: fit-content;
+.game-overlay.show{
+opacity:1;
+pointer-events:auto;
 }
 
-/* --- CRUCIVERBA COMPATTO --- */
-.crossword-grid {
-    display: grid;
-    gap: 5px;
-    margin: 15px auto;
-    justify-content: center;
+
+/* -------------------------
+MODALE
+--------------------------*/
+
+.game-modal{
+
+background:white;
+width:92%;
+max-width:420px;
+border-radius:20px;
+padding:25px 20px 30px 20px;
+position:relative;
+animation:popGame .35s ease;
+max-height:90vh;
+overflow-y:auto;
 }
 
-.crossword-cell {
-    width: 42px;
-    height: 42px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    border: 2px solid #330066;
-    border-radius: 5px;
+@keyframes popGame{
+0%{transform:scale(.85);opacity:0}
+100%{transform:scale(1);opacity:1}
 }
 
-.cell-black { background-color: #330066; }
 
-.crossword-hints {
-    font-size: 13px;
-    background: #f0f0f0;
-    padding: 12px;
-    border-radius: 10px;
-    text-align: left;
-    margin-top: 15px;
-    width: 100%;
-}
- 
- /* --- COLORI STATI QUIZ --- */
+/* -------------------------
+CHIUDI
+--------------------------*/
 
-/* 1. SELEZIONE (Viola chiaro/Bluastro) */
-.option-btn.selected {
-    background-color: #e0e7ff !important; /* Bluastro molto chiaro */
-    border-color: #330066 !important;
-    color: #330066 !important;
+.close-btn{
+position:absolute;
+right:15px;
+top:8px;
+font-size:30px;
+cursor:pointer;
+font-weight:700;
 }
 
-/* 2. ERRORE (Rosso chiaro) */
-.option-btn.wrong {
-    background-color: #fde8e8 !important; /* Rosso pastello */
-    border-color: #f05252 !important;
-    color: #9b1c1c !important;
+
+/* -------------------------
+QUIZ
+--------------------------*/
+
+.option-btn{
+display:block;
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+background:#f1f1f1;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
 }
 
-/* 3. CORRETTO (Verde chiaro) */
-.option-btn.correct {
-    background-color: #def7ec !important; /* Verde pastello */
-    border-color: #31c48d !important;
-    color: #03543f !important;
+.option-btn:hover{
+background:#e6e6e6;
 }
-      
+
+.option-btn.selected{
+background:#d9f2ff;
+}
+
+.option-btn.correct{
+background:#c8f7c5;
+}
+
+.option-btn.wrong{
+background:#ffc9c9;
+}
+
+.quiz-nav-btn{
+display:block;
+margin:auto;
+padding:12px 25px;
+border:none;
+border-radius:10px;
+background:#2e7d32;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+
+/* -------------------------
+CROSSWORD
+--------------------------*/
+
+.crossword-grid{
+display:grid;
+grid-template-columns:repeat(5,40px);
+gap:4px;
+justify-content:center;
+margin:15px 0;
+}
+
+.crossword-cell{
+width:40px;
+height:40px;
+text-align:center;
+font-size:20px;
+font-weight:700;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.cell-black{
+width:40px;
+height:40px;
+background:#222;
+border-radius:6px;
+}
+
+.crossword-hints{
+font-size:14px;
+margin-top:10px;
+text-align:center;
+}
+
 /* --- SEZIONE NEWSLETTER PDF --- */
 .newsletter-section {
     margin-top: 40px;
@@ -940,59 +1003,94 @@ updateAllCountdowns();
 
 <div id="match-view" class="page-content">
     <h2 class="section-title">Quiz & Play</h2>
-    
-    <!-- CAROSELLO SOLO COPERTINE -->
-    <div class="games-carousel">
-        <!-- Card Quiz -->
-        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
-             class="game-card-img" onclick="startQuiz()">
 
-        <!-- Card Cruciverba -->
-        <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" 
-             class="game-card-img" onclick="startCrossword()">
-    </div>
+<div class="games-carousel">
 
-    <!-- AREA GIOCHI -->
-    <div id="games-content-area">
-        <!-- Quiz -->
-        <div id="quiz-content-wrapper" class="active-game-box" style="display: none;">
-            <div id="quiz-content">
-                <p id="q-text" style="font-size: 18px; font-weight: 800; color: #330066;"></p>
-                <div class="quiz-options" id="options-container"></div>
-                <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none; margin: 20px auto 0 auto;">Conferma</button>
-            </div>
-            <div id="final-screen" style="display:none; text-align: center; width: 100%;">
-                <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
-                <p id="final-score" style="font-size: 20px; font-weight: 700; margin: 15px 0;"></p>
-                <button class="quiz-nav-btn" style="display:block; margin: 10px auto;" onclick="reviewQuiz()">Rivedi Risposte</button>
-                <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #28a745;" onclick="retryQuiz()">Riprova</button>
-                <button class="quiz-nav-btn" style="display:block; margin: 10px auto; background: #666;" onclick="restartQuiz()">Esci</button>
-            </div>
-        </div>
+<div class="game-card" onclick="openGame('quiz')">
+<img src="{{ url_for('static', filename='copertina_quiz.png') }}">
+<div class="game-card-title">Quiz Paolini</div>
+</div>
 
-        <!-- Cruciverba -->
-        <div id="crossword-content-wrapper" class="active-game-box" style="display: none;">
-            <h3 style="color:#330066; margin-bottom: 5px;">Mini Crossword ✍️</h3>
-            <div class="crossword-grid" style="grid-template-columns: repeat(5, 42px); grid-template-rows: repeat(6, 42px); margin: 0 auto; display: grid;">
-                <input maxlength="1" class="crossword-cell" id="c-0-0">
-                <input maxlength="1" class="crossword-cell" id="c-0-1">
-                <input maxlength="1" class="crossword-cell" id="c-0-2">
-                <input maxlength="1" class="crossword-cell" id="c-0-3">
-                <input maxlength="1" class="crossword-cell" id="c-0-4">
-                <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-1-2"><div class="cell-black"></div><div class="cell-black"></div>
-                <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-2-2"><div class="cell-black"></div><div class="cell-black"></div>
-                <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-3-2"><div class="cell-black"></div><div class="cell-black"></div>
-                <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-4-2"><div class="cell-black"></div><div class="cell-black"></div>
-                <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-5-2"><div class="cell-black"></div><div class="cell-black"></div>
-            </div>
-            <div class="crossword-hints">
-                <strong>1. Oriz:</strong> Provincia (5 l.)<br>
-                <strong>2. Vert:</strong> Città natale (6 l. - su C)
-            </div>
-    <button class="quiz-nav-btn" style="display:block; margin: 15px auto;" onclick="checkCrossword()">Verifica</button>
-        </div>
-    </div>
+<div class="game-card" onclick="openGame('crossword')">
+<img src="{{ url_for('static', filename='copertina_cruciverba.png') }}">
+<div class="game-card-title">Mini Crossword</div>
+</div>
 
+</div>
+
+
+<!-- QUIZ -->
+
+<div id="quizOverlay" class="game-overlay">
+
+<div class="game-modal">
+
+<span class="close-btn" onclick="closeGames()">&times;</span>
+
+<div id="quiz-content">
+
+<p id="q-text"></p>
+
+<div id="options-container"></div>
+
+<button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none">Conferma</button>
+
+</div>
+
+<div id="final-screen" style="display:none;text-align:center">
+
+<h3>Quiz Completato 🏆</h3>
+
+<p id="final-score"></p>
+
+<button class="quiz-nav-btn" onclick="retryQuiz()">Riprova</button>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- CROSSWORD -->
+
+<div id="crossOverlay" class="game-overlay">
+
+<div class="game-modal">
+
+<span class="close-btn" onclick="closeGames()">&times;</span>
+
+<h3 style="text-align:center">Mini Crossword</h3>
+
+<div class="crossword-grid">
+
+<input maxlength="1" class="crossword-cell" id="c0">
+<input maxlength="1" class="crossword-cell" id="c1">
+<input maxlength="1" class="crossword-cell" id="c2">
+<input maxlength="1" class="crossword-cell" id="c3">
+<input maxlength="1" class="crossword-cell" id="c4">
+
+<div class="cell-black"></div>
+<div class="cell-black"></div>
+
+<input maxlength="1" class="crossword-cell" id="c5">
+
+<div class="cell-black"></div>
+<div class="cell-black"></div>
+
+</div>
+
+<div class="crossword-hints">
+
+<b>Oriz:</b> Provincia (5)<br>
+<b>Vert:</b> Città natale (6)
+
+</div>
+
+<button class="quiz-nav-btn" onclick="checkCrossword()">Verifica</button>
+
+</div>
+</div>
+  
     <!-- NUOVA SEZIONE NEWSLETTER PDF -->
     <div class="newsletter-section">
         <h2 class="section-title">Newsletter del Mese</h2>
@@ -1018,232 +1116,185 @@ updateAllCountdowns();
 </div> <!-- Fine match-view -->
   
 <script>
-/* --- LOGICA QUIZ AGGIORNATA --- */
-const quizData = [
-    { question: "In che anno è nata Jasmine Paolini?", options: ["1994", "1996", "1998"], correct: 1 },
-    { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
-    { question: "In quale città è nata Jasmine?", options: ["Firenze", "Castelnuovo di Garfagnana", "Lucca"], correct: 1 },
-    { question: "Qual è la superficie preferita dichiarata da Jasmine?", options: ["Erba", "Cemento", "Terra Rossa"], correct: 2 }
-];
+document.addEventListener("DOMContentLoaded",function(){
 
-let currentIdx = 0;
-let score = 0;
-let selectedIdx = -1;
-let hasConfirmed = false;
-let isReviewing = false; // Nuova modalità per vedere gli errori
-let userChoices = [];    // Memorizza cosa hai risposto
+/* ----------------
+APERTURA GIOCHI
+----------------*/
 
-function startQuiz() {
-    // 1. Chiude il cruciverba se è aperto per non sovrapporsi
-    const crossword = document.getElementById('crossword-content-wrapper');
-    if (crossword) crossword.style.display = 'none';
+window.openGame=function(game){
 
-    // 2. Mostra il box del quiz e resetta le schermate interne
-    document.getElementById('quiz-content-wrapper').style.display = 'block';
-    document.getElementById('quiz-content').style.display = 'block';
-    document.getElementById('final-screen').style.display = 'none';
+closeGames()
 
-    // 3. Reset variabili del gioco (Tua logica originale)
-    currentIdx = 0;
-    score = 0;
-    userChoices = [];
-    isReviewing = false;
-
-    // 4. Avvia il caricamento della prima domanda
-    if (typeof loadQuestion === "function") {
-        loadQuestion();
-    }
+if(game==="quiz"){
+document.getElementById("quizOverlay").classList.add("show")
+startQuiz()
 }
+
+if(game==="crossword"){
+document.getElementById("crossOverlay").classList.add("show")
+}
+
+}
+
+window.closeGames=function(){
+
+document.querySelectorAll(".game-overlay").forEach(g=>{
+g.classList.remove("show")
+})
+
+}
+
+
+/* ----------------
+QUIZ
+----------------*/
+
+const quizData=[
+{question:"In che anno è nata Jasmine Paolini?",options:["1994","1996","1998"],correct:1},
+{question:"Quanti titoli WTA ha vinto in singolare?",options:["1","2","3"],correct:1},
+{question:"Città natale?",options:["Firenze","Castelnuovo Garfagnana","Lucca"],correct:1},
+{question:"Superficie preferita?",options:["Erba","Cemento","Terra rossa"],correct:2}
+]
+
+let current=0
+let score=0
+let selected=-1
+
+window.startQuiz=function(){
+
+current=0
+score=0
+loadQuestion()
+
+}
+
+function loadQuestion(){
+
+selected=-1
+
+let q=quizData[current]
+
+document.getElementById("q-text").innerText=q.question
+
+let container=document.getElementById("options-container")
+
+container.innerHTML=""
+
+q.options.forEach((opt,i)=>{
+
+let btn=document.createElement("button")
+
+btn.className="option-btn"
+
+btn.innerText=opt
+
+btn.onclick=()=>selectOption(i,btn)
+
+container.appendChild(btn)
+
+})
+
+document.getElementById("action-btn").style.display="none"
+
+}
+
+function selectOption(i,btn){
+
+selected=i
+
+document.querySelectorAll(".option-btn").forEach(b=>b.classList.remove("selected"))
+
+btn.classList.add("selected")
+
+document.getElementById("action-btn").style.display="block"
+
+}
+
+window.handleAction=function(){
+
+if(selected===-1)return
+
+let q=quizData[current]
+
+if(selected===q.correct)score++
+
+current++
+
+if(current<quizData.length){
+
+loadQuestion()
+
+}else{
+
+showEnd()
+
+}
+
+}
+
+function showEnd(){
+
+document.getElementById("quiz-content").style.display="none"
+
+document.getElementById("final-screen").style.display="block"
+
+document.getElementById("final-score").innerText="Punteggio "+score+"/"+quizData.length
+
+}
+
+window.retryQuiz=function(){
+
+document.getElementById("quiz-content").style.display="block"
+
+document.getElementById("final-screen").style.display="none"
+
+startQuiz()
+
+}
+
+
+/* ----------------
+CROSSWORD
+----------------*/
+
+document.querySelectorAll(".crossword-cell").forEach((cell,i,arr)=>{
+
+cell.addEventListener("input",function(){
+
+if(this.value.length===1 && arr[i+1])arr[i+1].focus()
+
+})
+
+})
+
+window.checkCrossword=function(){
+
+let word=""
+
+for(let i=0;i<5;i++){
+
+word+=document.getElementById("c"+i).value.toUpperCase()
+
+}
+
+if(word==="LUCCA"){
+
+alert("Perfetto! 🎾")
+
+}else{
+
+alert("Riprova!")
+
+}
+
+}
+
+})
   
-function loadQuestion() {
-    hasConfirmed = false;
-    selectedIdx = -1;
-    const data = quizData[currentIdx];
-    const container = document.getElementById('options-container');
-    const actionBtn = document.getElementById('action-btn');
-    
-    document.getElementById('q-text').innerText = data.question;
-    container.innerHTML = '';
-    
-    // Se stiamo REVISIONANDO, mostriamo subito i colori e il tasto "Avanti"
-    if (isReviewing) {
-        const savedChoice = userChoices[currentIdx];
-        actionBtn.style.display = 'block';
-        actionBtn.innerText = (currentIdx === quizData.length - 1) ? "Torna ai Risultati" : "Prossima";
-        
-        data.options.forEach((opt, i) => {
-            const btn = document.createElement('button');
-            btn.classList.add('option-btn');
-            btn.innerText = opt;
-            btn.disabled = true;
-            if (i === data.correct) btn.classList.add('correct');
-            if (i === savedChoice && i !== data.correct) btn.classList.add('wrong');
-            container.appendChild(btn);
-        });
-    } else {
-        // Modalità GIOCO NORMALE
-        actionBtn.style.display = 'none';
-        actionBtn.innerText = "Conferma";
-        data.options.forEach((opt, i) => {
-            const btn = document.createElement('button');
-            btn.classList.add('option-btn');
-            btn.innerText = opt;
-            btn.onclick = () => selectOption(i, btn);
-            container.appendChild(btn);
-        });
-    }
-}
-
-function selectOption(idx, btn) {
-    if (hasConfirmed || isReviewing) return;
-    selectedIdx = idx;
-    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    document.getElementById('action-btn').style.display = 'block';
-}
-
-function handleAction() {
-    if (isReviewing) {
-        currentIdx++;
-        if (currentIdx < quizData.length) {
-            loadQuestion();
-        } else {
-            showEnd(); // Torna alla schermata finale
-        }
-        return;
-    }
-
-    if (!hasConfirmed && selectedIdx !== -1) {
-        verifyAnswer();
-    }
-}
-
-function verifyAnswer() {
-    hasConfirmed = true;
-    userChoices.push(selectedIdx); // Salva la scelta per la revisione
-    const data = quizData[currentIdx];
-    const buttons = document.querySelectorAll('.option-btn');
-    
-    if (selectedIdx === data.correct) score++;
-
-    buttons.forEach((btn, i) => {
-        btn.disabled = true;
-        if (i === data.correct) btn.classList.add('correct');
-        if (i === selectedIdx && i !== data.correct) btn.classList.add('wrong');
-    });
-
-    setTimeout(() => {
-        if (!isReviewing) {
-            currentIdx++;
-            if (currentIdx < quizData.length) {
-                loadQuestion();
-            } else {
-                showEnd();
-            }
-        }
-    }, 1500);
-}
-
-function showEnd() {
-    document.getElementById('quiz-content').style.display = 'none';
-    document.getElementById('final-screen').style.display = 'block';
-    document.getElementById('final-score').innerText = `Punteggio: ${score}/${quizData.length}`;
-}
-
-// MODALITÀ REVISIONE: Fa vedere le risposte date
-function reviewQuiz() {
-    isReviewing = true;
-    currentIdx = 0;
-    document.getElementById('final-screen').style.display = 'none';
-    document.getElementById('quiz-content').style.display = 'block';
-    loadQuestion();
-}
-
-function restartQuiz() {
-    // 1. Nasconde la schermata finale e il contenuto del quiz
-    document.getElementById('final-screen').style.display = 'none';
-    document.getElementById('quiz-content').style.display = 'none';
-    
-    // 2. Nasconde l'intero box bianco (il wrapper con l'ombra)
-    const wrapper = document.getElementById('quiz-content-wrapper');
-    if(wrapper) wrapper.style.display = 'none';
-    
-    // 3. Fa riapparire la copertina del quiz
-    document.getElementById('quiz-cover-img').style.display = 'block';
-    
-    // 4. Reset variabili per sicurezza
-    currentIdx = 0;
-    score = 0;
-    isReviewing = false;
-}  
-  
-// RIPROVA: Resetta tutto e fa rigiocare
-function retryQuiz() {
-    startQuiz();
-}
-
-/* --- LOGICA MINI CROSSWORD --- */
-
-function startCrossword() {
-    // 1. Chiude il quiz se è aperto per non sovrapporsi
-    const quiz = document.getElementById('quiz-content-wrapper');
-    if (quiz) quiz.style.display = 'none';
-    
-    // 2. Mostra il contenitore bianco del cruciverba
-    const wrapper = document.getElementById('crossword-content-wrapper');
-    if (wrapper) {
-        wrapper.style.display = 'block';
-    }
-
-    // Nota: la copertina nel carosello rimane ora sempre visibile in alto
-}
-  
-document.querySelectorAll('.crossword-cell').forEach(cell => {
-    cell.addEventListener('input', function() {
-        if (this.value.length >= 1) {
-            const next = getNextId(this.id);
-            if (next) document.getElementById(next).focus();
-        }
-    });
-    cell.addEventListener('keydown', function(e) {
-        if (e.key === "Backspace" && this.value === "") {
-            const prev = getPrevId(this.id);
-            if (prev) document.getElementById(prev).focus();
-        }
-    });
-});
-
-function getNextId(id) {
-    const sequence = ['c-0-0', 'c-0-1', 'c-0-2', 'c-0-3', 'c-0-4', 'c-1-2', 'c-2-2', 'c-3-2', 'c-4-2', 'c-5-2'];
-    const index = sequence.indexOf(id);
-    return (index !== -1 && index < sequence.length - 1) ? sequence[index + 1] : null;
-}
-
-function getPrevId(id) {
-    const sequence = ['c-0-0', 'c-0-1', 'c-0-2', 'c-0-3', 'c-0-4', 'c-1-2', 'c-2-2', 'c-3-2', 'c-4-2', 'c-5-2'];
-    const index = sequence.indexOf(id);
-    return (index > 0) ? sequence[index - 1] : null;
-}
-
-function checkCrossword() {
-    const getVal = (id) => (document.getElementById(id).value || "").toUpperCase().trim();
-    let h1 = getVal('c-0-0') + getVal('c-0-1') + getVal('c-0-2') + getVal('c-0-3') + getVal('c-0-4');
-    let v1 = getVal('c-0-2') + getVal('c-1-2') + getVal('c-2-2') + getVal('c-3-2') + getVal('c-4-2') + getVal('c-5-2');
-
-    if (h1 === "LUCCA" && v1 === "CASTEL") {
-        alert("ECCELLENTE! 🎉🎾");
-        document.querySelectorAll('.crossword-cell:not(.cell-black)').forEach(c => {
-            c.style.backgroundColor = "#d4edda";
-            c.style.boxShadow = "inset 0 0 0 2px #28a745";
-        });
-    } else {
-        alert("C'è un errore! Riprova.");
-    }
-}
-
 /* --- LOGICA NEWSLETTER PDF --- */
 
-// 1. Configurazione Motore PDF.js (URL COMPLETO E CORRETTO)
+// 1. Configurazione Motore PDF.js (LINK COMPLETO)
 const pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com';
 
@@ -1251,12 +1302,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com';
 const urlPDF = "https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf";
 
 function generaAnteprimaPDF(url) {
-    // Carichiamo il PDF ignorando eventuali blocchi CORS blandi
-    const loadingTask = pdfjsLib.getDocument({
-        url: url + "?t=" + new Date().getTime(),
-        disableAutoFetch: true,
-        disableStream: true
-    });
+    // Carichiamo il PDF con forzatura aggiornamento cache
+    const loadingTask = pdfjsLib.getDocument(url + "?t=" + new Date().getTime());
 
     loadingTask.promise.then(pdf => {
         pdf.getPage(1).then(page => {
@@ -1264,7 +1311,7 @@ function generaAnteprimaPDF(url) {
             if (!canvas) return;
             const context = canvas.getContext('2d');
             
-            // Scaliamo per farlo stare bene nella card
+            // Regoliamo la scala per l'anteprima
             const viewport = page.getViewport({ scale: 0.6 });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
@@ -1276,7 +1323,7 @@ function generaAnteprimaPDF(url) {
             page.render(renderContext);
         });
     }).catch(err => {
-        console.error("Errore PDF:", err);
+        console.error("Errore caricamento PDF:", err);
     });
 }
 
@@ -1284,23 +1331,12 @@ function apriNewsletter() {
     window.open(urlPDF, '_blank');
 }
 
-// Funzione di avvio corretta per CodePen
+// Avvio al caricamento della pagina
 window.addEventListener('load', function() {
-    // Aspettiamo un attimo che Supabase risponda
     setTimeout(() => {
         generaAnteprimaPDF(urlPDF);
     }, 1500);
 });
-
-// Gestione Upload (Placeholder)
-async function handleFileUpload(input) {
-    const file = input.files[0];
-    if (!file || file.type !== "application/pdf") {
-        alert("Seleziona un PDF valido");
-        return;
-    }
-    alert("Pronto per l'upload su Supabase!");
-}
 
 <!-- LIBRERIA PDF.JS COMPLETA -->
 <script src="https://cdnjs.cloudflare.com"></script>
@@ -1350,9 +1386,6 @@ async function handleFileUpload(input) {
     </script>
 </body>
 </html>
-
-
-
 
 
 
