@@ -1003,10 +1003,6 @@ function updateAllCountdowns() {
 updateAllCountdowns();
 </script>
 
-<!-- Librerie PDF.js (LINK FISSAI E COMPLETI) -->
-<script src="https://cdnjs.cloudflare.com"></script>
-<script src="https://cdnjs.cloudflare.com"></script>
-
 <div id="match-view" class="page-content">
     <h2 class="section-title">Quiz & Play</h2>
     
@@ -1099,19 +1095,6 @@ src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_946c0a5b6a.mp3">
         </div> <!-- Fine popup-content -->
     </div> <!-- Fine gameOverlay -->
 
-    <!-- NEWSLETTER PDF -->
-    <div class="newsletter-section">
-        <h2 class="section-title">Newsletter del Mese</h2>
-        <div class="active-game-box" onclick="apriNewsletter()" style="cursor:pointer; padding:10px; margin: 0 auto; max-width: 320px;">
-            <canvas id="pdf-preview-canvas"></canvas>
-            <div style="margin-top:10px;">
-                <span style="font-weight:bold; color:#330066;">Edizione Marzo 2026</span>
-                <p style="font-size:12px; color:#666;">Tocca per leggere il PDF 📖</p>
-            </div>
-        </div>
-    </div>
-</div>
-  
 <script>
 // --- GESTIONE POP-UP ---
 function openGame(gameType) {
@@ -1297,27 +1280,6 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("C'è un errore! Controlla bene.");
         }
     };
-
-    /* --- LOGICA PDF NEWSLETTER --- */
-    const urlPDF = "https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf";
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com';
-
-    function renderPDF() {
-        pdfjsLib.getDocument(urlPDF + "?t=" + Date.now()).promise.then(pdf => {
-            pdf.getPage(1).then(page => {
-                const canvas = document.getElementById('pdf-preview-canvas');
-                const context = canvas.getContext('2d');
-                const viewport = page.getViewport({ scale: 0.6 });
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                page.render({ canvasContext: context, viewport: viewport });
-            });
-        }).catch(err => console.log("Errore PDF:", err));
-    }
-    
-    window.apriNewsletter = function() { window.open(urlPDF, '_blank'); };
-    renderPDF();
 });
 </script>
   
@@ -1366,6 +1328,8 @@ document.addEventListener("DOMContentLoaded", function() {
     </script>
 </body>
 </html>
+
+
 
 
 
