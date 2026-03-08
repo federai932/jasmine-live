@@ -519,263 +519,126 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     border-bottom-right-radius:16px;
 }
       
-/* -------------------------
-CAROSELLO GIOCHI
---------------------------*/
-
-.games-carousel{
-display:flex;
-gap:14px;
-overflow-x:auto;
-padding:10px 15px 15px 15px;
-scroll-snap-type:x mandatory;
+/* --- BOX NERO GAMES (STILE NEWS) --- */
+.games-news-box { 
+    width: 100%; 
+    max-width: 800px; 
+    background: #121212; 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin: 25px auto; 
+    box-sizing: border-box; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: left;
 }
 
-.games-carousel::-webkit-scrollbar{
-display:none;
+.games-news-box h2 { 
+    color: #ffffff !important; 
+    font-size: 18px; 
+    margin: 0 0 15px 0; 
+    font-weight: 800;
+    text-transform: uppercase;
+    border-left: 4px solid #2e7d32;
+    padding-left: 10px;
+    display: block;
 }
 
-.game-card{
-flex:0 0 140px;
-height:190px;
-border-radius:16px;
-overflow:hidden;
-cursor:pointer;
-position:relative;
-scroll-snap-align:start;
-transition:transform .25s ease, box-shadow .25s ease;
+/* CAROSELLO ORIZZONTALE */
+.games-carousel-horizontal {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
 }
+.games-carousel-horizontal::-webkit-scrollbar { display: none; }
 
-.game-card img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.game-card:hover{
-transform:translateY(-6px) scale(1.03);
-box-shadow:0 10px 25px rgba(0,0,0,.3);
-}
-
-.game-card-title{
-position:absolute;
-bottom:0;
-left:0;
-right:0;
-background:linear-gradient(transparent,rgba(0,0,0,.8));
-color:white;
-font-weight:700;
-font-size:14px;
-padding:8px;
-text-align:center;
-}
-
-
-/* -------------------------
-OVERLAY GIOCHI
---------------------------*/
-
-.game-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.85);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:999999;
-opacity:0;
-pointer-events:none;
-transition:opacity .25s ease;
-}
-
-.game-overlay.show{
-opacity:1;
-pointer-events:auto;
-}
-
-
-/* -------------------------
-MODALE
---------------------------*/
-
-.game-modal{
-
-background:white;
-width:92%;
-max-width:420px;
-border-radius:20px;
-padding:25px 20px 30px 20px;
-position:relative;
-animation:popGame .35s ease;
-max-height:90vh;
-overflow-y:auto;
-}
-
-@keyframes popGame{
-0%{transform:scale(.85);opacity:0}
-100%{transform:scale(1);opacity:1}
-}
-
-
-/* -------------------------
-CHIUDI
---------------------------*/
-
-.close-btn{
-position:absolute;
-right:15px;
-top:8px;
-font-size:30px;
-cursor:pointer;
-font-weight:700;
-}
-
-
-/* -------------------------
-QUIZ
---------------------------*/
-
-.option-btn{
-display:block;
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:10px;
-border:none;
-background:#f1f1f1;
-font-weight:600;
-cursor:pointer;
-transition:.2s;
-}
-
-.option-btn:hover{
-background:#e6e6e6;
-}
-
-.option-btn.selected{
-background:#d9f2ff;
-}
-
-.option-btn.correct{
-background:#c8f7c5;
-}
-
-.option-btn.wrong{
-background:#ffc9c9;
-}
-
-.quiz-nav-btn{
-display:block;
-margin:auto;
-padding:12px 25px;
-border:none;
-border-radius:10px;
-background:#2e7d32;
-color:white;
-font-weight:700;
-cursor:pointer;
-}
-
-
-/* -------------------------
-CROSSWORD
---------------------------*/
-
-.crossword-grid{
-display:grid;
-grid-template-columns:repeat(5,40px);
-gap:4px;
-justify-content:center;
-margin:15px 0;
-}
-
-.crossword-cell{
-width:40px;
-height:40px;
-text-align:center;
-font-size:20px;
-font-weight:700;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-.cell-black{
-width:40px;
-height:40px;
-background:#222;
-border-radius:6px;
-}
-
-.crossword-hints{
-font-size:14px;
-margin-top:10px;
-text-align:center;
-}
-
-/* --- SEZIONE NEWSLETTER PDF --- */
-.newsletter-section {
-    margin-top: 40px;
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #eee; /* Separa visivamente dai quiz */
-}
-
-.newsletter-card {
-    width: 85%;
-    max-width: 280px;
-    margin: 20px auto;
-    background: white;
+.game-thumb {
+    flex: 0 0 140px;
+    height: 190px;
+    object-fit: cover;
     border-radius: 15px;
-    border: 3px solid #2e7d32; /* Verde come il tuo ranking */
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    scroll-snap-align: start;
 }
 
-.newsletter-card:active {
-    transform: scale(0.98); /* Effetto pressione al tocco */
+/* POP-UP OVERLAY */
+.game-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
 }
 
-/* Il contenitore dell'anteprima PDF */
-#pdf-preview-canvas {
-    width: 100%;
-    height: auto; /* L'altezza si adatterà alla proporzione del PDF */
-    display: block;
-    background-color: #f9f9f9;
+.popup-content {
+    position: relative;
+    width: 92%;
+    max-width: 380px;
 }
 
-.newsletter-info {
-    padding: 15px;
-    background-color: #f1f8e9; /* Verde chiarissimo */
-    border-top: 1px solid #ddd;
-}
-
-.newsletter-info span {
-    font-size: 16px;
+/* X INTERNA AL BOX BIANCO */
+.close-popup-internal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    color: #330066;
     font-weight: bold;
-    color: #1a5c20;
-    display: block;
+    cursor: pointer;
+    z-index: 10;
 }
 
-.newsletter-info p {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
+/* --- GRAFICA INTERNA GIOCHI --- */
+.active-game-box {
+    background: white;
+    border-radius: 20px;
+    padding: 30px 20px 20px 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
-/* Bottone per l'upload (opzionale, stile discreto) */
-.admin-upload-btn {
+.option-btn {
+    background: #f8f9fa; 
+    border: 2px solid #ddd; 
+    border-radius: 12px;
+    padding: 14px; 
+    font-size: 15px; 
+    font-weight: 700; 
+    color: #333; 
+    width: 100%; 
+    margin: 5px 0;
+    text-align: center;
+}
+
+.option-btn.selected { background-color: #e0e7ff !important; border-color: #330066 !important; color: #330066 !important; }
+.option-btn.wrong { background-color: #fde8e8 !important; border-color: #f05252 !important; color: #9b1c1c !important; }
+.option-btn.correct { background-color: #def7ec !important; border-color: #31c48d !important; color: #03543f !important; }
+
+.quiz-nav-btn { 
+    background: #330066; 
+    color: white !important; 
+    border: none; 
+    padding: 12px 35px; 
+    border-radius: 18px; 
+    font-weight: 800; 
     margin-top: 15px;
-    font-size: 11px;
-    color: #999;
-    text-decoration: underline;
-    background: none;
-    border: none;
     cursor: pointer;
 }
-     
-    </style>
+
+/* CRUCIVERBA */
+.crossword-grid { display: grid; gap: 5px; margin: 15px auto; justify-content: center; }
+.crossword-cell { width: 42px; height: 42px; text-align: center; font-size: 18px; font-weight: bold; border: 2px solid #330066; border-radius: 5px; }
+.cell-black { background-color: #330066; }
+
+  </style>
 </head>
 <body>
 
@@ -1001,345 +864,258 @@ function updateAllCountdowns() {
 updateAllCountdowns();
 </script>
 
+<!-- Librerie PDF.js (LINK COMPLETI) -->
+<script src="https://cdnjs.cloudflare.com"></script>
+<script src="https://cdnjs.cloudflare.com"></script>
+
 <div id="match-view" class="page-content">
     <h2 class="section-title">Quiz & Play</h2>
-
-<div class="games-carousel">
-
-<div class="game-card" onclick="openGame('quiz')">
-<img src="{{ url_for('static', filename='copertina_quiz.png') }}">
-<div class="game-card-title">Quiz Paolini</div>
-</div>
-
-<div class="game-card" onclick="openGame('crossword')">
-<img src="{{ url_for('static', filename='copertina_cruciverba.png') }}">
-<div class="game-card-title">Mini Crossword</div>
-</div>
-
-</div>
-
-
-<!-- QUIZ -->
-
-<div id="quizOverlay" class="game-overlay">
-
-<div class="game-modal">
-
-<span class="close-btn" onclick="closeGames()">&times;</span>
-
-<div id="quiz-content">
-
-<p id="q-text"></p>
-
-<div id="options-container"></div>
-
-<button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none">Conferma</button>
-
-</div>
-
-<div id="final-screen" style="display:none;text-align:center">
-
-<h3>Quiz Completato 🏆</h3>
-
-<p id="final-score"></p>
-
-<button class="quiz-nav-btn" onclick="retryQuiz()">Riprova</button>
-
-</div>
-
-</div>
-</div>
-
-
-<!-- CROSSWORD -->
-
-<div id="crossOverlay" class="game-overlay">
-
-<div class="game-modal">
-
-<span class="close-btn" onclick="closeGames()">&times;</span>
-
-<h3 style="text-align:center">Mini Crossword</h3>
-
-<div class="crossword-grid">
-
-<input maxlength="1" class="crossword-cell" id="c0">
-<input maxlength="1" class="crossword-cell" id="c1">
-<input maxlength="1" class="crossword-cell" id="c2">
-<input maxlength="1" class="crossword-cell" id="c3">
-<input maxlength="1" class="crossword-cell" id="c4">
-
-<div class="cell-black"></div>
-<div class="cell-black"></div>
-
-<input maxlength="1" class="crossword-cell" id="c5">
-
-<div class="cell-black"></div>
-<div class="cell-black"></div>
-
-</div>
-
-<div class="crossword-hints">
-
-<b>Oriz:</b> Provincia (5)<br>
-<b>Vert:</b> Città natale (6)
-
-</div>
-
-<button class="quiz-nav-btn" onclick="checkCrossword()">Verifica</button>
-
-</div>
-</div>
-  
-    <!-- NUOVA SEZIONE NEWSLETTER PDF -->
-    <div class="newsletter-section">
-        <h2 class="section-title">Newsletter del Mese</h2>
-        
-        <div class="newsletter-card" onclick="apriNewsletter()">
-            <!-- Canvas dove PDF.js disegnerà l'anteprima della prima pagina -->
-            <canvas id="pdf-preview-canvas"></canvas>
-            
-            <div class="newsletter-info">
-                <span id="newsletter-month">Edizione Marzo 2026</span>
-                <p>Tocca per leggere il PDF completo 📖</p>
-            </div>
-        </div>
-
-        <!-- Area Caricamento Mensile (Solo per te) -->
-        <div style="margin-top: 20px;">
-            <input type="file" id="pdf-upload-input" accept="application/pdf" style="display: none;" onchange="handleFileUpload(this)">
-            <button class="admin-upload-btn" onclick="document.getElementById('pdf-upload-input').click()">
-                🔄 Aggiorna PDF Mensile
-            </button>
+    
+    <!-- BOX NERO GAMES (STILE NEWS) -->
+    <div class="games-news-box">
+        <h2>Games</h2>
+        <div class="games-carousel-horizontal">
+            <img src="{{ url_for('static', filename='copertina_quiz.png') }}" class="game-thumb" onclick="openGame('quiz')">
+            <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" class="game-thumb" onclick="openGame('crossword')">
         </div>
     </div>
-</div> <!-- Fine match-view -->
-  
+
+    <!-- POP-UP OVERLAY -->
+    <div id="gameOverlay" class="game-popup-overlay">
+        <div class="popup-content">
+            <!-- CONTENITORE GIOCO (BOX BIANCO) -->
+            <div class="active-game-box">
+                <!-- X INTERNA -->
+                <span class="close-popup-internal" onclick="closePopup()">&times;</span>
+
+                <!-- SEZIONE QUIZ -->
+                <div id="quiz-box" style="display: none; width: 100%;">
+                    <div id="quiz-content">
+                        <p id="q-text" style="font-weight: 800; color: #330066; margin-top: 10px;"></p>
+                        <div id="options-container" class="quiz-options"></div>
+                        <!-- TASTO CONFERMA CENTRATO -->
+                        <div style="display: flex; justify-content: center; width: 100%;">
+                            <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none;">Conferma</button>
+                        </div>
+                    </div>
+                    <div id="final-screen" style="display:none; text-align: center; width: 100%;">
+                        <h3 style="color:#330066; font-size: 24px;">Quiz Completato! 🏆</h3>
+                        <p id="final-score" style="font-weight: 700; margin: 15px 0;"></p>
+                        <button class="quiz-nav-btn" onclick="reviewQuiz()">Rivedi Risposte</button>
+                        <button class="quiz-nav-btn" style="background: #28a745; margin-top: 10px;" onclick="retryQuiz()">Riprova</button>
+                    </div>
+                </div>
+
+                <!-- SEZIONE CRUCIVERBA -->
+                <div id="crossword-box" style="display: none; width: 100%;">
+                    <h3 style="color:#330066; text-align: center; margin-bottom: 10px;">Mini Crossword ✍️</h3>
+                    <div class="crossword-grid" style="grid-template-columns: repeat(5, 42px);">
+                        <input maxlength="1" class="crossword-cell" id="c-0-0">
+                        <input maxlength="1" class="crossword-cell" id="c-0-1">
+                        <input maxlength="1" class="crossword-cell" id="c-0-2">
+                        <input maxlength="1" class="crossword-cell" id="c-0-3">
+                        <input maxlength="1" class="crossword-cell" id="c-0-4">
+                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-1-2"><div class="cell-black"></div><div class="cell-black"></div>
+                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-2-2"><div class="cell-black"></div><div class="cell-black"></div>
+                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-3-2"><div class="cell-black"></div><div class="cell-black"></div>
+                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-4-2"><div class="cell-black"></div><div class="cell-black"></div>
+                    </div>
+                    <!-- SPIEGAZIONE DOMANDE -->
+                    <div class="crossword-hints" style="background: #f0f0f0; padding: 12px; border-radius: 10px; font-size: 13px; margin-top: 15px; text-align: left;">
+                        <strong>Oriz:</strong> La sua provincia (5 lettere)<br>
+                        <strong>Vert:</strong> Città natale (6 lettere)
+                    </div>
+                    <div style="display: flex; justify-content: center; width: 100%;">
+                        <button class="quiz-nav-btn" onclick="checkCrossword()">Verifica</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEWSLETTER PDF -->
+    <div class="newsletter-section" style="margin-top:25px; text-align:center;">
+        <h2 class="section-title">Newsletter del Mese</h2>
+        <div class="active-game-box" onclick="apriNewsletter()" style="cursor:pointer; padding:10px; margin: 0 auto; max-width: 320px;">
+            <canvas id="pdf-preview-canvas" style="width: 100%; border-radius:15px;"></canvas>
+            <div style="margin-top:10px;">
+                <span style="font-weight:bold; color:#330066;">Edizione Marzo 2026</span>
+                <p style="font-size:12px; color:#666;">Tocca per leggere il PDF 📖</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-document.addEventListener("DOMContentLoaded",function(){
-
-/* ----------------
-APERTURA GIOCHI
-----------------*/
-
-window.openGame=function(game){
-
-closeGames()
-
-if(game==="quiz"){
-document.getElementById("quizOverlay").classList.add("show")
-startQuiz()
+// --- GESTIONE POP-UP ---
+function openGame(gameType) {
+    document.getElementById('gameOverlay').style.display = 'flex';
+    // Reset visualizzazione box interni
+    document.getElementById('quiz-box').style.display = (gameType === 'quiz') ? 'block' : 'none';
+    document.getElementById('crossword-box').style.display = (gameType === 'crossword') ? 'block' : 'none';
+    
+    if(gameType === 'quiz') {
+        startQuiz();
+    }
 }
 
-if(game==="crossword"){
-document.getElementById("crossOverlay").classList.add("show")
+function closePopup() {
+    document.getElementById('gameOverlay').style.display = 'none';
 }
 
+// Chiudi se clicchi fuori dal box bianco
+window.onclick = function(event) {
+    let overlay = document.getElementById('gameOverlay');
+    if (event.target == overlay) closePopup();
 }
 
-window.closeGames=function(){
-
-document.querySelectorAll(".game-overlay").forEach(g=>{
-g.classList.remove("show")
-})
-
-}
-
-
-/* ----------------
-QUIZ
-----------------*/
-
-const quizData=[
-{question:"In che anno è nata Jasmine Paolini?",options:["1994","1996","1998"],correct:1},
-{question:"Quanti titoli WTA ha vinto in singolare?",options:["1","2","3"],correct:1},
-{question:"Città natale?",options:["Firenze","Castelnuovo Garfagnana","Lucca"],correct:1},
-{question:"Superficie preferita?",options:["Erba","Cemento","Terra rossa"],correct:2}
-]
-
-let current=0
-let score=0
-let selected=-1
-
-window.startQuiz=function(){
-
-current=0
-score=0
-loadQuestion()
-
-}
-
-function loadQuestion(){
-
-selected=-1
-
-let q=quizData[current]
-
-document.getElementById("q-text").innerText=q.question
-
-let container=document.getElementById("options-container")
-
-container.innerHTML=""
-
-q.options.forEach((opt,i)=>{
-
-let btn=document.createElement("button")
-
-btn.className="option-btn"
-
-btn.innerText=opt
-
-btn.onclick=()=>selectOption(i,btn)
-
-container.appendChild(btn)
-
-})
-
-document.getElementById("action-btn").style.display="none"
-
-}
-
-function selectOption(i,btn){
-
-selected=i
-
-document.querySelectorAll(".option-btn").forEach(b=>b.classList.remove("selected"))
-
-btn.classList.add("selected")
-
-document.getElementById("action-btn").style.display="block"
-
-}
-
-window.handleAction=function(){
-
-if(selected===-1)return
-
-let q=quizData[current]
-
-if(selected===q.correct)score++
-
-current++
-
-if(current<quizData.length){
-
-loadQuestion()
-
-}else{
-
-showEnd()
-
-}
-
-}
-
-function showEnd(){
-
-document.getElementById("quiz-content").style.display="none"
-
-document.getElementById("final-screen").style.display="block"
-
-document.getElementById("final-score").innerText="Punteggio "+score+"/"+quizData.length
-
-}
-
-window.retryQuiz=function(){
-
-document.getElementById("quiz-content").style.display="block"
-
-document.getElementById("final-screen").style.display="none"
-
-startQuiz()
-
-}
-
-
-/* ----------------
-CROSSWORD
-----------------*/
-
-document.querySelectorAll(".crossword-cell").forEach((cell,i,arr)=>{
-
-cell.addEventListener("input",function(){
-
-if(this.value.length===1 && arr[i+1])arr[i+1].focus()
-
-})
-
-})
-
-window.checkCrossword=function(){
-
-let word=""
-
-for(let i=0;i<5;i++){
-
-word+=document.getElementById("c"+i).value.toUpperCase()
-
-}
-
-if(word==="LUCCA"){
-
-alert("Perfetto! 🎾")
-
-}else{
-
-alert("Riprova!")
-
-}
-
-}
-
-})
-  
-/* --- LOGICA NEWSLETTER PDF --- */
-
-// 1. Configurazione Motore PDF.js (LINK COMPLETO)
-const pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com';
-
-// 2. Il tuo URL Supabase
-const urlPDF = "https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf";
-
-function generaAnteprimaPDF(url) {
-    // Carichiamo il PDF con forzatura aggiornamento cache
-    const loadingTask = pdfjsLib.getDocument(url + "?t=" + new Date().getTime());
-
-    loadingTask.promise.then(pdf => {
-        pdf.getPage(1).then(page => {
-            const canvas = document.getElementById('pdf-preview-canvas');
-            if (!canvas) return;
-            const context = canvas.getContext('2d');
+document.addEventListener("DOMContentLoaded", function() {
+    /* --- DATI QUIZ AGGIORNATI --- */
+    const quizData = [
+        { question: "In che anno è nata Jasmine Paolini?", options: ["1994", "1996", "1998"], correct: 1 },
+        { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
+        { question: "In quale città è nata Jasmine?", options: ["Firenze", "Bagni di Lucca", "Lucca"], correct: 1 },
+        { question: "Qual è la superficie preferita dichiarata da Jasmine?", options: ["Erba", "Cemento", "Terra Rossa"], correct: 2 }
+    ];
+
+    let currentIdx = 0, score = 0, selectedIdx = -1;
+    let hasConfirmed = false, isReviewing = false, userChoices = [];
+
+    /* --- LOGICA QUIZ --- */
+    window.startQuiz = function() {
+        currentIdx = 0; score = 0; userChoices = []; isReviewing = false;
+        document.getElementById('quiz-content').style.display = 'block';
+        document.getElementById('final-screen').style.display = 'none';
+        loadQuestion();
+    };
+
+    function loadQuestion() {
+        selectedIdx = -1;
+        hasConfirmed = false;
+        const data = quizData[currentIdx];
+        const container = document.getElementById('options-container');
+        const actionBtn = document.getElementById('action-btn');
+        
+        document.getElementById('q-text').innerText = data.question;
+        container.innerHTML = '';
+        
+        data.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
             
-            // Regoliamo la scala per l'anteprima
-            const viewport = page.getViewport({ scale: 0.6 });
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
-            page.render(renderContext);
+            if (isReviewing) {
+                // Colori fissi in revisione
+                if (i === data.correct) btn.classList.add('correct');
+                if (i === userChoices[currentIdx] && i !== data.correct) btn.classList.add('wrong');
+                btn.disabled = true;
+            } else {
+                btn.onclick = () => {
+                    selectedIdx = i;
+                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    actionBtn.style.display = 'block'; // Mostra conferma solo dopo scelta
+                };
+            }
+            container.appendChild(btn);
         });
-    }).catch(err => {
-        console.error("Errore caricamento PDF:", err);
+
+        actionBtn.innerText = isReviewing ? (currentIdx === quizData.length - 1 ? "Fine" : "Avanti") : "Conferma";
+        if(!isReviewing) actionBtn.style.display = 'none'; 
+        else actionBtn.style.display = 'block';
+    }
+
+    window.handleAction = function() {
+        if (isReviewing) {
+            currentIdx++;
+            if (currentIdx < quizData.length) loadQuestion();
+            else showEnd();
+            return;
+        }
+
+        if (selectedIdx !== -1 && !hasConfirmed) {
+            hasConfirmed = true; // Blocca click doppi
+            userChoices.push(selectedIdx);
+            const data = quizData[currentIdx];
+            
+            if (selectedIdx === data.correct) score++;
+            
+            // Mostra feedback colori immediato
+            document.querySelectorAll('.option-btn').forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === data.correct) btn.classList.add('correct');
+                if (i === selectedIdx && i !== data.correct) btn.classList.add('wrong');
+            });
+
+            setTimeout(() => {
+                currentIdx++;
+                if (currentIdx < quizData.length) loadQuestion();
+                else showEnd();
+            }, 1200);
+        }
+    };
+
+    function showEnd() {
+        document.getElementById('quiz-content').style.display = 'none';
+        document.getElementById('final-screen').style.display = 'block';
+        document.getElementById('final-score').innerText = `Punteggio: ${score}/${quizData.length}`;
+    }
+
+    window.reviewQuiz = function() { 
+        isReviewing = true; 
+        currentIdx = 0; 
+        document.getElementById('final-screen').style.display = 'none'; 
+        document.getElementById('quiz-content').style.display = 'block'; 
+        loadQuestion(); 
+    };
+
+    window.retryQuiz = function() { startQuiz(); };
+
+    /* --- LOGICA CRUCIVERBA --- */
+    document.querySelectorAll('.crossword-cell').forEach(cell => {
+        cell.addEventListener('input', function() {
+            if (this.value.length >= 1) {
+                const seq = ['c-0-0', 'c-0-1', 'c-0-2', 'c-0-3', 'c-0-4', 'c-1-2', 'c-2-2', 'c-3-2', 'c-4-2', 'c-5-2'];
+                const next = seq[seq.indexOf(this.id) + 1];
+                if (next) document.getElementById(next).focus();
+            }
+        });
     });
-}
 
-function apriNewsletter() {
-    window.open(urlPDF, '_blank');
-}
+    window.checkCrossword = function() {
+        const gV = (id) => (document.getElementById(id).value || "").toUpperCase().trim();
+        let h = gV('c-0-0')+gV('c-0-1')+gV('c-0-2')+gV('c-0-3')+gV('c-0-4');
+        let v = gV('c-0-2')+gV('c-1-2')+gV('c-2-2')+gV('c-3-2')+gV('c-4-2')+gV('c-5-2');
+        
+        if (h === "LUCCA" && v === "CASTEL") {
+            alert("ECCELLENTE! 🎉🎾");
+        } else {
+            alert("C'è un errore! Controlla bene.");
+        }
+    };
 
-// Avvio al caricamento della pagina
-window.addEventListener('load', function() {
-    setTimeout(() => {
-        generaAnteprimaPDF(urlPDF);
-    }, 1500);
+    /* --- LOGICA PDF NEWSLETTER --- */
+    const urlPDF = "https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf";
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com';
+
+    function renderPDF() {
+        pdfjsLib.getDocument(urlPDF + "?t=" + Date.now()).promise.then(pdf => {
+            pdf.getPage(1).then(page => {
+                const canvas = document.getElementById('pdf-preview-canvas');
+                const context = canvas.getContext('2d');
+                const viewport = page.getViewport({ scale: 0.6 });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                page.render({ canvasContext: context, viewport: viewport });
+            });
+        }).catch(err => console.log("Errore PDF:", err));
+    }
+    
+    window.apriNewsletter = function() { window.open(urlPDF, '_blank'); };
+    renderPDF();
 });
-
-<!-- LIBRERIA PDF.JS COMPLETA -->
-<script src="https://cdnjs.cloudflare.com"></script>
+</script>
   
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
@@ -1386,7 +1162,6 @@ window.addEventListener('load', function() {
     </script>
 </body>
 </html>
-
 
 
 
