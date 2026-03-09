@@ -8,11 +8,11 @@
     <!-- LINK ICONE COMPLETO (FontAwesome 6.5.1) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- LINK FONT INTER COMPLETO -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
+ <!-- FONT INTER -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
       
@@ -453,11 +453,11 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     .t-column-right { min-width: 100px; }
 }
       
-/* Stile Titolo simile a Latest News (Verde con riga) */
+/* --- STILI TITOLO E TAB --- */
 .live-title {
     font-size: 22px;
     font-weight: 800;
-    color: #28a745; /* Verde News */
+    color: #28a745; 
     border-bottom: 3px solid #28a745;
     display: inline-block;
     padding-bottom: 5px;
@@ -465,7 +465,6 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     margin-bottom: 15px;
 }
 
-/* Container Tab */
 .match-tabs {
     display: flex;
     gap: 10px;
@@ -488,7 +487,6 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     color: white;
 }
 
-/* Nascondi i contenuti non attivi */
 .match-content {
     display: none;
 }
@@ -499,37 +497,31 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
       
 .match-tab-content{
     position:relative;
-}
-
-.match-tab-content{
-    position:relative;
     border-radius:16px;
     overflow:hidden;
 }
 
-/* cover sotto widget */
 .match-tab-content::after{
     content:"";
     position:absolute;
-    bottom:-17px; /* ← POSIZIONE COVER (puoi regolare) */
+    bottom:-17px; 
     left:0;
     width:100%;
-
-    height:60px; /* ← ALTEZZA TOTALE COVER */
-
+    height:60px; 
     background:linear-gradient(
         to bottom,
         #151e22 0px,
-        #151e22 45px,   /* ← ALTEZZA BARRA SCURA (UGUALE A SOPRA) */
-        #f4f7f4 40px,   /* ← COLORE APP */
+        #151e22 45px,  
+        #f4f7f4 40px,  
         #f4f7f4 100%
     );
-
     border-bottom-left-radius:16px;
     border-bottom-right-radius:16px;
 }
       
-/* --- 1. BOX NERO GAMES (SI STRINGE SULLE CARD) --- */
+/* ============================================================
+   1. BOX NERO GAMES (HOME)
+   ============================================================ */
 .games-news-box { 
     width: fit-content;
     max-width: 95%; 
@@ -538,7 +530,7 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     padding: 20px; 
     margin: 25px auto; 
     box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-    display: table; /* Forza il box a stringersi sulle card */
+    display: table;
 }
 
 .games-news-box h2 { 
@@ -550,6 +542,7 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     border-left: 4px solid #2e7d32;
     padding-left: 10px;
     text-align: left;
+    font-family: 'Inter', sans-serif;
 }
 
 .games-carousel-horizontal {
@@ -560,42 +553,46 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
 }
 .games-carousel-horizontal::-webkit-scrollbar { display: none; }
 
-/* --- 1. GAME THUMBS --- */
 .game-thumb {
     flex: 0 0 140px;
     height: 190px;
     object-fit: cover;
     border-radius: 15px;
     cursor: pointer;
+    transition: transform 0.2s;
 }
 
-/* --- 2. POP-UP OVERLAY (SFONDO NERO TOTALE) --- */
+.game-thumb:active { transform: scale(0.95); }
+
+/* ============================================================
+   2. POP-UP OVERLAY
+   ============================================================ */
 .game-popup-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.9) !important; 
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.96) !important; 
     display: none; 
     align-items: center; 
     justify-content: center;
-    z-index: 99999;
+    z-index: 999999 !important;
 }
 
-/* RIMOZIONE TOTALE DOPPIA SAGOMA ESTERNA */
 .popup-content {
     width: 92%;
-    max-width: 380px;
-    background: transparent !important; /* Deve essere trasparente */
+    max-width: 400px;
+    background: transparent !important;
     border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+    position: relative;
 }
 
-/* --- 3. IL BOX UNICO (L'UNICO CON LO SFONDO) --- */
+/* ============================================================
+   3. IL BOX UNICO QUIZ (DARK PREMIUM)
+   ============================================================ */
 .active-game-box {
-    background: #1e293b !important; /* Blu Notte solido */
+    background: #1e293b !important; 
     border-radius: 32px !important;
-    padding: 45px 24px 30px 24px !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6) !important;
+    padding: 55px 24px 35px 24px !important;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7) !important;
     width: 100%;
     box-sizing: border-box;
     display: flex !important;
@@ -603,25 +600,22 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     align-items: center !important;
     position: relative;
     border: none !important;
-    outline: none !important;
 }
 
-/* --- 4. SCHERMATA FINALE (PULIZIA TRIPLA SAGOMA) --- */
-/* Qui rimuoviamo sfondo e ombra per non duplicare il box */
-#final-screen {
-    background: transparent !important; 
-    box-shadow: none !important;
-    border: none !important;
-    padding: 0 !important;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* --- ICONE TOP BAR --- */
+.volume-icon, .close-popup-internal {
+    position: absolute !important;
+    top: 18px !important;
+    font-size: 24px !important;
+    cursor: pointer !important;
+    z-index: 10000;
 }
+.volume-icon { left: 22px; color: #facc15 !important; }
+.close-popup-internal { right: 22px; color: #ff3b30 !important; }
 
-/* --- 5. TESTI --- */
-
-/* Domanda (BIANCO LUMINOSO) */
+/* ============================================================
+   4. SEZIONE QUIZ (DOMANDE E OPZIONI)
+   ============================================================ */
 #q-text {
     font-family: 'Inter', sans-serif !important;
     font-weight: 800;
@@ -630,33 +624,8 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     margin-bottom: 25px;
     text-align: center;
     line-height: 1.3;
-    width: 100%;
 }
 
-/* Titolo Fine Quiz (GIALLO AMBRA MORBIDO) */
-#final-screen h2 {
-    color: #facc15 !important; 
-    font-family: 'Inter', sans-serif !important;
-    font-size: 26px;
-    font-weight: 900;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-/* Punteggio (CENTRATO) */
-#final-score {
-    color: #ffffff !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 19px;
-    font-weight: 600;
-    margin-bottom: 30px;
-    text-align: center !important;
-    width: 100%;
-    display: block !important;
-}
-
-/* --- 6. PULSANTI RISPOSTA (BIANCO) --- */
 .option-btn {
     font-family: 'Inter', sans-serif !important;
     background: #ffffff !important;
@@ -681,52 +650,49 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
 .option-btn.correct { background: #00c853 !important; color: white !important; }
 .option-btn.wrong { background: #ff1744 !important; color: white !important; animation: shake 0.4s; }
 
-/* --- 7. TASTI AZIONE FINALI (CENTRATI A PILLOLA) --- */
+/* ============================================================
+   5. PULSANTI AZIONE (PILLOLA CENTRATA)
+   ============================================================ */
 .quiz-nav-btn {
-    display: block !important; /* Forza il bottone a comportarsi come un blocco */
+    display: block !important;
     width: 100%;
     max-width: 280px;
+    margin: 12px auto !important;
     padding: 16px;
     border-radius: 50px;
+    border: none !important;
     font-family: 'Inter', sans-serif !important;
     font-weight: 800;
     text-transform: uppercase;
-    border: none;
     cursor: pointer;
-    
-    /* CENTRATURA: auto a destra e sinistra spinge il bottone al centro */
-    margin: 15px auto 0 auto !important; 
-    
-    transition: 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.review-btn, #action-btn { background: #7c3aed !important; color: white !important; }
+.retry-btn { background: #475569 !important; color: white !important; }
+.green-btn { background: #22c55e !important; color: white !important; }
+
+.quiz-nav-btn:active { transform: scale(0.95); }
+
+/* --- SCHERMATA FINALE --- */
+#final-screen {
+    background: transparent !important;
+    width: 100%;
     text-align: center;
 }
 
-#action-btn, .review-btn { 
-    background: #7c3aed !important; 
-    color: white !important; 
+#final-score {
+    color: #ffffff !important;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    display: block;
 }
 
-.retry-btn { 
-    background: #22c55e !important; 
-    color: white !important; 
-}
-
-.quiz-nav-btn:active { 
-    transform: scale(0.96); 
-}
-
-/* --- 8. ICONA EXIT E ANIMAZIONI --- */
-.close-popup-internal {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    color: #ff3b30;
-    font-size: 26px;
-    cursor: pointer;
-    z-index: 1000;
-}
-
+/* ============================================================
+   6. ANIMAZIONI
+   ============================================================ */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-7px); }
@@ -734,48 +700,91 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     75% { transform: translateX(-7px); }
 }
 
-/* --- ICONA VOLUME (OPPOSTA ALL'EXIT) --- */
-.volume-icon {
-    position: absolute;
-    top: 15px;
-    left: 20px; /* Posizionata nell'angolo in alto a sinistra */
-    color: #facc15; /* Giallo ambra come il titolo finale */
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 1000;
-    transition: transform 0.2s, opacity 0.2s;
-}
-
-/* --- EFFETTI HOVER (SOLO PER DESKTOP) --- */
 @media (hover: hover) {
-    /* Effetto sui pulsanti risposta */
     .option-btn:hover:not(.selected):not(.correct):not(.wrong) {
         background: #f8fafc !important;
         transform: translateY(-2px);
     }
+}
+      
+/* =========================================================
+   NEWSLETTER PDF (solo copertina)
+   ========================================================= */
 
-    /* Effetto sull'icona del volume */
-    .volume-icon:hover {
-        transform: scale(1.1);
-        filter: brightness(1.2);
-    }
+/* immagine copertina newsletter */
 
-    /* Effetto sull'icona exit */
-    .close-popup-internal:hover {
-        transform: scale(1.1);
-        opacity: 0.8;
-    }
+.newsletter-thumb{
+    flex: 0 0 auto;
+    width: 200px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Effetto al click (Mobile & Desktop) */
-.volume-icon:active {
-    transform: scale(0.9);
+/* effetto hover */
+
+.newsletter-thumb:hover{
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.55);
 }
 
-/* CRUCIVERBA */
-.crossword-grid { display: grid; gap: 5px; margin: 15px auto; justify-content: center; }
-.crossword-cell { width: 40px; height: 40px; text-align: center; font-size: 18px; font-weight: bold; border: 2px solid #330066; border-radius: 5px; }
-.cell-black { background-color: #330066; border-radius: 5px; }
+/* pressione su mobile */
+
+.newsletter-thumb:active{
+    transform: scale(0.95);
+}
+      
+/* =========================================================
+   REMOVE MOBILE TAP HIGHLIGHT
+   ========================================================= */
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* rimuove outline blu quando si tocca */
+
+button,
+a,
+img,
+div,
+span {
+    outline: none !important;
+}
+
+button:focus,
+a:focus,
+img:focus,
+div:focus {
+    outline: none !important;
+}
+      
+button,
+img,
+a {
+    user-select: none;
+}     
+ 
+/* =========================================================
+   SPAZIO STANDARD SOTTO NAVBAR
+   ========================================================= */
+
+.page-content{
+    padding-top: 24px;
+}      
+      
+/* TITOLI SEZIONI PRINCIPALI */
+
+.section-title {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
       
   </style>
 </head>
@@ -873,7 +882,7 @@ function mostra(tipo) {
   
 <div id="calendar-view" class="page-content"> 
     <!-- TITOLO CALENDARIO -->
-    <h2 class="section-title">Jasmine Upcoming Tournaments</h2>
+      <h1 style="text-align: center;">Jasmine Upcoming Tournaments</h1>
 
     <!-- LISTA TORNEI -->
     <div class="tournament-card-wrapper">
@@ -904,11 +913,16 @@ function mostra(tipo) {
             <h2 class="live-title" style="color: #28a745; font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0; padding-bottom: 5px; display: inline-block;">Current Matches</h2>
         </div>
 
-        <!-- Tasti Switch -->
-        <div class="match-tabs" style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button id="btn-singles" class="tab-btn-match active" onclick="openTennis(event, 'singles-box')" style="flex: 1; padding: 12px; border: none; background: #28a745; color: white; border-radius: 12px; font-weight: 700; cursor: pointer;">Singles</button>
-            <button id="btn-doubles" class="tab-btn-match" onclick="openTennis(event, 'doubles-box')" style="flex: 1; padding: 12px; border: none; background: #f1f1f1; color: #333; border-radius: 12px; font-weight: 700; cursor: pointer;">Doubles</button>
-        </div>
+<!-- Switch Singles / Doubles -->
+<div class="toggle-container">
+    <button id="btn-singles" class="toggle-btn active" onclick="openTennis(event, 'singles-box')">
+        Singles
+    </button>
+
+    <button id="btn-doubles" class="toggle-btn" onclick="openTennis(event, 'doubles-box')">
+        Doubles
+    </button>
+</div>
 
 <!-- Box Widget SINGOLO -->
 <div id="singles-box" class="match-tab-content" style="display:block;">
@@ -956,34 +970,31 @@ function showDoubles() {
 
 <script>
 function openTennis(evt, type) {
-    var i, contents, buttons;
-    
-    // Nasconde i tab
-    contents = document.getElementsByClassName("match-tab-content");
-    for (i = 0; i < contents.length; i++) {
-        contents[i].style.display = "none";
-    }
-    
-    // Reset bottoni
-    buttons = document.getElementsByClassName("tab-btn-match");
-    for (i = 0; i < buttons.length; i++) {
-        buttons[i].style.background = "#f1f1f1";
-        buttons[i].style.color = "#333";
-        buttons[i].classList.remove("active");
-    }
-    
-    // Mostra quello selezionato
+
+    // Nasconde tutti i contenuti
+    const contents = document.querySelectorAll(".match-tab-content");
+    contents.forEach(el => {
+        el.style.display = "none";
+    });
+
+    // Rimuove active da tutti i bottoni
+    const buttons = document.querySelectorAll(".toggle-btn");
+    buttons.forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    // Mostra il tab selezionato
     document.getElementById(type).style.display = "block";
-    evt.currentTarget.style.background = "#28a745";
-    evt.currentTarget.style.color = "white";
+
+    // Attiva bottone cliccato
     evt.currentTarget.classList.add("active");
 
-    // Re-inizializza widget 365 per farlo apparire al cambio tab
+    // Re-inizializza widget 365
     if (window.threeSixtyFive && window.threeSixtyFive.widgets) {
         window.threeSixtyFive.widgets.render();
     }
 }
-
+  
 function updateAllCountdowns() {
     const timers = document.querySelectorAll('.js-timer');
     timers.forEach(timer => {
@@ -1003,172 +1014,164 @@ function updateAllCountdowns() {
 updateAllCountdowns();
 </script>
 
-<div id="match-view" class="page-content">
-    <h2 class="section-title">Quiz & Play</h2>
-    
-    <!-- BOX NERO GAMES -->
-    <div class="games-news-box">
-        <h2>Games</h2>
-        <div class="games-carousel-horizontal">
-            <img src="{{ url_for('static', filename='copertina_quiz.png') }}" class="game-thumb" onclick="openGame('quiz')">
-            <img src="{{ url_for('static', filename='copertina_cruciverba.png') }}" class="game-thumb" onclick="openGame('crossword')">
-        </div>
-    </div>
+<div id="match-view" class="page-content"> 
+       <h1 style="text-align: center;">play e news</h1>
 
-<!-- POP-UP OVERLAY -->
-<div id="gameOverlay" class="game-popup-overlay">
-    <div class="popup-content">
-        
-        <!-- QUESTO È L'UNICO BOX (SFONDO BLU) -->
-        <div class="active-game-box">
-            
-            <!-- NUOVA ICONA VOLUME (In alto a sinistra) -->
-            <div id="volume-control" class="volume-icon" onclick="toggleMute()">
-                <i id="vol-icon" class="fas fa-volume-up"></i>
-            </div>
-
-            <!-- ICONA PORTA EXIT (In alto a destra) -->
-            <div class="close-popup-internal" onclick="closePopup()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-            </div>
-
-            <!-- ELEMENTI AUDIO NASCOSTI -->
-            <audio id="bg-music" loop
-src="https://cdn.pixabay.com/download/audio/2022/10/30/audio_946c0a5b6a.mp3">
-</audio>
-            <audio id="snd-correct" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3"></audio>
-            <audio id="snd-wrong" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2514c9d3a5.mp3"></audio>
-
-            <!-- CONTENITORE LOGICO -->
-            <div id="quiz-box" style="width: 100%;">
-                
-                <!-- Sezione Domande -->
-                <div id="quiz-content" style="width: 100%;">
-                    <p id="q-text"></p>
-                    <div id="options-container" class="quiz-options"></div>
-                    <div style="display: flex; justify-content: center; width: 100%; margin-top: 20px;">
-                        <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none;">Conferma</button>
-                    </div>
-                </div>
-                
-                <!-- Schermata Finale -->
-                <div id="final-screen" style="display:none; width: 100%;">
-                    <h2>Quiz Completato! 🏆</h2>
-                    <p id="final-score"></p>
-                    <button class="quiz-nav-btn review-btn" onclick="reviewQuiz()">Rivedi Risposte</button>
-                    <button class="quiz-nav-btn retry-btn" onclick="retryQuiz()">Riprova</button>
-                </div>
-            </div>
-
-        </div> <!-- Fine active-game-box -->
-    </div> <!-- Fine popup-content -->
+ <!-- 1. COPERTINA GAMES NELLA HOME -->
+<div class="games-news-box"> 
+    <h2>Games</h2> 
+    <div class="games-carousel-horizontal"> 
+        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
+             class="game-thumb" 
+             onclick="openGame('quiz')"> 
+    </div> 
 </div>
-                <!-- SEZIONE CRUCIVERBA (TUTTO DENTRO IL BOX BIANCO) -->
-                <div id="crossword-box" style="display: none; width: 100%;">
-                    <h3 style="color:#330066; text-align: center; margin-bottom: 10px;">Mini Crossword ✍️</h3>
-                    <div class="crossword-grid">
-                        <input maxlength="1" class="crossword-cell" id="c-0-0">
-                        <input maxlength="1" class="crossword-cell" id="c-0-1">
-                        <input maxlength="1" class="crossword-cell" id="c-0-2">
-                        <input maxlength="1" class="crossword-cell" id="c-0-3">
-                        <input maxlength="1" class="crossword-cell" id="c-0-4">
-                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-1-2"><div class="cell-black"></div><div class="cell-black"></div>
-                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-2-2"><div class="cell-black"></div><div class="cell-black"></div>
-                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-3-2"><div class="cell-black"></div><div class="cell-black"></div>
-                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-4-2"><div class="cell-black"></div><div class="cell-black"></div>
-                        <div class="cell-black"></div><div class="cell-black"></div><input maxlength="1" class="crossword-cell" id="c-5-2"><div class="cell-black"></div><div class="cell-black"></div>
-                    </div>
-                    <div class="crossword-hints">
-                        <strong>Oriz:</strong> La sua provincia (5 lettere)<br>
-                        <strong>Vert:</strong> Città natale (6 lettere)
-                    </div>
-                    <div style="display: flex; justify-content: center; width: 100%;">
-                        <button class="quiz-nav-btn" onclick="checkCrossword()">Verifica</button>
-                    </div>
+
+
+<!-- 2. NEWSLETTER -->
+<div class="games-news-box"> 
+    <h2>Newsletter</h2> 
+    <div class="games-carousel-horizontal"> 
+
+        <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf" target="_blank">
+
+      <img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
+
+        </a>
+
+    </div> 
+</div>
+  
+    <!-- 2. POP-UP OVERLAY -->
+    <div id="gameOverlay" class="game-popup-overlay"> 
+        <div class="popup-content"> 
+            
+            <!-- BOX BLU DARK PREMIUM --> 
+            <div class="active-game-box"> 
+                
+                <!-- CONTROLLI TOP BAR --> 
+                <div id="volume-control" class="volume-icon" onclick="toggleMute()"> 
+                    <i id="vol-icon" class="fas fa-volume-up"></i> 
                 </div>
 
-            </div> <!-- Fine active-game-box -->
+                <div class="close-popup-internal" onclick="closePopup()"> 
+                    <i class="fas fa-sign-out-alt"></i>
+                </div> 
+
+                <!-- AUDIO --> 
+                <audio id="bg-music" loop src="https://cdn.pixabay.com"></audio> 
+                <audio id="snd-correct" src="https://cdn.pixabay.com"></audio> 
+                <audio id="snd-wrong" src="https://cdn.pixabay.com"></audio> 
+
+                <!-- 3. SEZIONE QUIZ (Assicurati che l'ID sia corretto per il JS) --> 
+                <div id="quiz-box" style="display: block; width: 100%;"> 
+                    
+                    <div id="quiz-content"> 
+                        <p id="q-text" style="color: #f8fafc; text-align: center;"></p> <!-- Qui apparirà la domanda -->
+                        
+                        <div id="options-container" class="quiz-options"></div> <!-- Qui appariranno i pulsanti -->
+                        
+                        <div style="display: flex; justify-content: center; width: 100%; margin-top: 20px;"> 
+                            <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none;">Conferma</button> 
+                        </div> 
+                    </div> 
+
+                    <!-- SCHERMATA FINALE --> 
+                    <div id="final-screen" style="display:none; width: 100%; text-align: center;"> 
+                        <h2 style="color: #facc15;">Quiz Completato! 🏆</h2> 
+                        <p id="final-score" style="color: white;"></p> 
+                        <button class="quiz-nav-btn review-btn" onclick="reviewQuiz()">Rivedi Risposte</button> 
+                        <button class="quiz-nav-btn retry-btn" onclick="retryQuiz()">Riprova</button> 
+                    </div> 
+                </div> 
+
+            </div> <!-- Fine active-game-box --> 
         </div> <!-- Fine popup-content -->
     </div> <!-- Fine gameOverlay -->
+</div>
 
 <script>
-// --- GESTIONE POP-UP ---
-function openGame(gameType) {
-    document.getElementById('gameOverlay').style.display = 'flex';
-    // Reset visualizzazione box interni
-    document.getElementById('quiz-box').style.display = (gameType === 'quiz') ? 'block' : 'none';
-    document.getElementById('crossword-box').style.display = (gameType === 'crossword') ? 'block' : 'none';
+// --- VARIABILI GLOBALI ---
+let isMuted = false;
+let currentIdx = 0, score = 0, selectedIdx = -1;
+let hasConfirmed = false, isReviewing = false, userChoices = [];
+
+/* --- DATI QUIZ --- */
+const quizData = [
+    { question: "In che anno è nata Jasmine?", options: ["1994", "1996", "1998"], correct: 1 },
+    { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
+    { question: "In quale città è cresciuta Jasmine?", options: ["Firenze", "Bagni di Lucca", "Lucca"], correct: 1 },
+    { question: "Qual è la superficie preferita dichiarata da Jasmine?", options: ["Erba", "Cemento", "Terra Rossa"], correct: 2 }
+];
+
+/* --- GESTIONE AUDIO E POP-UP --- */
+window.toggleMute = function() {
+    const bgMusic = document.getElementById('bg-music');
+    const volIcon = document.getElementById('vol-icon');
+    isMuted = !isMuted;
+    if (bgMusic) bgMusic.muted = isMuted;
+    if (volIcon) volIcon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+};
+
+window.openGame = function(gameType) {
+    const overlay = document.getElementById('gameOverlay');
+    const quizBox = document.getElementById('quiz-box');
+    const bgMusic = document.getElementById('bg-music');
+
+    if (overlay) overlay.style.display = 'flex';
     
-    if(gameType === 'quiz') {
-        startQuiz();
+    if (gameType === 'quiz' && quizBox) {
+        quizBox.style.display = 'block';
+        window.startQuiz();
     }
-}
+    
+    // Avvia musica di sottofondo
+    if (bgMusic) {
+        bgMusic.volume = 0.2;
+        bgMusic.currentTime = 0;
+        bgMusic.play().catch(() => console.log("Audio in attesa di interazione"));
+    }
+};
 
-function closePopup() {
+window.closePopup = function() {
+    const bgMusic = document.getElementById('bg-music');
+    if (bgMusic) bgMusic.pause();
     document.getElementById('gameOverlay').style.display = 'none';
-}
+};
 
-// Chiudi se clicchi fuori dal box bianco
+// Chiudi se clicchi fuori dal box blu
 window.onclick = function(event) {
     let overlay = document.getElementById('gameOverlay');
-    if (event.target == overlay) closePopup();
-}
+    if (event.target == overlay) window.closePopup();
+};
 
-document.addEventListener("DOMContentLoaded", function() {
-    /* --- DATI QUIZ AGGIORNATI --- */
-    const quizData = [
-        { question: "In che anno è nata Jasmine?", options: ["1994", "1996", "1998"], correct: 1 },
-        { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
-        { question: "In quale città è cresciuta Jasmine?", options: ["Firenze", "Bagni di Lucca", "Lucca"], correct: 1 },
-        { question: "Qual è la superficie preferita dichiarata da Jasmine?", options: ["Erba", "Cemento", "Terra Rossa"], correct: 2 }
-    ];
+/* --- LOGICA QUIZ --- */
+window.startQuiz = function() {
+    currentIdx = 0; 
+    score = 0; 
+    userChoices = []; 
+    isReviewing = false;
+    
+    const quizContent = document.getElementById('quiz-content');
+    const finalScreen = document.getElementById('final-screen');
+    
+    if (quizContent) quizContent.style.display = 'block';
+    if (finalScreen) finalScreen.style.display = 'none';
+    
+    loadQuestion();
+};
 
-    let currentIdx = 0, score = 0, selectedIdx = -1;
-    let hasConfirmed = false, isReviewing = false, userChoices = [];
-
-  /* --- LOGICA AUDIO --- */
-    let isMuted = false;
-
-    // Funzione per attivare/disattivare l'audio
-    window.toggleMute = function() {
-        const bgMusic = document.getElementById('bg-music');
-        const volIcon = document.getElementById('vol-icon');
-        isMuted = !isMuted;
-        
-        bgMusic.muted = isMuted;
-        // Cambia l'icona da volume a muto
-        volIcon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-    };
-
-    /* --- LOGICA QUIZ --- */
-    window.startQuiz = function() {
-        currentIdx = 0; score = 0; userChoices = []; isReviewing = false;
-        
-        // Gestione Musica di sottofondo
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.volume = 0.2; // Volume basso per non disturbare
-        bgMusic.currentTime = 0; // Ricomincia da capo
-        bgMusic.play().catch(e => console.log("In attesa di interazione per l'audio"));
-
-        document.getElementById('quiz-content').style.display = 'block';
-        document.getElementById('final-screen').style.display = 'none';
-        loadQuestion();
-    };
-
-    function loadQuestion() {
-        selectedIdx = -1;
-        hasConfirmed = false;
-        const data = quizData[currentIdx];
-        const container = document.getElementById('options-container');
-        const actionBtn = document.getElementById('action-btn');
-        
-        document.getElementById('q-text').innerText = data.question;
+function loadQuestion() {
+    selectedIdx = -1;
+    hasConfirmed = false;
+    const data = quizData[currentIdx];
+    const container = document.getElementById('options-container');
+    const actionBtn = document.getElementById('action-btn');
+    const qText = document.getElementById('q-text');
+    
+    if (qText) qText.innerText = data.question;
+    if (container) {
         container.innerHTML = '';
-        
         data.options.forEach((opt, i) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
@@ -1183,104 +1186,80 @@ document.addEventListener("DOMContentLoaded", function() {
                     selectedIdx = i;
                     document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
-                    actionBtn.style.display = 'block';
+                    if (actionBtn) actionBtn.style.display = 'block';
                 };
             }
             container.appendChild(btn);
         });
-
-        actionBtn.innerText = isReviewing ? (currentIdx === quizData.length - 1 ? "Fine" : "Avanti") : "Conferma";
-        if(!isReviewing) actionBtn.style.display = 'none'; 
-        else actionBtn.style.display = 'block';
     }
 
-    window.handleAction = function() {
-        if (isReviewing) {
+    if (actionBtn) {
+        actionBtn.innerText = isReviewing ? (currentIdx === quizData.length - 1 ? "Fine" : "Avanti") : "Conferma";
+        actionBtn.style.display = isReviewing ? 'block' : 'none';
+    }
+}
+
+window.handleAction = function() {
+    if (isReviewing) {
+        currentIdx++;
+        if (currentIdx < quizData.length) loadQuestion();
+        else showEnd();
+        return;
+    }
+
+    if (selectedIdx !== -1 && !hasConfirmed) {
+        hasConfirmed = true; 
+        userChoices.push(selectedIdx);
+        const data = quizData[currentIdx];
+        const allButtons = document.querySelectorAll('.option-btn');
+        const sndCorrect = document.getElementById('snd-correct');
+        const sndWrong = document.getElementById('snd-wrong');
+        
+        if (selectedIdx === data.correct) {
+            score++;
+            if (!isMuted && sndCorrect) sndCorrect.play();
+            allButtons[selectedIdx].classList.add('correct');
+        } else {
+            if (!isMuted && sndWrong) sndWrong.play();
+            allButtons[selectedIdx].classList.add('wrong');
+        }
+
+        allButtons.forEach(btn => btn.disabled = true);
+        
+        setTimeout(() => {
             currentIdx++;
             if (currentIdx < quizData.length) loadQuestion();
             else showEnd();
-            return;
-        }
-
-        if (selectedIdx !== -1 && !hasConfirmed) {
-            hasConfirmed = true; 
-            userChoices.push(selectedIdx);
-            const data = quizData[currentIdx];
-            const allButtons = document.querySelectorAll('.option-btn');
-            
-            if (selectedIdx === data.correct) {
-                // CORRETTO
-                score++;
-                if (!isMuted) document.getElementById('snd-correct').play(); // Suono Correct
-                allButtons[selectedIdx].classList.remove('selected');
-                allButtons[selectedIdx].classList.add('correct');
-            } else {
-                // SBAGLIATO
-                if (!isMuted) document.getElementById('snd-wrong').play(); // Suono Wrong
-                allButtons[selectedIdx].classList.remove('selected');
-                allButtons[selectedIdx].classList.add('wrong');
-            }
-
-            allButtons.forEach(btn => btn.disabled = true);
-
-            setTimeout(() => {
-                currentIdx++;
-                if (currentIdx < quizData.length) loadQuestion();
-                else showEnd();
-            }, 1200);
-        }
-    };
-  
-    function showEnd() {
-        // Abbassiamo la musica o fermiamola alla fine
-        document.getElementById('bg-music').pause();
-        
-        document.getElementById('quiz-content').style.display = 'none';
-        document.getElementById('final-screen').style.display = 'block';
-        document.getElementById('final-score').innerText = `Punteggio: ${score}/${quizData.length}`;
+        }, 1200);
     }
+};
 
-    window.reviewQuiz = function() { 
-        isReviewing = true; 
-        currentIdx = 0; 
-        document.getElementById('final-screen').style.display = 'none'; 
-        document.getElementById('quiz-content').style.display = 'block'; 
-        loadQuestion(); 
-    };
+function showEnd() {
+    const bgMusic = document.getElementById('bg-music');
+    const quizContent = document.getElementById('quiz-content');
+    const finalScreen = document.getElementById('final-screen');
+    const finalScoreText = document.getElementById('final-score');
 
-    window.retryQuiz = function() { startQuiz(); };
+    if (bgMusic) bgMusic.pause();
+    if (quizContent) quizContent.style.display = 'none';
+    if (finalScreen) finalScreen.style.display = 'block';
+    if (finalScoreText) finalScoreText.innerText = `Punteggio: ${score}/${quizData.length}`;
+}
 
-    // Aggiungiamo anche la chiusura sicura dell'audio
-    window.closePopup = function() {
-        const bgMusic = document.getElementById('bg-music');
-        bgMusic.pause();
-        bgMusic.currentTime = 0;
-        document.getElementById('gameOverlay').style.display = 'none';
-    };
-  
-    /* --- LOGICA CRUCIVERBA --- */
-    document.querySelectorAll('.crossword-cell').forEach(cell => {
-        cell.addEventListener('input', function() {
-            if (this.value.length >= 1) {
-                const seq = ['c-0-0', 'c-0-1', 'c-0-2', 'c-0-3', 'c-0-4', 'c-1-2', 'c-2-2', 'c-3-2', 'c-4-2', 'c-5-2'];
-                const next = seq[seq.indexOf(this.id) + 1];
-                if (next) document.getElementById(next).focus();
-            }
-        });
-    });
+window.reviewQuiz = function() { 
+    isReviewing = true; 
+    currentIdx = 0; 
+    const finalScreen = document.getElementById('final-screen');
+    const quizContent = document.getElementById('quiz-content');
+    
+    if (finalScreen) finalScreen.style.display = 'none'; 
+    if (quizContent) quizContent.style.display = 'block'; 
+    loadQuestion(); 
+};
 
-    window.checkCrossword = function() {
-        const gV = (id) => (document.getElementById(id).value || "").toUpperCase().trim();
-        let h = gV('c-0-0')+gV('c-0-1')+gV('c-0-2')+gV('c-0-3')+gV('c-0-4');
-        let v = gV('c-0-2')+gV('c-1-2')+gV('c-2-2')+gV('c-3-2')+gV('c-4-2')+gV('c-5-2');
-        
-        if (h === "LUCCA" && v === "CASTEL") {
-            alert("ECCELLENTE! 🎉🎾");
-        } else {
-            alert("C'è un errore! Controlla bene.");
-        }
-    };
-});
+window.retryQuiz = function() { 
+    window.startQuiz(); 
+};
 </script>
   
     <nav class="bottom-nav">
@@ -1328,8 +1307,6 @@ document.addEventListener("DOMContentLoaded", function() {
     </script>
 </body>
 </html>
-
-
 
 
 
