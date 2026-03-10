@@ -8,9 +8,11 @@
     <!-- LINK ICONE COMPLETO (FontAwesome 6.5.1) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
- <!-- FONT INTER -->
+<!-- FONT INTER -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -179,44 +181,165 @@ body {
     border-radius: 10px; 
 }
 
-        /* --- BIOGRAFIA --- */
-        .biography-section { 
-            width: 100%; max-width: 700px; margin-top: 35px; margin-bottom: 30px; 
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 10px; 
-        } 
-        .bio-list { 
-            flex: 1; min-width: 300px; list-style: disc; text-align: left; 
-            padding-left: 20px; margin: 0; line-height: 2.0; color: #330066; 
-        } 
-        .bio-list li { margin-bottom: 8px; font-size: 14px; } 
-        .bio-title { 
-            width: 100%; text-align: center; font-weight: bold; color: #330066; 
-            margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; text-transform: uppercase; 
-        } 
+/* BIO SECTION */
 
-       /* --- STATS BOX --- */
-.stats-box { 
-    height: fit-content; /* Il box si stringe attorno al contenuto */
-    background-color: #330066; color: white; padding: 20px; border-radius: 10px; 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    grid-template-rows: auto auto; /* Forza le righe a stringersi sul testo */
-    align-content: start;          /* Spinge tutto verso l'alto */
-    gap: 0px 20px;                 /* 0px verticale, 20px orizzontale */
-} 
-
-.stat-label { 
-    font-size: 12px; text-transform: uppercase; color: #bfa0ff; 
-    line-height: 1; 
-    margin-bottom: 10px; /* REGOLA QUESTO: per avvicinare la label al valore */
-} 
-
-.stat-value { 
-    font-size: 14px; font-weight: bold; 
-    line-height: 1; 
-    margin-bottom: 25px; /* REGOLA QUESTO: per dare distanza tra i blocchi (es. tra "4" e la riga sotto) */
+.biography-section{
+max-width:720px;
+margin:40px auto;
+padding:0 15px;
+display:flex;
+flex-direction:column;
+gap:25px;
 }
- 
+
+
+/* BIO CARD */
+
+.bio-card{
+background:#ffffff;
+padding:22px;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+/* TITLE */
+
+.bio-title{
+font-size:17px;
+font-weight:800;
+color:#330066;
+margin-bottom:12px;
+text-transform:uppercase;
+border-left:4px solid #330066;
+padding-left:10px;
+}
+
+
+/* TEXT */
+
+.bio-text{
+font-size:14px;
+line-height:1.7;
+color:#444;
+margin-bottom:12px;
+}
+
+
+/* STATS MODERN */
+
+.stats-box-modern{
+background:#330066;
+border-radius:16px;
+padding:25px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+position:relative;
+overflow:hidden;
+}
+
+
+/* STAT ITEM */
+
+.stat-item{
+display:flex;
+flex-direction:column;
+}
+
+.stat-item.full{
+grid-column:span 2;
+}
+
+
+/* LABEL */
+
+.stat-label{
+font-size:11px;
+text-transform:uppercase;
+color:#bfa0ff;
+margin-bottom:4px;
+}
+
+
+/* VALUE */
+
+.stat-value{
+font-size:16px;
+font-weight:700;
+color:white;
+}
+      
+.player-photo{
+position:absolute;
+right:20px;
+bottom:0;
+}
+
+.player-photo img{
+height:160px;
+object-fit:contain;
+}      
+      
+/* TEAM SECTION */
+
+.team-section{
+max-width:800px;
+margin:40px auto;
+padding:0 15px;
+}
+
+.team-title{
+font-size:17px;
+font-weight:800;
+color:#330066;
+margin-bottom:25px;
+text-transform:uppercase;
+border-left:4px solid #330066;
+padding-left:10px;
+}
+
+.team-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:30px;
+}
+
+.team-member{
+text-align:center;
+}
+
+.team-photo{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:50%;
+margin-bottom:10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+.team-name{
+font-weight:700;
+font-size:14px;
+color:#222;
+}
+
+.team-role{
+font-size:13px;
+color:#666;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+}
+
+.team-role img{
+width:16px;
+height:16px;
+cursor:pointer;
+}      
+      
 /* --- TUO CODICE ORIGINALE --- */
 .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 0 auto; } 
 .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
@@ -786,6 +909,21 @@ a {
     margin-bottom: 15px;
 }
       
+html, body {
+    overscroll-behavior: none;
+    height: 100%;
+    overflow-x: hidden;
+}
+      
+.games-carousel-horizontal {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}      
+      
+* {
+    font-family: 'Inter', sans-serif;
+}      
+      
   </style>
 </head>
 <body>
@@ -801,26 +939,139 @@ a {
             <div class="news-scroll-container"> {{ news_html | safe }} </div> 
         </div> 
 
-        <div class="biography-section"> 
-            <ul class="bio-list"> 
-                <div class="bio-title">About Jasmine</div> 
-                <li>Coached by Danilo Pizzorno and Sara Errani</li> 
-                <li>Resides in Bagni di Lucca and trains in Forte dei Marmi</li> 
-                <li>Father is Ugo Paolini, mother is Jacqueline Gardiner 
-                <li>Mother is of Ghanaian/Polish descent</li> 
-                <li>Idolizes Roger Federer</li>
-                <li>brother is William Paolini
-                <li>Favorite shot is her forehand and favorite surface is clay</li> 
-                <li>Speaks Italian, English and Polish</li> 
-            </ul> 
-            
-            <div class="stats-box"> 
-                <div class="stat-label">PLAYS</div><div class="stat-label">CAREER HIGH</div> 
-                <div class="stat-value">Right-Handed</div><div class="stat-value">4</div> 
-                <div class="stat-label">BIRTHDAY</div><div class="stat-label">HEIGHT</div> 
-                <div class="stat-value">04/01/1996</div><div class="stat-value">1.63m</div> 
-                <div class="stat-label">BIRTHPLACE</div> 
-                <div class="stat-value" style="grid-column: span 2;">Castelnuovo di Garfagnana IT</div> 
+<div class="biography-section">
+
+<div class="bio-card">
+
+<div class="bio-title">About Jasmine</div>
+
+<p class="bio-text">
+Jasmine Paolini is an Italian professional tennis player born in Castelnuovo di Garfagnana on January 4, 1996. 
+She grew up in Bagni di Lucca, where she started playing tennis at a young age before continuing her development 
+on the clay courts of Tuscany. Known for her speed, fighting spirit and aggressive forehand, Paolini built her 
+career through determination and constant improvement, eventually reaching the top of the WTA rankings.
+</p>
+
+<p class="bio-text">
+She is coached by Danilo Pizzorno and trains mainly in Forte dei Marmi. 
+Her mother Jacqueline has Ghanaian and Polish origins, while her father Ugo is Italian. 
+Paolini has often cited Roger Federer as her tennis idol and speaks Italian, English and Polish.
+</p>
+
+</div>
+
+
+<div class="stats-box-modern">
+
+<div class="stat-item">
+<span class="stat-label">Plays</span>
+<span class="stat-value">Right-Handed</span>
+</div>
+
+<div class="stat-item">
+<span class="stat-label">Career High</span>
+<span class="stat-value">4</span>
+</div>
+
+<div class="stat-item">
+<span class="stat-label">Birthday</span>
+<span class="stat-value">4 Jan 1996</span>
+</div>
+
+<div class="stat-item">
+<span class="stat-label">Height</span>
+<span class="stat-value">1.63 m</span>
+</div>
+
+<div class="stat-item full">
+<span class="stat-label">Birthplace</span>
+<span class="stat-value">Castelnuovo di Garfagnana, Italy</span>
+</div>
+
+<!-- FOTO -->
+<div class="player-photo">
+<img src="{{ url_for('static', filename='jasmine_profile.png') }}">
+</div>
+
+</div>
+  
+<div class="team-section">
+
+<div class="team-title">Team</div>
+
+<div class="team-grid">
+
+<!-- DANILO -->
+<div class="team-member">
+
+<img src="{{ url_for('static', filename='team/danilo_pizzorno.jpg') }}" class="team-photo">
+
+<div class="team-name">Danilo Pizzorno</div>
+
+<div class="team-role">
+Coach
+<a href="https://www.instagram.com/danilopizzorno?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<img src="{{ url_for('static', filename='team/instagram.png') }}">
+</a>
+</div>
+
+</div>
+
+
+<!-- SARA -->
+<div class="team-member">
+
+<img src="{{ url_for('static', filename='team/sara_errani.jpg') }}" class="team-photo">
+
+<div class="team-name">Sara Errani</div>
+
+<div class="team-role">
+Coach
+<a href="https://www.instagram.com/saraerrani87?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<img src="{{ url_for('static', filename='team/instagram.png') }}">
+</a>
+</div>
+
+</div>
+
+
+<!-- ANTONIO -->
+<div class="team-member">
+
+<img src="{{ url_for('static', filename='team/antonio_guglietta.jpg') }}" class="team-photo">
+
+<div class="team-name">Antonio Guglietta</div>
+
+<div class="team-role">
+Physiotherapist
+<a href="https://www.instagram.com/antoniogugliettafisioterapia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<img src="{{ url_for('static', filename='team/instagram.png') }}">
+</a>
+</div>
+
+</div>
+
+
+<!-- BRUNO -->
+<div class="team-member">
+
+<img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo">
+
+<div class="team-name">Bruno Cases</div>
+
+<div class="team-role">
+Fitness Coach
+<a href="https://www.instagram.com/coach.brunocases?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<img src="{{ url_for('static', filename='team/instagram.png') }}">
+</a>
+</div>
+
+</div>
+
+</div>
+
+</div>  
+
             </div> 
         </div> 
     </div>
@@ -849,11 +1100,11 @@ a {
     <!-- SEZIONE RACE (Nascosta all'inizio) -->
     <div id="tabella-race" class="ranking-wrapper" style="margin-top: 20px; display: none;"> 
         <div class="ranking-card"> 
-            <div class="table-title">Race Singolare WTA</div> 
+            <div class="table-title">Race Singolare WTA (Top 10)</div> 
             <div class="table-scroll"> {{ race_singolare_html | safe }} </div> 
         </div> 
         <div class="ranking-card"> 
-            <div class="table-title">Race Doppio WTA</div> 
+            <div class="table-title">Race Doppio WTA (Top 10)</div> 
             <div class="table-scroll"> {{ race_doppio_html | safe }} </div> 
         </div> 
     </div>
