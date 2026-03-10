@@ -184,12 +184,12 @@ body {
 /* BIO SECTION */
 
 .biography-section{
-max-width:720px;
-margin:40px auto;
-padding:0 15px;
+max-width:680px;
+margin:35px auto;
+padding:0 18px;
 display:flex;
 flex-direction:column;
-gap:25px;
+gap:22px;
 }
 
 
@@ -197,45 +197,69 @@ gap:25px;
 
 .bio-card{
 background:#ffffff;
-padding:22px;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+padding:22px 24px;
+border-radius:16px;
+box-shadow:0 8px 28px rgba(0,0,0,0.08);
+max-width:680px;
+margin:0 auto;
 }
 
 
 /* TITLE */
 
 .bio-title{
-font-size:17px;
+font-size:16px;
 font-weight:800;
 color:#330066;
-margin-bottom:12px;
+margin-bottom:10px;
 text-transform:uppercase;
 border-left:4px solid #330066;
 padding-left:10px;
 }
 
 
-/* TEXT */
+/* BIO TEXT */
 
-.bio-text{
-font-size:14px;
+.bio-text-short{
+font-size:15px;
 line-height:1.7;
 color:#444;
-margin-bottom:12px;
+}
+
+.bio-text-more{
+display:none;
+font-size:15px;
+line-height:1.7;
+margin-top:8px;
+color:#444;
 }
 
 
-/* STATS MODERN */
+/* READ MORE */
+
+.bio-readmore{
+margin-top:12px;
+font-size:14px;
+font-weight:700;
+color:#330066;
+cursor:pointer;
+display:inline-block;
+}
+
+
+/* STATS BOX */
 
 .stats-box-modern{
-background:#330066;
-border-radius:16px;
-padding:25px;
+max-width:680px;
+width:100%;
+margin:18px auto;
+background:#3c0075;
+border-radius:20px;
+padding:26px 30px;
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:18px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
+gap:20px;
+box-shadow:0 12px 30px rgba(0,0,0,0.18);
 position:relative;
 overflow:hidden;
 }
@@ -258,7 +282,7 @@ grid-column:span 2;
 .stat-label{
 font-size:11px;
 text-transform:uppercase;
-color:#bfa0ff;
+color:#cdb9ff;
 margin-bottom:4px;
 }
 
@@ -266,79 +290,139 @@ margin-bottom:4px;
 /* VALUE */
 
 .stat-value{
-font-size:16px;
+font-size:17px;
 font-weight:700;
 color:white;
 }
-      
+
+
+/* PLAYER PHOTO */
+
 .player-photo{
 position:absolute;
-right:20px;
+right:18px;
 bottom:0;
 }
 
 .player-photo img{
-height:160px;
+height:150px;
 object-fit:contain;
-}      
-      
-/* TEAM SECTION */
-
-.team-section{
-max-width:800px;
-margin:40px auto;
-padding:0 15px;
 }
 
-.team-title{
-font-size:17px;
-font-weight:800;
-color:#330066;
-margin-bottom:25px;
-text-transform:uppercase;
-border-left:4px solid #330066;
-padding-left:10px;
+
+/* TEAM DROPDOWN */
+
+.team-dropdown{
+max-width:680px;
+width:100%;
+margin:18px auto 30px auto;
+border-radius:18px;
+background:#3c0075;
+color:white;
+overflow:hidden;
+box-shadow:0 10px 28px rgba(0,0,0,0.15);
 }
+
+
+/* TEAM HEADER */
+
+.team-toggle{
+padding:16px 22px;
+font-weight:700;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:15px;
+}
+
+
+/* TEAM CONTENT */
+
+.team-content{
+display:none;
+padding:25px 20px 28px 20px;
+background:#3d0075;
+}
+
+
+/* GRID TEAM */
 
 .team-grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:30px;
+gap:28px 10px;
 }
+
+
+/* MEMBER */
 
 .team-member{
 text-align:center;
 }
 
+
+/* FOTO TEAM */
+
 .team-photo{
-width:120px;
-height:120px;
-object-fit:cover;
+width:105px;
+height:105px;
 border-radius:50%;
-margin-bottom:10px;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
+object-fit:cover;
+object-position:center;
+display:block;
+margin:0 auto 10px auto;
+cursor:pointer;
+box-shadow:0 8px 22px rgba(0,0,0,0.25);
 }
+
+
+/* NAME */
 
 .team-name{
 font-weight:700;
-font-size:14px;
-color:#222;
+font-size:15px;
+margin-bottom:3px;
 }
+
+
+/* ROLE */
 
 .team-role{
-font-size:13px;
-color:#666;
+font-size:14px;
 display:flex;
-align-items:center;
 justify-content:center;
-gap:6px;
+align-items:center;
+gap:7px;
+color:#e6dcff;
 }
 
+
+/* INSTAGRAM */
+
 .team-role img{
-width:16px;
-height:16px;
-cursor:pointer;
-}      
+width:20px;
+height:20px;
+}
+
+
+/* MOBILE FIX */
+
+@media (max-width:600px){
+
+.player-photo img{
+height:115px;
+}
+
+.stats-box-modern{
+padding-right:120px;
+}
+
+.team-grid{
+gap:26px 6px;
+}
+
+}
       
 /* --- TUO CODICE ORIGINALE --- */
 .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 0 auto; } 
@@ -924,6 +1008,19 @@ html, body {
     font-family: 'Inter', sans-serif;
 }      
       
+@media (max-width: 600px){
+
+.player-photo img{
+height:110px;
+right:10px;
+}
+
+.stats-box-modern{
+padding-right:120px;
+}
+
+}      
+      
   </style>
 </head>
 <body>
@@ -939,24 +1036,28 @@ html, body {
             <div class="news-scroll-container"> {{ news_html | safe }} </div> 
         </div> 
 
-<div class="biography-section">
-
 <div class="bio-card">
 
 <div class="bio-title">About Jasmine</div>
 
-<p class="bio-text">
-Jasmine Paolini is an Italian professional tennis player born in Castelnuovo di Garfagnana on January 4, 1996. 
-She grew up in Bagni di Lucca, where she started playing tennis at a young age before continuing her development 
-on the clay courts of Tuscany. Known for her speed, fighting spirit and aggressive forehand, Paolini built her 
-career through determination and constant improvement, eventually reaching the top of the WTA rankings.
-</p>
+<div class="bio-text-short">
 
-<p class="bio-text">
+Jasmine Paolini is an Italian professional tennis player born in Castelnuovo di Garfagnana on January 4, 1996. 
+She grew up in Bagni di Lucca, where she started playing tennis at a young age.
+
+</div>
+
+<div id="bio-more" class="bio-text-more">
+
 She is coached by Danilo Pizzorno and trains mainly in Forte dei Marmi. 
 Her mother Jacqueline has Ghanaian and Polish origins, while her father Ugo is Italian. 
 Paolini has often cited Roger Federer as her tennis idol and speaks Italian, English and Polish.
-</p>
+
+</div>
+
+<div class="bio-readmore" onclick="toggleBio()">
+Read more ▼
+</div>
 
 </div>
 
@@ -988,93 +1089,148 @@ Paolini has often cited Roger Federer as her tennis idol and speaks Italian, Eng
 <span class="stat-value">Castelnuovo di Garfagnana, Italy</span>
 </div>
 
-<!-- FOTO -->
+<!-- FOTO JASMINE -->
+
 <div class="player-photo">
 <img src="{{ url_for('static', filename='jasmine_profile.png') }}">
 </div>
 
 </div>
-  
-<div class="team-section">
 
-<div class="team-title">Team</div>
+
+<div class="team-dropdown">
+
+<div class="team-toggle" onclick="toggleTeam()">
+Meet the Team
+<span id="team-arrow">▼</span>
+</div>
+
+<div id="team-content" class="team-content">
 
 <div class="team-grid">
 
-<!-- DANILO -->
-<div class="team-member">
 
-<img src="{{ url_for('static', filename='team/danilo_pizzorno.jpg') }}" class="team-photo">
+<!-- DANILO -->
+
+<div class="team-member">
+<img src="{{ url_for('static', filename='team/danilo_pizzorno.jpg') }}" class="team-photo" onclick="zoomImage(this)">
 
 <div class="team-name">Danilo Pizzorno</div>
 
 <div class="team-role">
 Coach
-<a href="https://www.instagram.com/danilopizzorno?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<a href="https://www.instagram.com/danilopizzorno" target="_blank">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
-
 </div>
 
 
 <!-- SARA -->
-<div class="team-member">
 
-<img src="{{ url_for('static', filename='team/sara_errani.jpg') }}" class="team-photo">
+<div class="team-member">
+<img src="{{ url_for('static', filename='team/sara_errani.jpg') }}" class="team-photo" onclick="zoomImage(this)">
 
 <div class="team-name">Sara Errani</div>
 
 <div class="team-role">
 Coach
-<a href="https://www.instagram.com/saraerrani87?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<a href="https://www.instagram.com/saraerrani87" target="_blank">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
-
 </div>
 
 
 <!-- ANTONIO -->
-<div class="team-member">
 
-<img src="{{ url_for('static', filename='team/antonio_guglietta.jpg') }}" class="team-photo">
+<div class="team-member">
+<img src="{{ url_for('static', filename='team/antonio_guglietta.jpg') }}" class="team-photo" onclick="zoomImage(this)">
 
 <div class="team-name">Antonio Guglietta</div>
 
 <div class="team-role">
 Physiotherapist
-<a href="https://www.instagram.com/antoniogugliettafisioterapia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<a href="https://www.instagram.com/antoniogugliettafisioterapia" target="_blank">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
-
 </div>
 
 
 <!-- BRUNO -->
+
 <div class="team-member">
+<img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo" onclick="zoomImage(this)">
 
-<img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo">
-
-<div class="team-name">Bruno Cases</div>
+<div class="team-name">Bruno Caches</div>
 
 <div class="team-role">
 Fitness Coach
-<a href="https://www.instagram.com/coach.brunocases?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+<a href="https://www.instagram.com/coach.brunocases" target="_blank">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
-
 </div>
 
-</div>
 
-</div>  
+</div>
+</div>
+</div>
 
             </div> 
         </div> 
     </div>
+  
+<script>
+
+function toggleTeam(){
+
+let content = document.getElementById("team-content");
+let arrow = document.getElementById("team-arrow");
+
+if(content.style.display === "block"){
+content.style.display = "none";
+arrow.innerHTML = "▼";
+}else{
+content.style.display = "block";
+arrow.innerHTML = "▲";
+}
+
+}
+
+function zoomImage(img){
+
+let overlay = document.createElement("div");
+
+overlay.style.position="fixed";
+overlay.style.top="0";
+overlay.style.left="0";
+overlay.style.width="100%";
+overlay.style.height="100%";
+overlay.style.background="rgba(0,0,0,0.85)";
+overlay.style.display="flex";
+overlay.style.justifyContent="center";
+overlay.style.alignItems="center";
+overlay.style.zIndex="9999";
+
+let bigImg = document.createElement("img");
+bigImg.src = img.src;
+bigImg.style.maxWidth="90%";
+bigImg.style.maxHeight="90%";
+bigImg.style.borderRadius="12px";
+
+overlay.appendChild(bigImg);
+
+overlay.onclick = function(){
+document.body.removeChild(overlay);
+};
+
+document.body.appendChild(overlay);
+
+}
+
+</script>  
    
   <div id="ranking-view" class="page-content">
     <h1 style="text-align: center;">Live Rankings & Race</h1>
@@ -1129,6 +1285,25 @@ function mostra(tipo) {
         btnRanking.classList.remove('active');
     }
 }
+</script>
+
+<script>
+
+function toggleBio(){
+
+let more = document.getElementById("bio-more");
+let btn = document.querySelector(".bio-readmore");
+
+if(more.style.display === "block"){
+more.style.display="none";
+btn.innerHTML="Read more ▼";
+}else{
+more.style.display="block";
+btn.innerHTML="Show less ▲";
+}
+
+}
+
 </script>
   
 <div id="calendar-view" class="page-content"> 
@@ -1558,6 +1733,9 @@ window.retryQuiz = function() {
     </script>
 </body>
 </html>
+
+
+
 
 
 
