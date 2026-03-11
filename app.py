@@ -1,6 +1,7 @@
 import os
-from flask import Flask, render_template, request, redirect, render_template_string
+from flask import Flask, render_template, request, redirect, render_template_string, jsonify
 from supabase import create_client
+import google.generativeai as genai
 
 app = Flask(__name__)
 
@@ -8,6 +9,13 @@ app = Flask(__name__)
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+# --- CONFIGURAZIONE GOOGLE AI ---
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+
+genai.configure(api_key=GOOGLE_API_KEY)
+
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 def leggi_da_db(id_rank):
     """Recupera la riga dal database in base all'ID (singolo, doppio, race_singolo, race_doppio, news)."""
@@ -114,10 +122,48 @@ def home():
                            news_html=leggi_da_db("news"),
                            tornei=t_lista)
 
+@app.route("/ask-ai", methods=["POST"])
+def ask_ai():
+
+    data = request.json
+    user_message = data.get("message")
+
+    prompt = f"""
+You are an assistant specialized in tennis player Jasmine Paolini.
+
+Answer questions about:
+- Jasmine Paolini
+- her career
+- rankings
+- tournaments
+- results
+- tennis information
+
+Be concise and friendly.
+
+User question:
+{user_message}
+"""
+
+    try:
+
+        response = model.generate_content(prompt)
+
+        return jsonify({
+            "reply": response.text
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "reply": "AI assistant temporarily unavailable."
+        })
+
 if __name__ == "__main__":
     # Usa la porta di Render (10000) o la 5000 se sei in locale
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
