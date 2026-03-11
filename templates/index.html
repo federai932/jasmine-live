@@ -247,23 +247,22 @@ display:inline-block;
 }
 
 
-/* STATS BOX */
+/* STATS BOX COMPATTO */
 
 .stats-box-modern{
-max-width:680px;
+max-width:520px;
 width:100%;
-margin:18px auto;
+margin:20px auto;
 background:#3c0075;
-border-radius:20px;
-padding:26px 30px;
+border-radius:16px;
+padding:16px 90px 16px 16px;
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:20px;
-box-shadow:0 12px 30px rgba(0,0,0,0.18);
+gap:10px;
+box-shadow:0 8px 20px rgba(0,0,0,0.12);
 position:relative;
 overflow:hidden;
 }
-
 
 /* STAT ITEM */
 
@@ -276,39 +275,35 @@ flex-direction:column;
 grid-column:span 2;
 }
 
-
 /* LABEL */
 
 .stat-label{
-font-size:11px;
+font-size:10px;
 text-transform:uppercase;
-color:#cdb9ff;
-margin-bottom:4px;
+color:#cbb2ff;
+margin-bottom:2px;
 }
-
 
 /* VALUE */
 
 .stat-value{
-font-size:17px;
+font-size:14px;
 font-weight:700;
 color:white;
 }
 
-
-/* PLAYER PHOTO */
+/* FOTO JASMINE */
 
 .player-photo{
 position:absolute;
-right:18px;
+right:8px;
 bottom:0;
 }
 
 .player-photo img{
-height:150px;
+height:85px;
 object-fit:contain;
 }
-
 
 /* TEAM DROPDOWN */
 
@@ -728,222 +723,299 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     border-bottom-right-radius:16px;
 }
       
-/* ============================================================
-   1. BOX NERO GAMES (HOME)
-   ============================================================ */
-.games-news-box { 
-    width: fit-content;
-    max-width: 95%; 
-    background: #121212; 
-    border-radius: 24px; 
-    padding: 20px; 
-    margin: 25px auto; 
-    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-    display: table;
+/* =========================================================
+GAMES BOX
+========================================================= */
+
+.games-news-box{
+
+width:95%;
+max-width:420px;
+background:#121212;
+border-radius:24px;
+padding:20px;
+margin:25px auto;
+box-shadow:0 12px 40px rgba(0,0,0,0.6);
+
 }
 
-.games-news-box h2 { 
-    color: #ffffff !important; 
-    font-size: 18px; 
-    margin: 0 0 15px 0; 
-    font-weight: 800;
-    text-transform: uppercase;
-    border-left: 4px solid #2e7d32;
-    padding-left: 10px;
-    text-align: left;
-    font-family: 'Inter', sans-serif;
+.games-news-box h2{
+
+color:#ffffff;
+font-size:18px;
+margin-bottom:15px;
+font-weight:800;
+text-transform:uppercase;
+border-left:4px solid #2e7d32;
+padding-left:10px;
+
 }
 
-.games-carousel-horizontal {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-}
-.games-carousel-horizontal::-webkit-scrollbar { display: none; }
+.games-carousel-horizontal{
 
-.game-thumb {
-    flex: 0 0 140px;
-    height: 190px;
-    object-fit: cover;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.2s;
+display:flex;
+gap:15px;
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+padding-bottom:5px;
+
 }
 
-.game-thumb:active { transform: scale(0.95); }
-
-/* ============================================================
-   2. POP-UP OVERLAY
-   ============================================================ */
-.game-popup-overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    background: rgba(0, 0, 0, 0.96) !important; 
-    display: none; 
-    align-items: center; 
-    justify-content: center;
-    z-index: 999999 !important;
+.games-carousel-horizontal::-webkit-scrollbar{
+display:none;
 }
 
-.popup-content {
-    width: 92%;
-    max-width: 400px;
-    background: transparent !important;
-    border: none !important;
-    position: relative;
+/* =========================================================
+COPERTINE QUIZ / NEWSLETTER
+========================================================= */
+
+.game-thumb,
+.newsletter-thumb{
+
+flex:0 0 140px;
+height:190px;
+object-fit:cover;
+border-radius:15px;
+cursor:pointer;
+transition:transform .2s;
+
 }
 
-/* ============================================================
-   3. IL BOX UNICO QUIZ (DARK PREMIUM)
-   ============================================================ */
-.active-game-box {
-    background: #1e293b !important; 
-    border-radius: 32px !important;
-    padding: 55px 24px 35px 24px !important;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7) !important;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    position: relative;
-    border: none !important;
+.game-thumb:active,
+.newsletter-thumb:active{
+
+transform:scale(.95);
+
 }
 
-/* --- ICONE TOP BAR --- */
-.volume-icon, .close-popup-internal {
-    position: absolute !important;
-    top: 18px !important;
-    font-size: 24px !important;
-    cursor: pointer !important;
-    z-index: 10000;
-}
-.volume-icon { left: 22px; color: #facc15 !important; }
-.close-popup-internal { right: 22px; color: #ff3b30 !important; }
+/* =========================================================
+POPUP OVERLAY
+========================================================= */
 
-/* ============================================================
-   4. SEZIONE QUIZ (DOMANDE E OPZIONI)
-   ============================================================ */
-#q-text {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 800;
-    color: #f8fafc !important; 
-    font-size: 22px;
-    margin-bottom: 25px;
-    text-align: center;
-    line-height: 1.3;
+.game-popup-overlay{
+
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.95);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:99999;
+
 }
 
-.option-btn {
-    font-family: 'Inter', sans-serif !important;
-    background: #ffffff !important;
-    border: none;
-    border-radius: 18px;
-    padding: 16px 20px; 
-    font-size: 16px; 
-    font-weight: 700; 
-    color: #1e293b !important;
-    width: 100%; 
-    margin: 10px 0;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
+.popup-content{
+
+width:92%;
+max-width:400px;
+
 }
 
-.option-btn.selected { 
-    transform: translateY(-3px);
-    outline: 3px solid #7c3aed !important;
+/* =========================================================
+QUIZ BOX
+========================================================= */
+
+.active-game-box{
+
+background:#1e293b;
+border-radius:30px;
+padding:60px 25px 35px;
+position:relative;
+width:100%;
+box-shadow:0 20px 60px rgba(0,0,0,0.7);
+
 }
 
-.option-btn.correct { background: #00c853 !important; color: white !important; }
-.option-btn.wrong { background: #ff1744 !important; color: white !important; animation: shake 0.4s; }
+/* =========================================================
+ICONE TOP
+========================================================= */
 
-/* ============================================================
-   5. PULSANTI AZIONE (PILLOLA CENTRATA)
-   ============================================================ */
-.quiz-nav-btn {
-    display: block !important;
-    width: 100%;
-    max-width: 280px;
-    margin: 12px auto !important;
-    padding: 16px;
-    border-radius: 50px;
-    border: none !important;
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 800;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.volume-icon{
+
+position:absolute;
+top:18px;
+left:22px;
+font-size:22px;
+color:white;
+cursor:pointer;
+opacity:.9;
+
 }
 
-.review-btn, #action-btn { background: #7c3aed !important; color: white !important; }
-.retry-btn { background: #475569 !important; color: white !important; }
-.green-btn { background: #22c55e !important; color: white !important; }
+.close-popup-internal{
 
-.quiz-nav-btn:active { transform: scale(0.95); }
+position:absolute;
+top:18px;
+right:22px;
+font-size:22px;
+color:#ff3b30;
+cursor:pointer;
 
-/* --- SCHERMATA FINALE --- */
-#final-screen {
-    background: transparent !important;
-    width: 100%;
-    text-align: center;
 }
 
-#final-score {
-    color: #ffffff !important;
-    font-size: 19px;
-    font-weight: 600;
-    margin-bottom: 30px;
-    display: block;
+/* =========================================================
+DOMANDA
+========================================================= */
+
+#q-text{
+
+color:white;
+font-size:22px;
+font-weight:800;
+margin-bottom:25px;
+text-align:center;
+line-height:1.3;
+
 }
 
-/* ============================================================
-   6. ANIMAZIONI
-   ============================================================ */
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-7px); }
-    50% { transform: translateX(7px); }
-    75% { transform: translateX(-7px); }
+/* =========================================================
+OPZIONI QUIZ
+========================================================= */
+
+.option-btn{
+
+background:white;
+border:none;
+border-radius:18px;
+padding:16px 20px;
+font-size:16px;
+font-weight:700;
+color:#1e293b;
+width:100%;
+margin:10px 0;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+transition:all .2s ease;
+
 }
 
-@media (hover: hover) {
-    .option-btn:hover:not(.selected):not(.correct):not(.wrong) {
-        background: #f8fafc !important;
-        transform: translateY(-2px);
-    }
+/* selezione */
+
+.option-btn.selected{
+border:4px solid #7c3aed;
+box-shadow:0 0 0 2px rgba(124,58,237,0.15);
+}
+
+/* risposta corretta */
+
+.option-btn.correct{
+
+background:#00c853;
+color:white;
+
+}
+
+/* risposta sbagliata */
+
+.option-btn.wrong{
+
+background:#ff1744;
+color:white;
+
+}
+
+/* hover desktop */
+
+@media (hover:hover){
+
+.option-btn:hover:not(.correct):not(.wrong){
+
+background:#f1f5f9;
+
+}
+
+}
+
+/* =========================================================
+PULSANTE AZIONE
+========================================================= */
+
+.quiz-nav-btn{
+
+display:block;
+width:100%;
+max-width:280px;
+margin:18px auto;
+padding:15px;
+border-radius:40px;
+border:none;
+font-weight:800;
+text-transform:uppercase;
+cursor:pointer;
+background:#7c3aed;
+color:white;
+box-shadow:0 6px 15px rgba(0,0,0,0.3);
+
+}
+
+.quiz-nav-btn:active{
+
+transform:scale(.95);
+
+}
+
+/* =========================================================
+SCHERMATA FINALE
+========================================================= */
+
+#final-screen{
+
+width:100%;
+text-align:center;
+
+}
+
+#final-screen h2{
+
+color:#facc15;
+font-size:24px;
+margin-bottom:10px;
+
+}
+
+#final-score{
+
+color:white;
+font-size:20px;
+margin-bottom:25px;
+
+}
+
+/* pulsanti finali */
+
+.review-btn{
+
+background:#7c3aed;
+
+}
+
+.retry-btn{
+
+background:#475569;
+
+}
+
+/* =========================================================
+ANIMAZIONE ERRORE
+========================================================= */
+
+@keyframes shake{
+
+0%{transform:translateX(0);}
+25%{transform:translateX(-6px);}
+50%{transform:translateX(6px);}
+75%{transform:translateX(-6px);}
+100%{transform:translateX(0);}
+
+}
+
+.option-btn.wrong{
+
+animation:shake .35s;
+
 }
       
-/* =========================================================
-   NEWSLETTER PDF (solo copertina)
-   ========================================================= */
 
-/* immagine copertina newsletter */
-
-.newsletter-thumb{
-    flex: 0 0 auto;
-    width: 200px;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* effetto hover */
-
-.newsletter-thumb:hover{
-    transform: translateY(-5px) scale(1.04);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.55);
-}
-
-/* pressione su mobile */
-
-.newsletter-thumb:active{
-    transform: scale(0.95);
-}
       
 /* =========================================================
    REMOVE MOBILE TAP HIGHLIGHT
@@ -981,78 +1053,237 @@ a {
    ========================================================= */
 
 .page-content{
-    padding-top: 24px;
-}      
-      
-/* TITOLI SEZIONI PRINCIPALI */
-
-.section-title {
-    height: 48px;
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 15px;
-}
-      
-html, body {
-    overscroll-behavior: none;
-    height: 100%;
-    overflow-x: hidden;
-}
-      
-.games-carousel-horizontal {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-}      
-      
-* {
-    font-family: 'Inter', sans-serif;
-}      
-      
-@media (max-width: 600px){
-
-.player-photo img{
-height:110px;
-right:10px;
+padding-top:24px;
 }
 
-.stats-box-modern{
-padding-right:120px;
+
+/* TITOLI SEZIONI */
+
+.section-title{
+height:48px;
+display:flex;
+align-items:center;
+font-size:20px;
+font-weight:800;
+margin-bottom:15px;
 }
 
-}     
-      
-@media (max-width:600px){
 
-.stats-box-modern{
-padding:18px 100px 18px 18px;
-gap:14px;
-border-radius:16px;
+/* FIX SCROLL MOBILE */
+
+html{
+background:#f4f7f4;
+overscroll-behavior-y:none;
 }
 
-.stat-label{
-font-size:10px;
-}
-
-.stat-value{
-font-size:15px;
-}
-
-.player-photo{
-right:10px;
-}
-
-.player-photo img{
-height:105px;
-}
-
-}     
-      
-html, body{
+body{
+background:#f4f7f4;
+margin:0;
 overflow-x:hidden;
 }
+
+
+/* SCROLL ORIZZONTALE CAROUSEL */
+
+.games-carousel-horizontal{
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+overscroll-behavior-x:contain;
+scroll-behavior:smooth;
+}
+
+
+/* FONT GLOBALE */
+
+*{
+font-family:'Inter',sans-serif;
+box-sizing:border-box;
+}
     
+#ai-container{
+position:fixed;
+bottom:110px;
+right:20px;
+z-index:9999;
+}
+
+#ai-container{
+position:fixed;
+bottom:110px;
+right:20px;
+z-index:9999;
+}
+
+/* cerchio principale */
+
+#ai-bubble{
+
+position:relative;
+
+width:65px;
+height:65px;
+
+border-radius:50%;
+
+cursor:pointer;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
+
+}
+
+/* anello colorato stile Gemini */
+
+#ai-bubble::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+border-radius:50%;
+
+background:conic-gradient(
+#4285F4,
+#34A853,
+#FBBC05,
+#EA4335,
+#4285F4
+);
+
+}
+
+/* foro centrale */
+
+#ai-bubble::after{
+
+content:"";
+
+position:absolute;
+
+width:45px;
+height:45px;
+
+border-radius:50%;
+
+background:#f4f7f4; /* colore dello sfondo del sito */
+
+top:50%;
+left:50%;
+
+transform:translate(-50%, -50%);
+
+}
+
+/* fumetto */
+
+#ai-tooltip{
+
+position:absolute;
+
+bottom:80px;
+right:0;
+
+background:white;
+
+padding:10px 14px;
+
+border-radius:14px;
+
+font-size:14px;
+
+box-shadow:0 8px 25px rgba(0,0,0,0.25);
+
+display:none;
+
+}
+
+/* chat */
+
+#ai-chat{
+
+position:absolute;
+
+bottom:90px;
+right:0;
+
+width:320px;
+height:420px;
+
+background:white;
+
+border-radius:18px;
+
+box-shadow:0 20px 50px rgba(0,0,0,0.35);
+
+display:none;
+
+flex-direction:column;
+
+overflow:hidden;
+
+}
+
+.ai-header{
+
+background:#7c3aed;
+
+color:white;
+
+padding:12px;
+
+font-weight:700;
+
+}
+
+#ai-messages{
+
+flex:1;
+
+padding:10px;
+
+overflow-y:auto;
+
+}
+
+.ai-message{
+
+margin-bottom:10px;
+
+padding:8px 12px;
+
+border-radius:10px;
+
+}
+
+.ai-bot{
+background:#f1f5f9;
+}
+
+.ai-user{
+background:#7c3aed;
+color:white;
+text-align:right;
+}
+
+.ai-input{
+display:flex;
+border-top:1px solid #eee;
+}
+
+.ai-input input{
+flex:1;
+border:none;
+padding:10px;
+}
+
+.ai-input button{
+background:#7c3aed;
+border:none;
+color:white;
+padding:10px;
+cursor:pointer;
+}  
       
   </style>
 </head>
@@ -1168,7 +1399,7 @@ Coach
 
 <div class="team-role">
 Coach
-<a href="https://www.instagram.com/saraerrani87" target="_blank">
+<a href="https://www.instagram.com/saraerrani87/" target="_blank" rel="noopener">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1184,7 +1415,7 @@ Coach
 
 <div class="team-role">
 Physiotherapist
-<a href="https://www.instagram.com/antoniogugliettafisioterapia" target="_blank">
+<a href="https://www.instagram.com/antoniogugliettafisioterapia" target="_blank" rel="noopener">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1196,11 +1427,11 @@ Physiotherapist
 <div class="team-member">
 <img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo" onclick="zoomImage(this)">
 
-<div class="team-name">Bruno Caches</div>
+<div class="team-name">Bruno Cases</div>
 
 <div class="team-role">
 Fitness Coach
-<a href="https://www.instagram.com/coach.brunocases" target="_blank">
+<a href="https://www.instagram.com/coach.brunocases" target="_blank" rel="noopener">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1474,253 +1705,467 @@ updateAllCountdowns();
 </script>
 
 <div id="match-view" class="page-content"> 
-       <h1 style="text-align: center;">play e news</h1>
 
- <!-- 1. COPERTINA GAMES NELLA HOME -->
-<div class="games-news-box"> 
-    <h2>Games</h2> 
-    <div class="games-carousel-horizontal"> 
-        <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
-             class="game-thumb" 
-             onclick="openGame('quiz')"> 
-    </div> 
+<h1 style="text-align:center;">Play & News</h1>
+
+<!-- GAMES -->
+<div class="games-news-box">
+
+<h2>Games</h2>
+
+<div class="games-carousel-horizontal">
+
+<img src="{{ url_for('static', filename='copertina_quiz.png') }}"
+class="game-thumb"
+onclick="openGame('quiz')">
+
+</div>
 </div>
 
 
-<!-- 2. NEWSLETTER -->
-<div class="games-news-box"> 
-    <h2>Newsletter</h2> 
-    <div class="games-carousel-horizontal"> 
+<!-- NEWSLETTER -->
 
-        <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf" target="_blank">
+<div class="games-news-box">
 
-      <img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
+<h2>Newsletter</h2>
 
-        </a>
+<div class="games-carousel-horizontal">
 
-    </div> 
+<a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf"
+target="_blank"
+rel="noopener">
+
+<img src="{{ url_for('static', filename='newsletter_mensile.png') }}"
+class="newsletter-thumb">
+
+</a>
+
 </div>
-  
-    <!-- 2. POP-UP OVERLAY -->
-    <div id="gameOverlay" class="game-popup-overlay"> 
-        <div class="popup-content"> 
-            
-            <!-- BOX BLU DARK PREMIUM --> 
-            <div class="active-game-box"> 
-                
-                <!-- CONTROLLI TOP BAR --> 
-                <div id="volume-control" class="volume-icon" onclick="toggleMute()"> 
-                    <i id="vol-icon" class="fas fa-volume-up"></i> 
-                </div>
+</div>
 
-                <div class="close-popup-internal" onclick="closePopup()"> 
-                    <i class="fas fa-sign-out-alt"></i>
-                </div> 
 
-                <!-- AUDIO --> 
-                <audio id="bg-music" loop src="https://cdn.pixabay.com"></audio> 
-                <audio id="snd-correct" src="https://cdn.pixabay.com"></audio> 
-                <audio id="snd-wrong" src="https://cdn.pixabay.com"></audio> 
+<!-- POPUP QUIZ -->
 
-                <!-- 3. SEZIONE QUIZ (Assicurati che l'ID sia corretto per il JS) --> 
-                <div id="quiz-box" style="display: block; width: 100%;"> 
-                    
-                    <div id="quiz-content"> 
-                        <p id="q-text" style="color: #f8fafc; text-align: center;"></p> <!-- Qui apparirà la domanda -->
-                        
-                        <div id="options-container" class="quiz-options"></div> <!-- Qui appariranno i pulsanti -->
-                        
-                        <div style="display: flex; justify-content: center; width: 100%; margin-top: 20px;"> 
-                            <button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none;">Conferma</button> 
-                        </div> 
-                    </div> 
+<div id="gameOverlay" class="game-popup-overlay">
 
-                    <!-- SCHERMATA FINALE --> 
-                    <div id="final-screen" style="display:none; width: 100%; text-align: center;"> 
-                        <h2 style="color: #facc15;">Quiz Completato! 🏆</h2> 
-                        <p id="final-score" style="color: white;"></p> 
-                        <button class="quiz-nav-btn review-btn" onclick="reviewQuiz()">Rivedi Risposte</button> 
-                        <button class="quiz-nav-btn retry-btn" onclick="retryQuiz()">Riprova</button> 
-                    </div> 
-                </div> 
+<div class="popup-content">
 
-            </div> <!-- Fine active-game-box --> 
-        </div> <!-- Fine popup-content -->
-    </div> <!-- Fine gameOverlay -->
+<div class="active-game-box">
+
+<div id="volume-control" class="volume-icon" onclick="toggleMute()">
+<i id="vol-icon" class="fas fa-volume-up"></i>
+</div>
+
+<div class="close-popup-internal" onclick="closePopup()">
+<i class="fas fa-sign-out-alt"></i>
+</div>
+
+
+<!-- AUDIO -->
+
+<audio id="bg-music" loop
+src="{{ url_for('static', filename='audio/music.mp3') }}"></audio>
+
+<audio id="snd-correct"
+src="{{ url_for('static', filename='audio/correct.mp3') }}"></audio>
+
+<audio id="snd-wrong"
+src="{{ url_for('static', filename='audio/wrong.mp3') }}"></audio>
+
+
+<div id="quiz-box">
+
+<div id="quiz-content">
+
+<p id="q-text"></p>
+
+<div id="options-container" class="quiz-options"></div>
+
+<button id="action-btn" class="quiz-nav-btn" onclick="handleAction()" style="display:none;">
+Conferma
+</button>
+
+</div>
+
+
+<div id="final-screen" style="display:none">
+
+<h2>Quiz completato 🏆</h2>
+
+<p id="final-score"></p>
+
+<button class="quiz-nav-btn review-btn" onclick="reviewQuiz()">Rivedi</button>
+
+<button class="quiz-nav-btn retry-btn" onclick="retryQuiz()">Riprova</button>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
 </div>
 
 <script>
-// --- VARIABILI GLOBALI ---
-let isMuted = false;
-let currentIdx = 0, score = 0, selectedIdx = -1;
-let hasConfirmed = false, isReviewing = false, userChoices = [];
 
-/* --- DATI QUIZ --- */
+let isMuted = false;
+let currentIdx = 0;
+let score = 0;
+let selectedIdx = -1;
+let hasConfirmed = false;
+let isReviewing = false;
+let userChoices = [];
+
 const quizData = [
-    { question: "In che anno è nata Jasmine?", options: ["1994", "1996", "1998"], correct: 1 },
-    { question: "Quanti titoli WTA ha vinto Jasmine in singolare?", options: ["1", "2", "3"], correct: 1 },
-    { question: "In quale città è cresciuta Jasmine?", options: ["Firenze", "Bagni di Lucca", "Lucca"], correct: 1 },
-    { question: "Qual è la superficie preferita dichiarata da Jasmine?", options: ["Erba", "Cemento", "Terra Rossa"], correct: 2 }
+{ question:"In che anno è nata Jasmine?", options:["1994","1996","1998"], correct:1 },
+{ question:"Quanti titoli WTA ha vinto Jasmine in singolare?", options:["1","2","3"], correct:1 },
+{ question:"In quale città è cresciuta Jasmine?", options:["Firenze","Bagni di Lucca","Lucca"], correct:1 },
+{ question:"Qual è la superficie preferita dichiarata da Jasmine?", options:["Erba","Cemento","Terra Rossa"], correct:2 }
 ];
 
-/* --- GESTIONE AUDIO E POP-UP --- */
-window.toggleMute = function() {
-    const bgMusic = document.getElementById('bg-music');
-    const volIcon = document.getElementById('vol-icon');
-    isMuted = !isMuted;
-    if (bgMusic) bgMusic.muted = isMuted;
-    if (volIcon) volIcon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+
+window.toggleMute = function(){
+
+const bgMusic = document.getElementById("bg-music");
+const icon = document.getElementById("vol-icon");
+
+isMuted = !isMuted;
+
+bgMusic.muted = isMuted;
+
+icon.className = isMuted ?
+"fas fa-volume-mute" :
+"fas fa-volume-up";
+
 };
 
-window.openGame = function(gameType) {
-    const overlay = document.getElementById('gameOverlay');
-    const quizBox = document.getElementById('quiz-box');
-    const bgMusic = document.getElementById('bg-music');
 
-    if (overlay) overlay.style.display = 'flex';
-    
-    if (gameType === 'quiz' && quizBox) {
-        quizBox.style.display = 'block';
-        window.startQuiz();
-    }
-    
-    // Avvia musica di sottofondo
-    if (bgMusic) {
-        bgMusic.volume = 0.2;
-        bgMusic.currentTime = 0;
-        bgMusic.play().catch(() => console.log("Audio in attesa di interazione"));
-    }
+window.openGame = function(){
+
+document.getElementById("gameOverlay").style.display = "flex";
+
+const bgMusic = document.getElementById("bg-music");
+
+bgMusic.volume = 0.25;
+bgMusic.currentTime = 0;
+
+bgMusic.play().catch(()=>{});
+
+startQuiz();
+
 };
 
-window.closePopup = function() {
-    const bgMusic = document.getElementById('bg-music');
-    if (bgMusic) bgMusic.pause();
-    document.getElementById('gameOverlay').style.display = 'none';
+
+window.closePopup = function(){
+
+document.getElementById("gameOverlay").style.display = "none";
+
+document.getElementById("bg-music").pause();
+
 };
 
-// Chiudi se clicchi fuori dal box blu
-window.onclick = function(event) {
-    let overlay = document.getElementById('gameOverlay');
-    if (event.target == overlay) window.closePopup();
+
+window.startQuiz = function(){
+
+currentIdx = 0;
+score = 0;
+userChoices = [];
+isReviewing = false;
+
+document.getElementById("quiz-content").style.display = "block";
+document.getElementById("final-screen").style.display = "none";
+
+loadQuestion();
+
 };
 
-/* --- LOGICA QUIZ --- */
-window.startQuiz = function() {
-    currentIdx = 0; 
-    score = 0; 
-    userChoices = []; 
-    isReviewing = false;
-    
-    const quizContent = document.getElementById('quiz-content');
-    const finalScreen = document.getElementById('final-screen');
-    
-    if (quizContent) quizContent.style.display = 'block';
-    if (finalScreen) finalScreen.style.display = 'none';
-    
-    loadQuestion();
+
+function loadQuestion(){
+
+selectedIdx = -1;
+hasConfirmed = false;
+
+const data = quizData[currentIdx];
+
+const container = document.getElementById("options-container");
+
+container.innerHTML = "";
+
+document.getElementById("q-text").innerText = data.question;
+
+data.options.forEach((opt,i)=>{
+
+let btn = document.createElement("button");
+
+btn.className = "option-btn";
+
+btn.innerText = opt;
+
+if(isReviewing){
+
+if(i === data.correct) btn.classList.add("correct");
+
+if(i === userChoices[currentIdx] && i !== data.correct)
+btn.classList.add("wrong");
+
+btn.disabled = true;
+
+}else{
+
+btn.onclick = ()=>{
+
+selectedIdx = i;
+
+document.querySelectorAll(".option-btn")
+.forEach(b=>b.classList.remove("selected"));
+
+btn.classList.add("selected");
+
+document.getElementById("action-btn").style.display = "block";
+
 };
 
-function loadQuestion() {
-    selectedIdx = -1;
-    hasConfirmed = false;
-    const data = quizData[currentIdx];
-    const container = document.getElementById('options-container');
-    const actionBtn = document.getElementById('action-btn');
-    const qText = document.getElementById('q-text');
-    
-    if (qText) qText.innerText = data.question;
-    if (container) {
-        container.innerHTML = '';
-        data.options.forEach((opt, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt;
-            
-            if (isReviewing) {
-                if (i === data.correct) btn.classList.add('correct');
-                if (i === userChoices[currentIdx] && i !== data.correct) btn.classList.add('wrong');
-                btn.disabled = true;
-            } else {
-                btn.onclick = () => {
-                    selectedIdx = i;
-                    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    if (actionBtn) actionBtn.style.display = 'block';
-                };
-            }
-            container.appendChild(btn);
-        });
-    }
-
-    if (actionBtn) {
-        actionBtn.innerText = isReviewing ? (currentIdx === quizData.length - 1 ? "Fine" : "Avanti") : "Conferma";
-        actionBtn.style.display = isReviewing ? 'block' : 'none';
-    }
 }
 
-window.handleAction = function() {
-    if (isReviewing) {
-        currentIdx++;
-        if (currentIdx < quizData.length) loadQuestion();
-        else showEnd();
-        return;
-    }
+container.appendChild(btn);
 
-    if (selectedIdx !== -1 && !hasConfirmed) {
-        hasConfirmed = true; 
-        userChoices.push(selectedIdx);
-        const data = quizData[currentIdx];
-        const allButtons = document.querySelectorAll('.option-btn');
-        const sndCorrect = document.getElementById('snd-correct');
-        const sndWrong = document.getElementById('snd-wrong');
-        
-        if (selectedIdx === data.correct) {
-            score++;
-            if (!isMuted && sndCorrect) sndCorrect.play();
-            allButtons[selectedIdx].classList.add('correct');
-        } else {
-            if (!isMuted && sndWrong) sndWrong.play();
-            allButtons[selectedIdx].classList.add('wrong');
-        }
+});
 
-        allButtons.forEach(btn => btn.disabled = true);
-        
-        setTimeout(() => {
-            currentIdx++;
-            if (currentIdx < quizData.length) loadQuestion();
-            else showEnd();
-        }, 1200);
-    }
-};
+let actionBtn = document.getElementById("action-btn");
 
-function showEnd() {
-    const bgMusic = document.getElementById('bg-music');
-    const quizContent = document.getElementById('quiz-content');
-    const finalScreen = document.getElementById('final-screen');
-    const finalScoreText = document.getElementById('final-score');
+actionBtn.innerText = isReviewing ?
+(currentIdx === quizData.length-1 ? "Fine" : "Avanti")
+:
+"Conferma";
 
-    if (bgMusic) bgMusic.pause();
-    if (quizContent) quizContent.style.display = 'none';
-    if (finalScreen) finalScreen.style.display = 'block';
-    if (finalScoreText) finalScoreText.innerText = `Punteggio: ${score}/${quizData.length}`;
+actionBtn.style.display = isReviewing ? "block" : "none";
+
 }
 
-window.reviewQuiz = function() { 
-    isReviewing = true; 
-    currentIdx = 0; 
-    const finalScreen = document.getElementById('final-screen');
-    const quizContent = document.getElementById('quiz-content');
-    
-    if (finalScreen) finalScreen.style.display = 'none'; 
-    if (quizContent) quizContent.style.display = 'block'; 
-    loadQuestion(); 
+
+window.handleAction = function(){
+
+if(isReviewing){
+
+currentIdx++;
+
+if(currentIdx < quizData.length){
+
+loadQuestion();
+
+}else{
+
+showEnd();
+
+}
+
+return;
+
+}
+
+if(selectedIdx === -1 || hasConfirmed) return;
+
+hasConfirmed = true;
+
+userChoices.push(selectedIdx);
+
+const data = quizData[currentIdx];
+
+const allButtons = document.querySelectorAll(".option-btn");
+
+const sndCorrect = document.getElementById("snd-correct");
+
+const sndWrong = document.getElementById("snd-wrong");
+
+
+if(selectedIdx === data.correct){
+
+score++;
+
+if(!isMuted) sndCorrect.play();
+
+allButtons[selectedIdx].classList.add("correct");
+
+}else{
+
+if(!isMuted) sndWrong.play();
+
+allButtons[selectedIdx].classList.add("wrong");
+
+}
+
+allButtons.forEach(btn=>btn.disabled = true);
+
+
+setTimeout(()=>{
+
+currentIdx++;
+
+if(currentIdx < quizData.length){
+
+loadQuestion();
+
+}else{
+
+showEnd();
+
+}
+
+},1200);
+
 };
 
-window.retryQuiz = function() { 
-    window.startQuiz(); 
+
+function showEnd(){
+
+document.getElementById("bg-music").pause();
+
+document.getElementById("quiz-content").style.display = "none";
+
+document.getElementById("final-screen").style.display = "block";
+
+document.getElementById("final-score").innerText =
+"Punteggio: " + score + "/" + quizData.length;
+
+}
+
+
+window.reviewQuiz = function(){
+
+isReviewing = true;
+
+currentIdx = 0;
+
+document.getElementById("final-screen").style.display = "none";
+document.getElementById("quiz-content").style.display = "block";
+
+loadQuestion();
+
 };
+
+
+window.retryQuiz = function(){
+
+startQuiz();
+
+};
+
 </script>
-  
+
+<div id="ai-container">
+
+<div id="ai-tooltip">
+Per informazioni su Jasmine chiedi pure!
+</div>
+
+<div id="ai-bubble"></div>
+
+<div id="ai-chat">
+
+<div class="ai-header">
+Jasmine AI
+</div>
+
+<div id="ai-messages"></div>
+
+<div class="ai-input">
+<input id="ai-input-text" placeholder="Chiedi su Jasmine...">
+<button onclick="sendAI()">Invia</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const bubble = document.getElementById("ai-bubble");
+const tooltip = document.getElementById("ai-tooltip");
+const chat = document.getElementById("ai-chat");
+
+/* fumetto automatico */
+
+window.onload = () => {
+
+tooltip.style.display="block";
+
+setTimeout(()=>{
+tooltip.style.display="none";
+},1500);
+
+};
+
+/* apertura chat */
+
+bubble.onclick = (e)=>{
+
+e.stopPropagation();
+
+chat.style.display="flex";
+
+};
+
+/* chiudi cliccando fuori */
+
+document.addEventListener("click", function(e){
+
+if(!chat.contains(e.target) && !bubble.contains(e.target)){
+
+chat.style.display="none";
+
+}
+
+});
+
+async function sendAI(){
+
+let input=document.getElementById("ai-input-text");
+
+let msg=input.value;
+
+if(!msg) return;
+
+addMessage(msg,"user");
+
+input.value="";
+
+let res=await fetch("/ask-ai",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({message:msg})
+
+});
+
+let data=await res.json();
+
+addMessage(data.reply,"bot");
+
+}
+
+function addMessage(text,type){
+
+let box=document.getElementById("ai-messages");
+
+let div=document.createElement("div");
+
+div.className="ai-message ai-"+type;
+
+div.innerText=text;
+
+box.appendChild(div);
+
+box.scrollTop=box.scrollHeight;
+
+}
+
+</script>
+
     <nav class="bottom-nav">
         <a href="javascript:void(0)" class="nav-item active" id="btn-home" onclick="showTab('home')">
             <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 10l9-7 9 7v11H15v-4a3 3 0 0 0-6 0v4H3V10z"></path></svg></span>
@@ -1773,4 +2218,4 @@ window.scrollTo(0,0);
 </body>
 </html>
 
- 
+
