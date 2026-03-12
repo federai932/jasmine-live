@@ -296,13 +296,32 @@ color:white;
 
 .player-photo{
 position:absolute;
-right:8px;
-bottom:0;
+right:12px;
+bottom:10px;
+
+width:120px;
+height:120px;
+
+border-radius:50%;
+
+overflow:hidden;
+
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
+/* immagine dentro il cerchio */
+
 .player-photo img{
-height:85px;
-object-fit:contain;
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+border:4px solid white;  
+  
 }
 
 /* TEAM DROPDOWN */
@@ -439,6 +458,11 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s;
 }
 .toggle-btn.active { background: #2e7d32; color: white; }
+      
+.table-wrapper{
+min-height:400px;
+display:block;
+}      
 
 /* --- NAVBAR RIPRISTINATA (ICONE GRANDI + ALTEZZA SLIM) --- */
 .bottom-nav { 
@@ -721,6 +745,40 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     );
     border-bottom-left-radius:16px;
     border-bottom-right-radius:16px;
+}
+      
+.live-header{
+
+background:#0b0b0b;
+
+padding:14px 18px;
+
+border-radius:16px;
+
+margin-bottom:20px;
+
+box-shadow:0 6px 18px rgba(0,0,0,0.35);
+
+}
+
+/* titolo */
+
+.live-label{
+
+color:white;
+
+font-size:18px;
+
+font-weight:800;
+
+text-transform:uppercase;
+
+border-bottom:3px solid #28a745;
+
+padding-bottom:3px;
+
+display:inline-block;
+
 }
       
 /* =========================================================
@@ -1015,7 +1073,24 @@ animation:shake .35s;
 
 }
       
+.option-btn{
 
+touch-action: manipulation;
+-webkit-tap-highlight-color: transparent;
+
+transition: 
+border 0.12s ease,
+background 0.12s ease,
+transform 0.08s ease;
+
+}
+
+.option-btn:active{
+
+transform:scale(0.97);
+
+}
+      
       
 /* =========================================================
    REMOVE MOBILE TAP HIGHLIGHT
@@ -1100,190 +1175,9 @@ font-family:'Inter',sans-serif;
 box-sizing:border-box;
 }
     
-#ai-container{
-position:fixed;
-bottom:110px;
-right:20px;
-z-index:9999;
+body{
+overscroll-behavior-y:contain;
 }
-
-#ai-container{
-position:fixed;
-bottom:110px;
-right:20px;
-z-index:9999;
-}
-
-/* cerchio principale */
-
-#ai-bubble{
-
-position:relative;
-
-width:65px;
-height:65px;
-
-border-radius:50%;
-
-cursor:pointer;
-
-box-shadow:0 10px 30px rgba(0,0,0,0.35);
-
-}
-
-/* anello colorato stile Gemini */
-
-#ai-bubble::before{
-
-content:"";
-
-position:absolute;
-
-inset:0;
-
-border-radius:50%;
-
-background:conic-gradient(
-#4285F4,
-#34A853,
-#FBBC05,
-#EA4335,
-#4285F4
-);
-
-}
-
-/* foro centrale */
-
-#ai-bubble::after{
-
-content:"";
-
-position:absolute;
-
-width:45px;
-height:45px;
-
-border-radius:50%;
-
-background:#f4f7f4; /* colore dello sfondo del sito */
-
-top:50%;
-left:50%;
-
-transform:translate(-50%, -50%);
-
-}
-
-/* fumetto */
-
-#ai-tooltip{
-
-position:absolute;
-
-bottom:80px;
-right:0;
-
-background:white;
-
-padding:10px 14px;
-
-border-radius:14px;
-
-font-size:14px;
-
-box-shadow:0 8px 25px rgba(0,0,0,0.25);
-
-display:none;
-
-}
-
-/* chat */
-
-#ai-chat{
-
-position:absolute;
-
-bottom:90px;
-right:0;
-
-width:320px;
-height:420px;
-
-background:white;
-
-border-radius:18px;
-
-box-shadow:0 20px 50px rgba(0,0,0,0.35);
-
-display:none;
-
-flex-direction:column;
-
-overflow:hidden;
-
-}
-
-.ai-header{
-
-background:#7c3aed;
-
-color:white;
-
-padding:12px;
-
-font-weight:700;
-
-}
-
-#ai-messages{
-
-flex:1;
-
-padding:10px;
-
-overflow-y:auto;
-
-}
-
-.ai-message{
-
-margin-bottom:10px;
-
-padding:8px 12px;
-
-border-radius:10px;
-
-}
-
-.ai-bot{
-background:#f1f5f9;
-}
-
-.ai-user{
-background:#7c3aed;
-color:white;
-text-align:right;
-}
-
-.ai-input{
-display:flex;
-border-top:1px solid #eee;
-}
-
-.ai-input input{
-flex:1;
-border:none;
-padding:10px;
-}
-
-.ai-input button{
-background:#7c3aed;
-border:none;
-color:white;
-padding:10px;
-cursor:pointer;
-}  
       
   </style>
 </head>
@@ -1306,7 +1200,7 @@ cursor:pointer;
 
 <div class="bio-text-short">
 
-Jasmine Paolini is an Italian professional tennis player born in Castelnuovo di Garfagnana on January 4, 1996. 
+Jasmine Paolini is an Italian professional tennis player born in Castel nuovo di Garfagnana on January 4, 1996. 
 She grew up in Bagni di Lucca, where she started playing tennis at a young age.
 
 </div>
@@ -1350,7 +1244,7 @@ Read more ▼
 
 <div class="stat-item full">
 <span class="stat-label">Birthplace</span>
-<span class="stat-value">Castelnuovo di Garfagnana, Italy</span>
+<span class="stat-value">Castel nuovo di Garfagnana, Italy</span>
 </div>
 
 <!-- FOTO JASMINE -->
@@ -1383,7 +1277,7 @@ Meet the Team
 
 <div class="team-role">
 Coach
-<a href="https://www.instagram.com/danilopizzorno" target="_blank">
+<a href="#" onclick="openInstagram('danilopizzorno'); return false;">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1399,7 +1293,7 @@ Coach
 
 <div class="team-role">
 Coach
-<a href="https://www.instagram.com/saraerrani87/" target="_blank" rel="noopener">
+<a href="#" onclick="openInstagram('saraerrani87'); return false;">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1415,7 +1309,7 @@ Coach
 
 <div class="team-role">
 Physiotherapist
-<a href="https://www.instagram.com/antoniogugliettafisioterapia" target="_blank" rel="noopener">
+<a href="#" onclick="openInstagram('antoniogugliettafisioterapia'); return false;">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1431,7 +1325,7 @@ Physiotherapist
 
 <div class="team-role">
 Fitness Coach
-<a href="https://www.instagram.com/coach.brunocases" target="_blank" rel="noopener">
+<a href="#" onclick="openInstagram('coach.brunocases'); return false;">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1596,12 +1490,12 @@ btn.innerHTML="Show less ▲";
         {% endfor %}
     </div>
 
-    <!-- SEZIONE MATCH IN CORSO -->
-    <div class="current-matches-section" style="width: 96%; max-width: 500px; margin: 40px auto; padding: 0 10px;">
-        
-        <div class="news-wrapper" style="margin: 0 0 20px 0; border-bottom: 3px solid #28a745; text-align: left;">
-            <h2 class="live-title" style="color: #28a745; font-size: 22px; font-weight: 800; text-transform: uppercase; margin: 0; padding-bottom: 5px; display: inline-block;">Current Matches</h2>
-        </div>
+<!-- SEZIONE MATCH IN CORSO -->
+<div class="current-matches-section" style="width: 96%; max-width: 500px; margin: 40px auto; padding: 0 10px;">
+
+    <div class="live-header">
+        <span class="live-label">Live Scores</span>
+    </div>
 
 <!-- Switch Singles / Doubles -->
 <div class="toggle-container">
@@ -1818,10 +1712,25 @@ let isReviewing = false;
 let userChoices = [];
 
 const quizData = [
+
 { question:"In che anno è nata Jasmine?", options:["1994","1996","1998"], correct:1 },
-{ question:"Quanti titoli WTA ha vinto Jasmine in singolare?", options:["1","2","3"], correct:1 },
+
+{ question:"Quanti titoli WTA ha vinto Jasmine in singolare?", options:["2","3","4"], correct:1 },
+
 { question:"In quale città è cresciuta Jasmine?", options:["Firenze","Bagni di Lucca","Lucca"], correct:1 },
-{ question:"Qual è la superficie preferita dichiarata da Jasmine?", options:["Erba","Cemento","Terra Rossa"], correct:2 }
+
+{ question:"Qual è la superficie preferita dichiarata da Jasmine?", options:["Erba","Cemento","Terra Rossa"], correct:2 },
+
+{ question:"Qual è la nazionalità di Jasmine?", options:["Spagnola","Italiana","Francese"], correct:1 },
+
+{ question:"In quale anno ha vinto il suo primo titolo WTA?", options:["2021","2022","2023"], correct:1 },
+
+{ question:"Qual è il suo miglior ranking WTA?", options:["4","6","10"], correct:0 },
+
+{ question:"Che mano usa per giocare?", options:["Destra","Sinistra","Ambidestra"], correct:0 },
+
+{ question:"Quanto è alta Jasmine?", options:["1.63 m","1.70 m","1.58 m"], correct:0 }
+
 ];
 
 
@@ -1847,7 +1756,7 @@ document.getElementById("gameOverlay").style.display = "flex";
 
 const bgMusic = document.getElementById("bg-music");
 
-bgMusic.volume = 0.25;
+bgMusic.volume = 0.55;   // musica più alta
 bgMusic.currentTime = 0;
 
 bgMusic.play().catch(()=>{});
@@ -1873,6 +1782,11 @@ score = 0;
 userChoices = [];
 isReviewing = false;
 
+const bgMusic = document.getElementById("bg-music");
+
+bgMusic.currentTime = 0;
+if(!isMuted) bgMusic.play().catch(()=>{});
+
 document.getElementById("quiz-content").style.display = "block";
 document.getElementById("final-screen").style.display = "none";
 
@@ -1887,7 +1801,6 @@ selectedIdx = -1;
 hasConfirmed = false;
 
 const data = quizData[currentIdx];
-
 const container = document.getElementById("options-container");
 
 container.innerHTML = "";
@@ -1899,7 +1812,6 @@ data.options.forEach((opt,i)=>{
 let btn = document.createElement("button");
 
 btn.className = "option-btn";
-
 btn.innerText = opt;
 
 if(isReviewing){
@@ -1971,13 +1883,14 @@ hasConfirmed = true;
 userChoices.push(selectedIdx);
 
 const data = quizData[currentIdx];
-
 const allButtons = document.querySelectorAll(".option-btn");
 
 const sndCorrect = document.getElementById("snd-correct");
-
 const sndWrong = document.getElementById("snd-wrong");
 
+/* volume effetti più basso */
+sndCorrect.volume = 0.35;
+sndWrong.volume = 0.35;
 
 if(selectedIdx === data.correct){
 
@@ -2019,7 +1932,7 @@ showEnd();
 
 function showEnd(){
 
-document.getElementById("bg-music").pause();
+/* musica continua */
 
 document.getElementById("quiz-content").style.display = "none";
 
@@ -2050,119 +1963,6 @@ window.retryQuiz = function(){
 startQuiz();
 
 };
-
-</script>
-
-<div id="ai-container">
-
-<div id="ai-tooltip">
-Per informazioni su Jasmine chiedi pure!
-</div>
-
-<div id="ai-bubble"></div>
-
-<div id="ai-chat">
-
-<div class="ai-header">
-Jasmine AI
-</div>
-
-<div id="ai-messages"></div>
-
-<div class="ai-input">
-<input id="ai-input-text" placeholder="Chiedi su Jasmine...">
-<button onclick="sendAI()">Invia</button>
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-const bubble = document.getElementById("ai-bubble");
-const tooltip = document.getElementById("ai-tooltip");
-const chat = document.getElementById("ai-chat");
-
-/* fumetto automatico */
-
-window.onload = () => {
-
-tooltip.style.display="block";
-
-setTimeout(()=>{
-tooltip.style.display="none";
-},1500);
-
-};
-
-/* apertura chat */
-
-bubble.onclick = (e)=>{
-
-e.stopPropagation();
-
-chat.style.display="flex";
-
-};
-
-/* chiudi cliccando fuori */
-
-document.addEventListener("click", function(e){
-
-if(!chat.contains(e.target) && !bubble.contains(e.target)){
-
-chat.style.display="none";
-
-}
-
-});
-
-async function sendAI(){
-
-let input=document.getElementById("ai-input-text");
-
-let msg=input.value;
-
-if(!msg) return;
-
-addMessage(msg,"user");
-
-input.value="";
-
-let res=await fetch("/ask-ai",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({message:msg})
-
-});
-
-let data=await res.json();
-
-addMessage(data.reply,"bot");
-
-}
-
-function addMessage(text,type){
-
-let box=document.getElementById("ai-messages");
-
-let div=document.createElement("div");
-
-div.className="ai-message ai-"+type;
-
-div.innerText=text;
-
-box.appendChild(div);
-
-box.scrollTop=box.scrollHeight;
-
-}
 
 </script>
 
@@ -2217,5 +2017,4 @@ window.scrollTo(0,0);
 
 </body>
 </html>
-
 
