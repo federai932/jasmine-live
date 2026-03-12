@@ -292,38 +292,42 @@ font-weight:700;
 color:white;
 }
 
-/* FOTO JASMINE */
+/* CONTENITORE FOTO */
 
 .player-photo{
+
 position:absolute;
 right:12px;
-bottom:10px;
+top:50%;
 
-width:120px;
-height:120px;
+transform:translateY(-50%);
+
+width:130px;
+height:130px;
 
 border-radius:50%;
-
 overflow:hidden;
+
+background:white;
 
 display:flex;
 align-items:center;
 justify-content:center;
+
 }
 
-/* immagine dentro il cerchio */
+
+/* IMMAGINE */
 
 .player-photo img{
 
-width:100%;
-height:100%;
+height:105%;
+width:auto;
 
-object-fit:cover;
+object-fit:contain;
 
-border:4px solid white;  
-  
 }
-
+      
 /* TEAM DROPDOWN */
 
 .team-dropdown{
@@ -337,6 +341,9 @@ overflow:hidden;
 box-shadow:0 10px 28px rgba(0,0,0,0.15);
 }
 
+.player-photo{
+box-shadow:0 6px 18px rgba(0,0,0,0.35);
+}      
 
 /* TEAM HEADER */
 
@@ -751,15 +758,19 @@ display:block;
 
 background:#0b0b0b;
 
-padding:14px 18px;
+padding:16px 22px;
 
-border-radius:16px;
+border-radius:20px;
 
 margin-bottom:20px;
 
 box-shadow:0 6px 18px rgba(0,0,0,0.35);
 
+/* questa riga accorcia la barra */
+width:35%;
+
 }
+
 
 /* titolo */
 
@@ -787,12 +798,16 @@ GAMES BOX
 
 .games-news-box{
 
-width:95%;
-max-width:420px;
-background:#121212;
-border-radius:24px;
-padding:20px;
+display:block;
+width:fit-content;
 margin:25px auto;
+
+background:#121212;
+
+border-radius:24px;
+
+padding:18px;
+
 box-shadow:0 12px 40px rgba(0,0,0,0.6);
 
 }
@@ -827,17 +842,45 @@ display:none;
 COPERTINE QUIZ / NEWSLETTER
 ========================================================= */
 
-.game-thumb,
-.newsletter-thumb{
+/* CARD GAME */
+
+.game-thumb{
 
 flex:0 0 140px;
+
 height:190px;
+
 object-fit:cover;
+
 border-radius:15px;
+
 cursor:pointer;
+
 transition:transform .2s;
 
 }
+
+
+/* CARD NEWSLETTER */
+
+.newsletter-thumb{
+
+flex:0 0 220px;
+
+height:220px;
+
+object-fit:cover;
+
+border-radius:0;
+
+cursor:pointer;
+
+transition:transform .2s;
+
+}
+
+
+/* EFFETTO TAP */
 
 .game-thumb:active,
 .newsletter-thumb:active{
@@ -845,7 +888,7 @@ transition:transform .2s;
 transform:scale(.95);
 
 }
-
+      
 /* =========================================================
 POPUP OVERLAY
 ========================================================= */
@@ -1175,9 +1218,36 @@ font-family:'Inter',sans-serif;
 box-sizing:border-box;
 }
     
-body{
-overscroll-behavior-y:contain;
+html{
+
+overscroll-behavior-y:none;
+
 }
+
+body{
+
+overflow-x:hidden;
+-webkit-tap-highlight-color:transparent;
+
+}
+      
+.page-transition{
+
+opacity:0;
+transform:translateY(8px);
+
+transition:
+opacity .22s ease,
+transform .22s ease;
+
+}
+
+.page-transition.active{
+
+opacity:1;
+transform:translateY(0);
+
+}      
       
   </style>
 </head>
@@ -1277,7 +1347,8 @@ Meet the Team
 
 <div class="team-role">
 Coach
-<a href="#" onclick="openInstagram('danilopizzorno'); return false;">
+<a href="instagram://user?username=danilopizzorno" 
+onclick="window.open('https://www.instagram.com/danilopizzorno/','_blank')" >
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1293,7 +1364,8 @@ Coach
 
 <div class="team-role">
 Coach
-<a href="#" onclick="openInstagram('saraerrani87'); return false;">
+<a href="instagram://user?username=saraerrani87" 
+onclick="window.open('https://www.instagram.com/saraerrani87/','_blank')">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1309,7 +1381,8 @@ Coach
 
 <div class="team-role">
 Physiotherapist
-<a href="#" onclick="openInstagram('antoniogugliettafisioterapia'); return false;">
+<a href="instagram://user?username=antoniogugliettafisioterapia" 
+onclick="window.open('https://www.instagram.com/antoniogugliettafisioterapia/','_blank')">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
@@ -1319,18 +1392,18 @@ Physiotherapist
 <!-- BRUNO -->
 
 <div class="team-member">
-<img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo" onclick="zoomImage(this)">
+<img src="{{ url_for('static', filename='team/bruno_caches.jpg')" class="team-photo" onclick="zoomImage(this)">
 
 <div class="team-name">Bruno Cases</div>
 
 <div class="team-role">
 Fitness Coach
-<a href="#" onclick="openInstagram('coach.brunocases'); return false;">
+<a href="instagram://user?username=coach.brunocases" 
+onclick="window.open('https://www.instagram.com/coach.brunocases/','_blank')">
 <img src="{{ url_for('static', filename='team/instagram.png') }}">
 </a>
 </div>
 </div>
-
 
 </div>
 </div>
@@ -1400,7 +1473,7 @@ document.body.appendChild(overlay);
     </div>
 
     <!-- SEZIONE RANKING -->
-    <div id="tabella-ranking" class="ranking-wrapper" style="margin-top: 20px;"> 
+   <div id="tabella-ranking" class="ranking-wrapper fade-switch active" style="margin-top:20px;">
         <div class="ranking-card"> 
             <div class="table-title">Classifica Singolare WTA (Top 10)</div> 
             <div class="table-scroll"> {{ tabella_html | safe }} </div> 
@@ -1412,7 +1485,7 @@ document.body.appendChild(overlay);
     </div>
 
     <!-- SEZIONE RACE (Nascosta all'inizio) -->
-    <div id="tabella-race" class="ranking-wrapper" style="margin-top: 20px; display: none;"> 
+  <div id="tabella-race" class="ranking-wrapper fade-switch" style="margin-top:20px; display:none;">
         <div class="ranking-card"> 
             <div class="table-title">Race Singolare WTA (Top 10)</div> 
             <div class="table-scroll"> {{ race_singolare_html | safe }} </div> 
@@ -1625,13 +1698,8 @@ onclick="openGame('quiz')">
 
 <div class="games-carousel-horizontal">
 
-<a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf"
-target="_blank"
-rel="noopener">
-
-<img src="{{ url_for('static', filename='newsletter_mensile.png') }}"
-class="newsletter-thumb">
-
+<a onclick="openNewsletter()">
+<img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
 </a>
 
 </div>
@@ -1963,6 +2031,15 @@ window.retryQuiz = function(){
 startQuiz();
 
 };
+  
+function openNewsletter(){
+
+window.open(
+"https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf",
+"_blank"
+);
+
+}  
 
 </script>
 
@@ -2017,4 +2094,6 @@ window.scrollTo(0,0);
 
 </body>
 </html>
+
+
 
