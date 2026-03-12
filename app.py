@@ -160,9 +160,10 @@ User question:
         })
 
 if __name__ == "__main__":
-    # Usa la porta di Render (10000) o la 5000 se sei in locale
-    port = int(os.environ.get("PORT", 10000))
+    # Prende la porta dall'ambiente (Koyeb/Render) o usa 8000 come fallback
+    port = int(os.environ.get("PORT", 8000))
     app.run(host='0.0.0.0', port=port)
+
 
 
 
