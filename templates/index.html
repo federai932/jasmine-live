@@ -292,27 +292,35 @@ font-weight:700;
 color:white;
 }
 
-/* CONTENITORE FOTO */
+/* CONTENITORE FOTO (Il cerchio bianco) */
 .player-photo {
     position: absolute;
-    right: 12px;
+    right: 20px; /* Un po' più di spazio dal bordo destro */
     top: 50%;
     transform: translateY(-50%);
-    width: 130px;
-    height: 130px;
+    
+    /* Ridotto da 130px a 110px per farlo stare meglio nel box */
+    width: 110px; 
+    height: 110px;
+    
     border-radius: 50%;
     overflow: hidden;
     background: white;
-    /* Rimosso flex perché con object-fit: cover non serve più per centrare */
+    
+    /* Rimuoviamo flex e usiamo display block per sicurezza */
+    display: block; 
 }
 
-/* IMMAGINE */
+/* IMMAGINE (L'atleta) */
 .player-photo img {
+    /* Fondamentali per non sminchiare la foto */
     width: 100%;
     height: 100%;
-    /* Questa è la riga magica: riempie il cerchio ritagliando i bordi in eccesso */
+    
+    /* Taglia i bordi in eccesso senza deformare (niente più schiacciamenti!) */
     object-fit: cover; 
-    /* Se la testa è troppo alta o bassa, puoi regolare con object-position */
+    
+    /* Centra il viso dell'atleta */
     object-position: center top; 
 }
       
@@ -439,32 +447,7 @@ gap:26px 6px;
 .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 0 auto; } 
 .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
 .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
-.table-scroll {
-    /* Aumentiamo l'altezza massima per ospitare le 20 righe del doppio */
-    /* 600px è una misura sicura per vedere molte righe senza rompere il layout */
-    max-height: 600px; 
-    overflow-y: auto;
-    /* Importante per far funzionare il 'sticky' della riga verde */
-    position: relative; 
-}
-
-thead th {
-    position: sticky;
-    top: 0;
-    background-color: #2e7d32;
-    color: white;
-    /* Aumentiamo lo z-index per assicurarci che la barra verde resti sopra le 20 righe */
-    z-index: 100; 
-    padding: 12px;
-}
-
-/* Rimuovi o commenta questa riga se presente, perché blocca l'altezza */
-.table-wrapper {
-    min-height: auto; /* Cambiato da 400px a auto per evitare spazi vuoti eccessivi */
-    display: block;
-}
-
-/* --- FINE MODIFICA --- */
+.table-scroll { max-height: 215px; overflow-y: auto; } 
 
 table { width: 100%; border-collapse: collapse; } 
 th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
@@ -478,6 +461,37 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
     border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s;
 }
 .toggle-btn.active { background: #2e7d32; color: white; }
+      
+.table-wrapper{
+min-height:400px;
+display:block;
+}      
+      
+/* 1. Sistemiamo il contenitore per non far sparire i bordi */
+.table-scroll { 
+    max-height: 215px; 
+    overflow-y: auto; 
+    position: relative;
+    /* Rimuoviamo eventuali bordi che si sovrappongono */
+    border-top: none; 
+} 
+
+/* 2. Blocchiamo la barra verde scura in modo che resti sotto il titolo */
+thead th { 
+    position: sticky; 
+    top: 0; 
+    background-color: #2e7d32; 
+    color: white; 
+    z-index: 20; 
+    padding: 12px;
+    /* Questo evita che si veda lo sfondo bianco della tabella dietro gli angoli */
+    border: none;
+}
+
+/* 3. Evitiamo che la prima riga si attacchi troppo alla testata */
+tbody tr:first-child td {
+    border-top: 1px solid #eee;
+}
       
 
 /* --- NAVBAR RIPRISTINATA (ICONE GRANDI + ALTEZZA SLIM) --- */
