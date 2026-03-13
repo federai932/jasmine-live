@@ -293,39 +293,27 @@ color:white;
 }
 
 /* CONTENITORE FOTO */
-
-.player-photo{
-
-position:absolute;
-right:12px;
-top:50%;
-
-transform:translateY(-50%);
-
-width:130px;
-height:130px;
-
-border-radius:50%;
-overflow:hidden;
-
-background:white;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
+.player-photo {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: white;
+    /* Rimosso flex perché con object-fit: cover non serve più per centrare */
 }
 
-
 /* IMMAGINE */
-
-.player-photo img{
-
-height:105%;
-width:auto;
-
-object-fit:contain;
-
+.player-photo img {
+    width: 100%;
+    height: 100%;
+    /* Questa è la riga magica: riempie il cerchio ritagliando i bordi in eccesso */
+    object-fit: cover; 
+    /* Se la testa è troppo alta o bassa, puoi regolare con object-position */
+    object-position: center top; 
 }
       
 /* TEAM DROPDOWN */
@@ -451,7 +439,32 @@ gap:26px 6px;
 .ranking-wrapper { width: 100%; max-width: 1000px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 0 auto; } 
 .ranking-card { flex: 1; min-width: 400px; background: white; border-radius: 15px; border: 3px solid #2e7d32; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; } 
 .table-title { font-size: 16px; font-weight: bold; color: #1a5c20; padding: 15px; background-color: #e8f5e9; text-align: center; border-bottom: 1px solid #ddd; } 
-.table-scroll { max-height: 215px; overflow-y: auto; } 
+.table-scroll {
+    /* Aumentiamo l'altezza massima per ospitare le 20 righe del doppio */
+    /* 600px è una misura sicura per vedere molte righe senza rompere il layout */
+    max-height: 600px; 
+    overflow-y: auto;
+    /* Importante per far funzionare il 'sticky' della riga verde */
+    position: relative; 
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #2e7d32;
+    color: white;
+    /* Aumentiamo lo z-index per assicurarci che la barra verde resti sopra le 20 righe */
+    z-index: 100; 
+    padding: 12px;
+}
+
+/* Rimuovi o commenta questa riga se presente, perché blocca l'altezza */
+.table-wrapper {
+    min-height: auto; /* Cambiato da 400px a auto per evitare spazi vuoti eccessivi */
+    display: block;
+}
+
+/* --- FINE MODIFICA --- */
 
 table { width: 100%; border-collapse: collapse; } 
 th, td { padding: 12px; text-align: center !important; border-bottom: 1px solid #eee; font-size: 14px; } 
@@ -466,10 +479,6 @@ tbody tr:nth-child(even) { background-color: #f9f9f9; }
 }
 .toggle-btn.active { background: #2e7d32; color: white; }
       
-.table-wrapper{
-min-height:400px;
-display:block;
-}      
 
 /* --- NAVBAR RIPRISTINATA (ICONE GRANDI + ALTEZZA SLIM) --- */
 .bottom-nav { 
@@ -1218,17 +1227,21 @@ font-family:'Inter',sans-serif;
 box-sizing:border-box;
 }
     
-html{
-
-overscroll-behavior-y:none;
-
+html, body {
+    /* Blocca il trascinamento per ricaricare (pull-to-refresh) e il rimbalzo */
+    /* Ma lascia il contenuto scorrevole per gli script */
+    overscroll-behavior-y: contain; 
+    
+    /* Importante: NON usare overflow: hidden qui */
+    width: 100%;
+    min-height: 100%;
 }
 
-body{
-
-overflow-x:hidden;
--webkit-tap-highlight-color:transparent;
-
+body {
+    overflow-x: hidden;
+    /* Rende lo scroll fluido per i tuoi script di "ritorno in cima" */
+    scroll-behavior: smooth; 
+    -webkit-tap-highlight-color: transparent;
 }
       
 .page-transition{
@@ -1339,71 +1352,53 @@ Meet the Team
 
 
 <!-- DANILO -->
-
 <div class="team-member">
-<img src="{{ url_for('static', filename='team/danilo_pizzorno.jpg') }}" class="team-photo" onclick="zoomImage(this)">
-
-<div class="team-name">Danilo Pizzorno</div>
-
-<div class="team-role">
-Coach
-<a href="instagram://user?username=danilopizzorno" 
-onclick="window.open('https://www.instagram.com/danilopizzorno/','_blank')" >
-<img src="{{ url_for('static', filename='team/instagram.png') }}">
-</a>
+    <img src="{{ url_for('static', filename='team/danilo_pizzorno.jpg') }}" class="team-photo" onclick="zoomImage(this)">
+    <div class="team-name">Danilo Pizzorno</div>
+    <div class="team-role">
+        Coach
+        <a href="https://www.instagram.com/danilopizzorno/" target="_blank">
+            <img src="{{ url_for('static', filename='team/instagram.png') }}">
+        </a>
+    </div>
 </div>
-</div>
-
 
 <!-- SARA -->
-
 <div class="team-member">
-<img src="{{ url_for('static', filename='team/sara_errani.jpg') }}" class="team-photo" onclick="zoomImage(this)">
-
-<div class="team-name">Sara Errani</div>
-
-<div class="team-role">
-Coach
-<a href="instagram://user?username=saraerrani87" 
-onclick="window.open('https://www.instagram.com/saraerrani87/','_blank')">
-<img src="{{ url_for('static', filename='team/instagram.png') }}">
-</a>
+    <img src="{{ url_for('static', filename='team/sara_errani.jpg') }}" class="team-photo" onclick="zoomImage(this)">
+    <div class="team-name">Sara Errani</div>
+    <div class="team-role">
+        Coach
+        <a href="https://www.instagram.com/saraerrani87/" target="_blank">
+            <img src="{{ url_for('static', filename='team/instagram.png') }}">
+        </a>
+    </div>
 </div>
-</div>
-
 
 <!-- ANTONIO -->
-
 <div class="team-member">
-<img src="{{ url_for('static', filename='team/antonio_guglietta.jpg') }}" class="team-photo" onclick="zoomImage(this)">
-
-<div class="team-name">Antonio Guglietta</div>
-
-<div class="team-role">
-Physiotherapist
-<a href="instagram://user?username=antoniogugliettafisioterapia" 
-onclick="window.open('https://www.instagram.com/antoniogugliettafisioterapia/','_blank')">
-<img src="{{ url_for('static', filename='team/instagram.png') }}">
-</a>
+    <img src="{{ url_for('static', filename='team/antonio_guglietta.jpg') }}" class="team-photo" onclick="zoomImage(this)">
+    <div class="team-name">Antonio Guglietta</div>
+    <div class="team-role">
+        Physiotherapist
+        <a href="https://www.instagram.com/antoniogugliettafisioterapia/" target="_blank">
+            <img src="{{ url_for('static', filename='team/instagram.png') }}">
+        </a>
+    </div>
 </div>
-</div>
-
 
 <!-- BRUNO -->
-
 <div class="team-member">
-<img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo" onclick="zoomImage(this)">
-
-<div class="team-name">Bruno Cases</div>
-
-<div class="team-role">
-Fitness Coach
-<a href="instagram://user?username=coach.brunocases" 
-onclick="window.open('https://www.instagram.com/coach.brunocases/','_blank')">
-<img src="{{ url_for('static', filename='team/instagram.png') }}">
-</a>
+    <img src="{{ url_for('static', filename='team/bruno_caches.jpg') }}" class="team-photo" onclick="zoomImage(this)">
+    <div class="team-name">Bruno Cases</div>
+    <div class="team-role">
+        Fitness Coach
+        <a href="https://www.instagram.com/coach.brunocases/" target="_blank">
+            <img src="{{ url_for('static', filename='team/instagram.png') }}">
+        </a>
+    </div>
 </div>
-</div>
+
 
 </div>
 </div>
@@ -1691,18 +1686,14 @@ onclick="openGame('quiz')">
 
 
 <!-- NEWSLETTER -->
-
 <div class="games-news-box">
-
-<h2>Newsletter</h2>
-
-<div class="games-carousel-horizontal">
-
-<a onclick="openNewsletter()">
-<img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
-</a>
-
-</div>
+    <h2>Newsletter</h2>
+    <div class="games-carousel-horizontal">
+        <!-- Rimuovi l'onclick e usa un href diretto -->
+        <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf" target="_blank">
+            <img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
+        </a>
+    </div>
 </div>
 
 
@@ -2031,15 +2022,6 @@ window.retryQuiz = function(){
 startQuiz();
 
 };
-  
-function openNewsletter(){
-
-window.open(
-"https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf",
-"_blank"
-);
-
-}  
 
 </script>
 
@@ -2094,7 +2076,4 @@ window.scrollTo(0,0);
 
 </body>
 </html>
-
-
-
 
