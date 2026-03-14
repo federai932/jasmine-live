@@ -790,7 +790,7 @@ margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,0.35);
 
 /* questa riga accorcia la barra */
-width: 45%;
+width: 65%;
 
 }
 
@@ -1316,32 +1316,6 @@ html, body {
     touch-action: pan-y;
 }      
       
-/* Prepara i contenitori delle tabelle per l'animazione */
-#tabella-ranking, #tabella-race {
-    transition: opacity 0.4s ease-in-out, transform 0.3s ease-out;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Stato quando la tabella è nascosta (leggermente spostata e trasparente) */
-.hidden-table {
-    display: none !important;
-    opacity: 0;
-    transform: translateY(10px);
-}      
-      
-/* Animazione per i box del Calendario */
-#singles-box, #doubles-box {
-    transition: opacity 0.4s ease-in-out, transform 0.3s ease-out;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Stato iniziale quando sono nascosti */
-.tab-hidden {
-    opacity: 0 !important;
-    transform: translateY(10px) !important;
-}      
       
   </style>
 </head>
@@ -1573,35 +1547,30 @@ document.body.appendChild(overlay);
 </div>
   
 <script>
+let currentRankingTab = 'ranking'; 
+
+// MEMORIA PER IL RANKING (Per non perdere il verde quando cambi scheda)
+let statoRanking = 'ranking'; 
+
 function mostra(tipo) {
-    var ranking = document.getElementById('tabella-ranking');
-    var race = document.getElementById('tabella-race');
-    var btnRanking = document.getElementById('btn-ranking-switch');
-    var btnRace = document.getElementById('btn-race-switch');
+    statoRanking = tipo;
+    
+    // PUNTIAMO SOLO AI BOTTONI DEL RANKING USANDO GLI ID UNICI
+    const btnR = document.getElementById('btn-ranking-switch');
+    const btnRace = document.getElementById('btn-race-switch');
+    const tabR = document.getElementById('tabella-ranking');
+    const tabRace = document.getElementById('tabella-race');
 
-    // Funzione per applicare l'effetto "fade"
     if (tipo === 'ranking') {
-        // Effetto sul Ranking
-        ranking.style.display = 'flex';
-        setTimeout(() => { ranking.style.opacity = '1'; ranking.style.transform = 'translateY(0)'; }, 10);
-        
-        // Nascondi Race
-        race.style.opacity = '0';
-        race.style.display = 'none';
-
-        btnRanking.classList.add('active');
-        btnRace.classList.remove('active');
+        if(tabR) tabR.style.display = 'flex';
+        if(tabRace) tabRace.style.display = 'none';
+        if(btnR) btnR.classList.add('active');
+        if(btnRace) btnRace.classList.remove('active');
     } else {
-        // Effetto sul Race
-        race.style.display = 'flex';
-        setTimeout(() => { race.style.opacity = '1'; race.style.transform = 'translateY(0)'; }, 10);
-
-        // Nascondi Ranking
-        ranking.style.opacity = '0';
-        ranking.style.display = 'none';
-
-        btnRace.classList.add('active');
-        btnRanking.classList.remove('active');
+        if(tabR) tabR.style.display = 'none';
+        if(tabRace) tabRace.style.display = 'flex';
+        if(btnRace) btnRace.classList.add('active');
+        if(btnR) btnR.classList.remove('active');
     }
 }
 </script>
@@ -1699,43 +1668,35 @@ btn.innerHTML="Show less ▲";
 <script src="https://widgets.365scores.com/main.js"></script>
 
 <script>
+<script>
 function showSingles() {
-    const singles = document.getElementById("singles-box");
-    const doubles = document.getElementById("doubles-box");
+    const sBox = document.getElementById("singles-box");
+    const dBox = document.getElementById("doubles-box");
+    const btnS = document.getElementById("btn-singles-switch");
+    const btnD = document.getElementById("btn-doubles-switch");
 
-    // Nascondi Doubles con dissolvenza
-    doubles.style.opacity = "0";
-    doubles.style.transform = "translateY(10px)";
+    if(sBox) sBox.style.display = "block";
+    if(dBox) dBox.style.display = "none";
     
-    setTimeout(() => {
-        doubles.style.display = "none";
-        singles.style.display = "block";
-        // Fai apparire Singles dolcemente
-        setTimeout(() => {
-            singles.style.opacity = "1";
-            singles.style.transform = "translateY(0)";
-        }, 20);
-    }, 300);
+    // AGGIORNA SOLO I BOTTONI CALENDARIO
+    if(btnS) btnS.classList.add('active');
+    if(btnD) btnD.classList.remove('active');
 }
 
 function showDoubles() {
-    const singles = document.getElementById("singles-box");
-    const doubles = document.getElementById("doubles-box");
+    const sBox = document.getElementById("singles-box");
+    const dBox = document.getElementById("doubles-box");
+    const btnS = document.getElementById("btn-singles-switch");
+    const btnD = document.getElementById("btn-doubles-switch");
 
-    // Nascondi Singles con dissolvenza
-    singles.style.opacity = "0";
-    singles.style.transform = "translateY(10px)";
+    if(sBox) sBox.style.display = "none";
+    if(dBox) dBox.style.display = "block";
     
-    setTimeout(() => {
-        singles.style.display = "none";
-        doubles.style.display = "block";
-        // Fai apparire Doubles dolcemente
-        setTimeout(() => {
-            doubles.style.opacity = "1";
-            doubles.style.transform = "translateY(0)";
-        }, 20);
-    }, 300);
+    if(btnD) btnD.classList.add('active');
+    if(btnS) btnS.classList.remove('active');
 }
+</script>
+
 </script>
         </div>
     </div>
@@ -1743,26 +1704,31 @@ function showDoubles() {
 
 <script>
 function openTennis(evt, type) {
+    // 1. Nasconde i contenuti del calendario (Singles/Doubles)
+    const singles = document.getElementById("singles-box");
+    const doubles = document.getElementById("doubles-box");
+    
+    if (type === 'singles-box') {
+        singles.style.display = "block";
+        doubles.style.display = "none";
+    } else {
+        singles.style.display = "none";
+        doubles.style.display = "block";
+    }
 
-    // Nasconde tutti i contenuti
-    const contents = document.querySelectorAll(".match-tab-content");
-    contents.forEach(el => {
-        el.style.display = "none";
-    });
-
-    // Rimuove active da tutti i bottoni
-    const buttons = document.querySelectorAll(".toggle-btn");
+    // 2. CORREZIONE: Cerca i bottoni SOLO dentro la sezione Calendario
+    // Invece di document.querySelectorAll, cerchiamo solo quelli vicini al click
+    const container = evt.currentTarget.closest('.toggle-container');
+    const buttons = container.querySelectorAll(".toggle-btn");
+    
     buttons.forEach(btn => {
         btn.classList.remove("active");
     });
 
-    // Mostra il tab selezionato
-    document.getElementById(type).style.display = "block";
-
-    // Attiva bottone cliccato
+    // 3. Attiva solo il bottone cliccato
     evt.currentTarget.classList.add("active");
 
-    // Re-inizializza widget 365
+    // Re-inizializza widget 365 (se presente)
     if (window.threeSixtyFive && window.threeSixtyFive.widgets) {
         window.threeSixtyFive.widgets.render();
     }
@@ -2153,9 +2119,7 @@ startQuiz();
             <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span>
             <span class="nav-text">Calendario</span>
         </a>
-        <a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
-    <span class="nav-icon">
-<a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
+ <a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
     <span class="nav-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <!-- Il Foglio di Giornale (News) -->
