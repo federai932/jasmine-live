@@ -569,7 +569,7 @@ tbody tr:first-child td {
     text-transform: uppercase; 
     margin-top: 2px;
 }
-
+      
 /* --- GESTIONE PAGINE E BOX CALENDARIO (STILE PC SU TUTTI I DISPOSITIVI) --- */
 .page-content { 
     display: none; 
@@ -790,7 +790,7 @@ margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,0.35);
 
 /* questa riga accorcia la barra */
-width:35%;
+width: 45%;
 
 }
 
@@ -1276,6 +1276,73 @@ transform:translateY(0);
 
 }      
       
+body {
+    /* Rende lo scorrimento fluido "a inerzia" come le app vere */
+    -webkit-overflow-scrolling: touch;
+    
+    /* Evita scatti durante il caricamento */
+    scroll-behavior: smooth;
+    
+    /* Elimina il ritardo del click (300ms delay) */
+    touch-action: manipulation;
+}
+
+/* Ottimizza le animazioni delle card giocatori */
+.ranking-card, .team-member {
+    will-change: transform;
+    transition: transform 0.3s ease-out;
+}
+      
+/* Nasconde la barra di scorrimento per Chrome, Safari e Opera */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Nasconde la barra di scorrimento per Firefox e IE */
+html, body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}      
+      
+/* Blocca il rimbalzo specifico per lo scorrimento delle tabelle */
+.table-scroll {
+    overscroll-behavior-y: contain;
+    /* Rende lo scorrimento più secco e controllato */
+    -webkit-overflow-scrolling: touch; 
+}
+
+/* Evita che l'intera pagina si muova quando arrivi a fine tabella */
+.table-scroll table {
+    touch-action: pan-y;
+}      
+      
+/* Prepara i contenitori delle tabelle per l'animazione */
+#tabella-ranking, #tabella-race {
+    transition: opacity 0.4s ease-in-out, transform 0.3s ease-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stato quando la tabella è nascosta (leggermente spostata e trasparente) */
+.hidden-table {
+    display: none !important;
+    opacity: 0;
+    transform: translateY(10px);
+}      
+      
+/* Animazione per i box del Calendario */
+#singles-box, #doubles-box {
+    transition: opacity 0.4s ease-in-out, transform 0.3s ease-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stato iniziale quando sono nascosti */
+.tab-hidden {
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+}      
+      
   </style>
 </head>
 <body>
@@ -1304,7 +1371,7 @@ She grew up in Bagni di Lucca, where she started playing tennis at a young age.
 
 <div id="bio-more" class="bio-text-more">
 
-She is coached by Danilo Pizzorno and trains mainly in Forte dei Marmi. 
+She is coached by Sara Errani and trains mainly in Forte dei Marmi. 
 Her mother Jacqueline has Ghanaian and Polish origins, while her father Ugo is Italian. 
 Paolini has often cited Roger Federer as her tennis idol and speaks Italian, English and Polish.
 
@@ -1341,7 +1408,7 @@ Read more ▼
 
 <div class="stat-item full">
 <span class="stat-label">Birthplace</span>
-<span class="stat-value">Castel nuovo di Garfagnana, Italy</span>
+<span class="stat-value">Castel nuovo di Garfagnana Italy</span>
 </div>
 
 <!-- FOTO JASMINE -->
@@ -1365,13 +1432,13 @@ Meet the Team
 <div class="team-grid">
 
 
-<!-- DANILO -->
+<!-- FEDERICO -->
 <div class="team-member">
-    <img src="{{ url_for('static', filename='team/danilo_pizzorno.jpg') }}" class="team-photo" onclick="zoomImage(this)">
-    <div class="team-name">Danilo Pizzorno</div>
+    <img src="{{ url_for('static', filename='team/federico_gaio.jpg') }}" class="team-photo" onclick="zoomImage(this)">
+    <div class="team-name">Federico Gaio</div>
     <div class="team-role">
         Coach
-        <a href="https://www.instagram.com/danilopizzorno/" target="_blank">
+        <a href="https://www.instagram.com/federico_gaio/" target="_blank">
             <img src="{{ url_for('static', filename='team/instagram.png') }}">
         </a>
     </div>
@@ -1475,11 +1542,10 @@ document.body.appendChild(overlay);
   <div id="ranking-view" class="page-content">
     <h1 style="text-align: center;">Live Rankings & Race</h1>
 
-    <!-- Bottoni Switch -->
-    <div class="toggle-container">
-        <button id="btn-ranking" class="toggle-btn active" onclick="mostra('ranking')">Ranking</button>
-        <button id="btn-race" class="toggle-btn" onclick="mostra('race')">Race</button>
-    </div>
+ <div class="toggle-container">
+    <button id="btn-ranking-switch" class="toggle-btn active" onclick="mostra('ranking')">Ranking</button>
+    <button id="btn-race-switch" class="toggle-btn" onclick="mostra('race')">Race</button>
+</div>
 
     <!-- SEZIONE RANKING -->
    <div id="tabella-ranking" class="ranking-wrapper fade-switch active" style="margin-top:20px;">
@@ -1510,17 +1576,30 @@ document.body.appendChild(overlay);
 function mostra(tipo) {
     var ranking = document.getElementById('tabella-ranking');
     var race = document.getElementById('tabella-race');
-    var btnRanking = document.getElementById('btn-ranking');
-    var btnRace = document.getElementById('btn-race');
+    var btnRanking = document.getElementById('btn-ranking-switch');
+    var btnRace = document.getElementById('btn-race-switch');
 
+    // Funzione per applicare l'effetto "fade"
     if (tipo === 'ranking') {
+        // Effetto sul Ranking
         ranking.style.display = 'flex';
+        setTimeout(() => { ranking.style.opacity = '1'; ranking.style.transform = 'translateY(0)'; }, 10);
+        
+        // Nascondi Race
+        race.style.opacity = '0';
         race.style.display = 'none';
+
         btnRanking.classList.add('active');
         btnRace.classList.remove('active');
     } else {
-        ranking.style.display = 'none';
+        // Effetto sul Race
         race.style.display = 'flex';
+        setTimeout(() => { race.style.opacity = '1'; race.style.transform = 'translateY(0)'; }, 10);
+
+        // Nascondi Ranking
+        ranking.style.opacity = '0';
+        ranking.style.display = 'none';
+
         btnRace.classList.add('active');
         btnRanking.classList.remove('active');
     }
@@ -1621,13 +1700,41 @@ btn.innerHTML="Show less ▲";
 
 <script>
 function showSingles() {
-  document.getElementById("singles-box").style.display = "block";
-  document.getElementById("doubles-box").style.display = "none";
+    const singles = document.getElementById("singles-box");
+    const doubles = document.getElementById("doubles-box");
+
+    // Nascondi Doubles con dissolvenza
+    doubles.style.opacity = "0";
+    doubles.style.transform = "translateY(10px)";
+    
+    setTimeout(() => {
+        doubles.style.display = "none";
+        singles.style.display = "block";
+        // Fai apparire Singles dolcemente
+        setTimeout(() => {
+            singles.style.opacity = "1";
+            singles.style.transform = "translateY(0)";
+        }, 20);
+    }, 300);
 }
 
 function showDoubles() {
-  document.getElementById("singles-box").style.display = "none";
-  document.getElementById("doubles-box").style.display = "block";
+    const singles = document.getElementById("singles-box");
+    const doubles = document.getElementById("doubles-box");
+
+    // Nascondi Singles con dissolvenza
+    singles.style.opacity = "0";
+    singles.style.transform = "translateY(10px)";
+    
+    setTimeout(() => {
+        singles.style.display = "none";
+        doubles.style.display = "block";
+        // Fai apparire Doubles dolcemente
+        setTimeout(() => {
+            doubles.style.opacity = "1";
+            doubles.style.transform = "translateY(0)";
+        }, 20);
+    }, 300);
 }
 </script>
         </div>
@@ -1801,8 +1908,6 @@ const quizData = [
 { question:"Qual è il suo miglior ranking WTA?", options:["4","6","10"], correct:0 },
 
 { question:"Che mano usa per giocare?", options:["Destra","Sinistra","Ambidestra"], correct:0 },
-
-{ question:"Quanto è alta Jasmine?", options:["1.63 m","1.70 m","1.58 m"], correct:0 }
 
 ];
 
@@ -2050,14 +2155,18 @@ startQuiz();
         </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
     <span class="nav-icon">
-        <!-- Nuova icona Punto di Domanda più adatta al Quiz -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+<a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
+    <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Il Foglio di Giornale (News) -->
+            <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+            <path d="M18 14h-8"></path>
+            <path d="M15 18h-5"></path>
+            <!-- Il triangolo "Play" (Giochi) -->
+            <path d="M10 6l6 3-6 3V6z" fill="currentColor"></path>
         </svg>
     </span>
-    <span class="nav-text">Quiz & Play</span>
+    <span class="nav-text">Play & News</span>
 </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-ranking" onclick="showTab('ranking')">
             <span class="nav-icon">
