@@ -790,7 +790,7 @@ margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,0.35);
 
 /* questa riga accorcia la barra */
-width: 65%;
+width: 55%;
 
 }
 
@@ -835,81 +835,113 @@ box-shadow:0 12px 40px rgba(0,0,0,0.6);
 
 }
 
-.games-news-box h2{
-
-color:#ffffff;
-font-size:18px;
-margin-bottom:15px;
-font-weight:800;
-text-transform:uppercase;
-border-left:4px solid #2e7d32;
-padding-left:10px;
-
+/* =========================================================
+   GAMES BOX (PIÙ AMPIO E SQUADRATO)
+   ========================================================= */
+.games-news-box {
+    display: block;
+    width: 95%; /* Più largo per occupare meglio lo schermo */
+    max-width: 600px;
+    margin: 20px auto;
+    background: #121212;
+    border-radius: 12px; /* Meno stonato, più moderno */
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-.games-carousel-horizontal{
-
-display:flex;
-gap:15px;
-overflow-x:auto;
--webkit-overflow-scrolling:touch;
-padding-bottom:5px;
-
+.games-news-box h2 {
+    color: #ffffff;
+    font-size: 20px;
+    margin-bottom: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-left: 5px solid #2e7d32;
+    padding-left: 12px;
 }
 
-.games-carousel-horizontal::-webkit-scrollbar{
-display:none;
+.games-carousel-horizontal {
+    display: flex;
+    gap: 20px; /* Più spazio tra le card */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory; /* Effetto calamita durante lo scroll */
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+}
+
+.games-carousel-horizontal::-webkit-scrollbar {
+    height: 4px;
+}
+.games-carousel-horizontal::-webkit-scrollbar-thumb {
+    background: #2e7d32;
+    border-radius: 10px;
 }
 
 /* =========================================================
-COPERTINE QUIZ / NEWSLETTER
-========================================================= */
-
-/* CARD GAME */
-
-.game-thumb{
-
-flex:0 0 140px;
-
-height:190px;
-
-object-fit:cover;
-
-border-radius:15px;
-
-cursor:pointer;
-
-transition:transform .2s;
-
+   CARD GAME (PIÙ GRANDI)
+   ========================================================= */
+.game-thumb {
+    flex: 0 0 180px; /* Ingrandita da 140px */
+    height: 240px;   /* Ingrandita da 190px */
+    object-fit: cover;
+    border-radius: 8px; /* Meno arrotondata */
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: transform .2s;
+    border: 1px solid #333;
 }
 
-
-/* CARD NEWSLETTER */
-
-.newsletter-thumb{
-
-flex:0 0 220px;
-
-height:220px;
-
-object-fit:cover;
-
-border-radius:0;
-
-cursor:pointer;
-
-transition:transform .2s;
-
+/* =========================================================
+   CARD NEWSLETTER (PIÙ GRANDI)
+   ========================================================= */
+.newsletter-item {
+    flex: 0 0 260px; /* Larghezza carosello newsletter */
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
 }
 
+.newsletter-thumb {
+    width: 100%;
+    height: 320px; /* Molto più alta e leggibile */
+    object-fit: cover;
+    border-radius: 4px; /* Quasi squadrata */
+    cursor: pointer;
+    transition: transform .2s;
+    border: 1px solid #444;
+}
+
+.newsletter-label {
+    color: #bbb;
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
+    font-weight: 600;
+}
 
 /* EFFETTO TAP */
-
 .game-thumb:active,
-.newsletter-thumb:active{
+.newsletter-thumb:active {
+    transform: scale(.97);
+}
+      
+/* Separatore verticale verde */
+.vertical-green-divider {
+    display: block; /* Fondamentale per farlo vedere come riga */
+    width: 2px; /* Larghezza della riga */
+    height: 180px; /* Altezza della riga (corrispondente alla card) */
+    background-color: #2e7d32; /* Il verde corretto */
+    margin: 0 10px; /* Spazio a sinistra e a destra */
+    align-self: center; /* Centrato verticalmente rispetto alle card */
+}
 
-transform:scale(.95);
-
+/* Aggiornamento per l'immagine placeholder */
+.game-placeholder {
+    flex: 0 0 180px; /* Stesse dimensioni del quiz */
+    height: 240px;   /* Stesse dimensioni del quiz */
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: default; /* Niente manina */
+    pointer-events: none; /* Non reagisce al tocco */
 }
       
 /* =========================================================
@@ -1755,34 +1787,45 @@ updateAllCountdowns();
 
 <div id="match-view" class="page-content"> 
 
-<h1 style="text-align:center;">Play & News</h1>
+    <h1 class="page-title">Play & News</h1>
 
-<!-- GAMES -->
-<div class="games-news-box">
+    <div class="games-news-box">
+        <h2>Games</h2>
+        <div class="games-carousel-horizontal">
+            
+            <img src="{{ url_for('static', filename='copertina_quiz.png') }}" 
+                 class="game-thumb" 
+                 onclick="openGame('quiz')">
+            
+            <div class="vertical-green-divider"></div>
 
-<h2>Games</h2>
-
-<div class="games-carousel-horizontal">
-
-<img src="{{ url_for('static', filename='copertina_quiz.png') }}"
-class="game-thumb"
-onclick="openGame('quiz')">
-
-</div>
-</div>
-
-
-<!-- NEWSLETTER -->
-<div class="games-news-box">
-    <h2>Newsletter</h2>
-    <div class="games-carousel-horizontal">
-        <!-- Rimuovi l'onclick e usa un href diretto -->
-        <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf" target="_blank">
-            <img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
-        </a>
+            <img src="{{ url_for('static', filename='prossimi_giochi.png') }}" 
+                 class="game-placeholder">
+        </div>
     </div>
-</div>
+  
+    <div class="games-news-box">
+        <h2>Newsletter</h2>
+        <div class="games-carousel-horizontal">
+            
+            <div class="newsletter-item">
+                <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf" target="_blank">
+                    <img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
+                </a>
+                <div class="newsletter-label">Mensile Marzo 2024</div>
+            </div>
 
+            <div class="newsletter-item">
+                <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/News%20Letter%2015_10_2025.pdf" target="_blank">
+                    <img src="{{ url_for('static', filename='newsletter_speciale.png') }}" class="newsletter-thumb">
+                </a>
+                <div class="newsletter-label">Speciale Indian Wells</div>
+            </div>
+
+            </div>
+    </div>
+
+</div>
 
 <!-- POPUP QUIZ -->
 
