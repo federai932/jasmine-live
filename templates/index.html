@@ -790,7 +790,7 @@ margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,0.35);
 
 /* questa riga accorcia la barra */
-width: 55%;
+width: 50%;
 
 }
 
@@ -815,133 +815,96 @@ display:inline-block;
 
 }
       
-/* =========================================================
-GAMES BOX
-========================================================= */
-
-.games-news-box{
-
-display:block;
-width:fit-content;
-margin:25px auto;
-
-background:#121212;
-
-border-radius:24px;
-
-padding:18px;
-
-box-shadow:0 12px 40px rgba(0,0,0,0.6);
-
-}
-
-/* =========================================================
-   GAMES BOX (PIÙ AMPIO E SQUADRATO)
-   ========================================================= */
+/* CONTENITORE PRINCIPALE DELLE SEZIONI */
 .games-news-box {
     display: block;
-    width: 95%; /* Più largo per occupare meglio lo schermo */
-    max-width: 600px;
-    margin: 20px auto;
+    width: 92%;
+    max-width: 500px;
+    margin: 15px auto;
     background: #121212;
-    border-radius: 12px; /* Meno stonato, più moderno */
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    overflow: hidden;
 }
 
+/* --- AGGIUNTO: TITOLI DELLE SEZIONI (GAMES / NEWSLETTER) --- */
 .games-news-box h2 {
-    color: #ffffff;
-    font-size: 20px;
-    margin-bottom: 18px;
+    color: #ffffff !important; /* Forza il Bianco */
+    font-size: 18px;
+    margin-bottom: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    border-left: 5px solid #2e7d32;
-    padding-left: 12px;
+    border-left: 4px solid #2e7d32; /* Riga verticale verde accanto al titolo */
+    padding-left: 10px;
 }
 
+/* IL CAROSELLO: FORZA LA RIGA ORIZZONTALE */
 .games-carousel-horizontal {
-    display: flex;
-    gap: 20px; /* Più spazio tra le card */
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 12px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory; /* Effetto calamita durante lo scroll */
+    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 10px;
+    padding: 10px 5px;
 }
 
+/* NASCONDI SCROLLBAR */
 .games-carousel-horizontal::-webkit-scrollbar {
-    height: 4px;
-}
-.games-carousel-horizontal::-webkit-scrollbar-thumb {
-    background: #2e7d32;
-    border-radius: 10px;
+    display: none;
 }
 
-/* =========================================================
-   CARD GAME (PIÙ GRANDI)
-   ========================================================= */
-.game-thumb {
-    flex: 0 0 180px; /* Ingrandita da 140px */
-    height: 240px;   /* Ingrandita da 190px */
+/* CARD DEI GAMES */
+.game-thumb, .game-placeholder {
+    flex: 0 0 150px !important;
+    height: 210px;
     object-fit: cover;
-    border-radius: 8px; /* Meno arrotondata */
-    cursor: pointer;
+    border-radius: 10px;
     scroll-snap-align: start;
-    transition: transform .2s;
     border: 1px solid #333;
 }
 
-/* =========================================================
-   CARD NEWSLETTER (PIÙ GRANDI)
-   ========================================================= */
+/* SEZIONE NEWSLETTER */
 .newsletter-item {
-    flex: 0 0 260px; /* Larghezza carosello newsletter */
-    scroll-snap-align: start;
+    flex: 0 0 240px !important;
+    scroll-snap-align: center;
     display: flex;
     flex-direction: column;
 }
 
 .newsletter-thumb {
     width: 100%;
-    height: 320px; /* Molto più alta e leggibile */
+    height: 240px;
     object-fit: cover;
-    border-radius: 4px; /* Quasi squadrata */
-    cursor: pointer;
-    transition: transform .2s;
+    border-radius: 8px;
     border: 1px solid #444;
 }
 
+/* --- AGGIUNTO: DIDASCALIE SOTTO LE NEWSLETTER --- */
 .newsletter-label {
-    color: #bbb;
-    font-size: 14px;
+    color: #ffffff !important; /* Forza il Bianco */
+    font-size: 13px;
     margin-top: 8px;
     text-align: center;
-    font-weight: 600;
+    font-weight: 500;
+}
+
+/* SEPARATORE VERTICALE VERDE */
+.vertical-green-divider {
+    display: block;
+    flex: 0 0 2px; /* Spessore riga */
+    height: 180px; /* Altezza riga */
+    background-color: #2e7d32;
+    margin: 0 10px;
+    align-self: center;
+    border-radius: 10px;
 }
 
 /* EFFETTO TAP */
 .game-thumb:active,
 .newsletter-thumb:active {
     transform: scale(.97);
-}
-      
-/* Separatore verticale verde */
-.vertical-green-divider {
-    display: block; /* Fondamentale per farlo vedere come riga */
-    width: 2px; /* Larghezza della riga */
-    height: 180px; /* Altezza della riga (corrispondente alla card) */
-    background-color: #2e7d32; /* Il verde corretto */
-    margin: 0 10px; /* Spazio a sinistra e a destra */
-    align-self: center; /* Centrato verticalmente rispetto alle card */
-}
-
-/* Aggiornamento per l'immagine placeholder */
-.game-placeholder {
-    flex: 0 0 180px; /* Stesse dimensioni del quiz */
-    height: 240px;   /* Stesse dimensioni del quiz */
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: default; /* Niente manina */
-    pointer-events: none; /* Non reagisce al tocco */
 }
       
 /* =========================================================
@@ -1325,16 +1288,7 @@ body {
     transition: transform 0.3s ease-out;
 }
       
-/* Nasconde la barra di scorrimento per Chrome, Safari e Opera */
-::-webkit-scrollbar {
-    display: none;
-}
 
-/* Nasconde la barra di scorrimento per Firefox e IE */
-html, body {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}      
       
 /* Blocca il rimbalzo specifico per lo scorrimento delle tabelle */
 .table-scroll {
@@ -1801,6 +1755,7 @@ updateAllCountdowns();
 
             <img src="{{ url_for('static', filename='prossimi_giochi.png') }}" 
                  class="game-placeholder">
+                 
         </div>
     </div>
   
@@ -1812,17 +1767,17 @@ updateAllCountdowns();
                 <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/mensile.pdf" target="_blank">
                     <img src="{{ url_for('static', filename='newsletter_mensile.png') }}" class="newsletter-thumb">
                 </a>
-                <div class="newsletter-label">Mensile Marzo 2024</div>
+                <div class="newsletter-label">Mensile Marzo 2026</div>
             </div>
 
             <div class="newsletter-item">
                 <a href="https://ixrxxhrtvfrojyoxttuu.supabase.co/storage/v1/object/public/newsletter/News%20Letter%2015_10_2025.pdf" target="_blank">
                     <img src="{{ url_for('static', filename='newsletter_speciale.png') }}" class="newsletter-thumb">
                 </a>
-                <div class="newsletter-label">Speciale Indian Wells</div>
+                <div class="newsletter-label">Mensile Aprile 2026</div>
             </div>
 
-            </div>
+        </div>
     </div>
 
 </div>
@@ -2160,7 +2115,7 @@ startQuiz();
         </a>
         <a href="javascript:void(0)" class="nav-item" id="btn-calendar" onclick="showTab('calendar')">
             <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span>
-            <span class="nav-text">Calendario</span>
+            <span class="nav-text">Calendar</span>
         </a>
  <a href="javascript:void(0)" class="nav-item" id="btn-match" onclick="showTab('match')">
     <span class="nav-icon">
