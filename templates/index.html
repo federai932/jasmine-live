@@ -56,7 +56,7 @@ body {
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-/* --- SEZIONE NEWS DEFINITIVA (AUTO-ADATTIVA E PULITA) --- */
+/* --- SEZIONE NEWS DEFINITIVA --- */
 .news-wrapper { 
     width: 100%; 
     max-width: 800px; 
@@ -78,16 +78,16 @@ body {
     padding-left: 10px;
 }
 
+/* Contenitore scroll */
 .news-scroll-container { 
     display: flex; 
     overflow-x: auto; 
     gap: 15px; 
     padding-bottom: 15px; 
-    /* Impedisce alle card corte di allungarsi se quella vicina è lunga */
-    align-items: flex-start; 
+    align-items: stretch; /* 🔥 card alte uguali */
 }
 
-/* Card Notizia - Si adatta perfettamente al testo */
+/* Card Notizia */
 .news-item { 
     flex: 0 0 310px; 
     background: #1e1e1e; 
@@ -97,20 +97,16 @@ body {
     display: flex; 
     gap: 15px; 
     border: 1px solid #333;
-    
-    /* ALTEZZA INTELLIGENTE: Si chiude subito dopo il testo */
-    height: fit-content; 
-    min-height: 110px; 
-    
-    overflow: visible; 
-    position: relative;
+
+    height: 130px;              /* 🔥 altezza fissa uguale per tutte */
+    overflow: hidden; 
     box-sizing: border-box;
-    transition: transform 0.3s, border-color 0.3s;
 }
 
+/* ❌ Tolto effetto salto */
 .news-item:hover { 
-    transform: translateY(-5px); 
-    border-color: #2e7d32; 
+    transform: none; 
+    border-color: #333; 
 }
 
 /* Contenitore Testo */
@@ -120,50 +116,49 @@ body {
     flex: 1;
 }
 
-/* Meta Fonte - Senza icona, solo testo colorato */
+/* Meta Fonte - NON evidenziata */
 .news-meta { 
     display: flex; 
     align-items: center; 
-    margin-bottom: 8px; 
+    margin-bottom: 6px; 
 }
 
 .news-source { 
-    color: #75a478 !important; /* Verdino spento e professionale */
-    font-weight: 800; 
+    color: #9aa0a6 !important;   /* grigio Google News */
+    font-weight: 500;            /* non bold */
     font-size: 11px; 
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
       
-/* Titolo - Mostra tutto il testo pulito dal Python */
+/* Titolo - testo completo */
 .news-title { 
-    color: #8ab4f8 !important; 
+    color: #e8eaed !important; 
     font-size: 13px; 
-    line-height: 1.4; 
+    line-height: 1.35; 
     margin: 0;
-    font-weight: 600;
-    white-space: normal;
-    display: block; 
-    overflow: visible;
-}
+    font-weight: 500;
 
-/* Data - Posizionata sotto il titolo */
-.news-time { 
-    font-size: 10px; 
-    color: #606060; 
-    margin-top: 10px; 
-    font-weight: bold;
+    white-space: normal;
+    overflow: visible;
     display: block;
 }
 
-/* Immagine - Dimensioni fisse e posizione stabile */
+/* Data */
+.news-time { 
+    font-size: 10px; 
+    color: #80868b; 
+    margin-top: auto; 
+    font-weight: 600;
+}
+
+/* Immagine stile Google News */
 .news-image-container { 
-    width: 95px; 
-    height: 95px; 
-    border-radius: 10px; 
+    width: 96px; 
+    height: 96px; 
+    border-radius: 12px; 
     overflow: hidden; 
     flex-shrink: 0; 
-    align-self: flex-start; /* Fondamentale per bloccare la foto in alto */
 }
 
 .news-image-container img { 
@@ -172,7 +167,7 @@ body {
     object-fit: cover; 
 }
 
-/* Barra scorrimento orizzontale */
+/* Barra scorrimento desktop */
 .news-scroll-container::-webkit-scrollbar { 
     height: 6px; 
 }
@@ -181,6 +176,17 @@ body {
     border-radius: 10px; 
 }
 
+/* 📱 SOLO TELEFONO → nasconde barra */
+@media (max-width: 768px){
+    .news-scroll-container{
+        scrollbar-width: none;        /* Firefox */
+        -ms-overflow-style: none;     /* IE */
+    }
+    .news-scroll-container::-webkit-scrollbar{
+        display: none;                /* Chrome/Safari */
+    }
+}
+      
 /* BIO SECTION */
 
 .biography-section{
@@ -790,7 +796,7 @@ margin-bottom:20px;
 box-shadow:0 6px 18px rgba(0,0,0,0.35);
 
 /* questa riga accorcia la barra */
-width: 50%;
+width: 47%;
 
 }
 
@@ -815,7 +821,7 @@ display:inline-block;
 
 }
       
-/* CONTENITORE PRINCIPALE DELLE SEZIONI */
+/* CONTENITORE PRINCIPALE */
 .games-news-box {
     display: block;
     width: 92%;
@@ -828,18 +834,18 @@ display:inline-block;
     overflow: hidden;
 }
 
-/* --- AGGIUNTO: TITOLI DELLE SEZIONI (GAMES / NEWSLETTER) --- */
+/* TITOLI */
 .games-news-box h2 {
-    color: #ffffff !important; /* Forza il Bianco */
+    color: #ffffff !important;
     font-size: 18px;
     margin-bottom: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    border-left: 4px solid #2e7d32; /* Riga verticale verde accanto al titolo */
+    border-left: 4px solid #2e7d32;
     padding-left: 10px;
 }
 
-/* IL CAROSELLO: FORZA LA RIGA ORIZZONTALE */
+/* CAROSELLO */
 .games-carousel-horizontal {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -850,51 +856,63 @@ display:inline-block;
     padding: 10px 5px;
 }
 
-/* NASCONDI SCROLLBAR */
 .games-carousel-horizontal::-webkit-scrollbar {
     display: none;
 }
 
-/* CARD DEI GAMES */
+/* CARD GIOCHI (dimensione standard) */
 .game-thumb, .game-placeholder {
-    flex: 0 0 150px !important;
-    height: 210px;
-    object-fit: cover;
+    flex: 0 0 150px !important; /* larghezza fissa */
+    width: 150px;
+    height: auto;
+    object-fit: contain; /* 🔥 niente tagli */
     border-radius: 10px;
     scroll-snap-align: start;
     border: 1px solid #333;
+    background-color: #000;
 }
 
-/* SEZIONE NEWSLETTER */
+/* --- IMMAGINE "PROSSIMAMENTE" UGUALE AI QUIZ --- */
+.game-thumb.wide {
+    flex: 0 0 150px !important; /* stessa larghezza dei quiz */
+    width: 150px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* NEWSLETTER */
 .newsletter-item {
-    flex: 0 0 240px !important;
+    flex: 0 0 160px !important;
     scroll-snap-align: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
+/* IMMAGINI NEWSLETTER - SEMPRE LEGGIBILI */
 .newsletter-thumb {
     width: 100%;
-    height: 240px;
-    object-fit: cover;
+    height: auto;              /* 🔥 fondamentale */
+    object-fit: contain;       /* 🔥 NO TAGLI */
     border-radius: 8px;
     border: 1px solid #444;
+    background-color: #000;
 }
 
-/* --- AGGIUNTO: DIDASCALIE SOTTO LE NEWSLETTER --- */
+/* TESTO NEWSLETTER */
 .newsletter-label {
-    color: #ffffff !important; /* Forza il Bianco */
-    font-size: 13px;
-    margin-top: 8px;
+    color: #ffffff !important;
+    font-size: 12px;
+    margin-top: 6px;
     text-align: center;
     font-weight: 500;
 }
 
-/* SEPARATORE VERTICALE VERDE */
+/* DIVISORE */
 .vertical-green-divider {
     display: block;
-    flex: 0 0 2px; /* Spessore riga */
-    height: 180px; /* Altezza riga */
+    flex: 0 0 2px;
+    height: 150px;
     background-color: #2e7d32;
     margin: 0 10px;
     align-self: center;
