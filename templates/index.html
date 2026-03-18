@@ -56,100 +56,94 @@ body {
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-/* --- SEZIONE NEWS COMPATTA --- */
+* --- SEZIONE NEWS GOOGLE STYLE --- */
 .news-wrapper { 
     width: 100%; 
-    max-width: 800px; 
-    background: #121212; 
-    border-radius: 20px; 
-    padding: 20px; 
-    margin: 25px auto; 
-    box-sizing: border-box; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.news-wrapper h2 { 
-    color: #ffffff !important; 
-    font-size: 18px; 
-    margin-bottom: 15px; 
-    font-weight: 800;
-    text-transform: uppercase;
-    border-left: 4px solid #2e7d32;
-    padding-left: 10px;
-}
-
-/* SCROLL ORIZZONTALE */
-.news-scroll-container { 
-    display: flex; 
-    overflow-x: auto; 
-    gap: 12px; 
-    align-items: stretch; /* 🔥 tutte uguali */
-}
-
-/* CARD NEWS PIÙ PICCOLE */
-.news-item { 
-    flex: 0 0 260px;   /* 🔥 più compatte */
-    background: #1e1e1e; 
-    padding: 12px; 
-    border-radius: 14px; 
-    text-decoration: none; 
-    display: flex; 
-    gap: 10px; 
-    border: 1px solid #333;
-
-    height: 110px;     /* 🔥 altezza standard */
-    overflow: hidden; 
+    max-width: 900px; 
+    background: #1a1c1e; /* Grigio Google più profondo */
+    border-radius: 24px; 
+    padding: 24px; 
+    margin: 20px auto; 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
 }
 
-/* RIMUOVE QUALSIASI EVIDENZIAZIONE LINK */
-.news-item,
-.news-item:visited,
-.news-item:hover,
-.news-item:active {
-    text-decoration: none !important;
-    color: inherit !important;
+.news-wrapper h2 { 
+    color: #e8eaed; 
+    font-size: 20px; 
+    margin-bottom: 20px; 
+    font-weight: 500;
+    letter-spacing: 0.2px;
 }
 
-/* TESTO */
+/* SCROLL ORIZZONTALE FLUIDO */
+.news-scroll-container { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 16px; 
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+}
+
+/* CARD NEWS COMPATTA */
+.news-item { 
+    flex: 0 0 320px; /* Leggermente più larga per leggibilità */
+    background: #202124; 
+    padding: 16px; 
+    border-radius: 16px; 
+    text-decoration: none !important; 
+    display: flex; 
+    justify-content: space-between;
+    gap: 12px; 
+    border: 1px solid #3c4043;
+    transition: background 0.2s ease;
+    scroll-snap-align: start;
+}
+
+.news-item:hover {
+    background: #2d2e31;
+}
+
+/* CONTENUTO TESTUALE */
 .news-content {
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow: hidden;
 }
 
-/* FONTE (UBITENNIS) → NORMALE */
+/* FONTE PULITA (Niente evidenziatori!) */
 .news-source { 
-    color: #9aa0a6 !important;
-    font-weight: 400;   /* 🔥 non bold */
-    font-size: 11px; 
-    text-transform: uppercase;
+    color: #bdc1c6 !important; /* Grigio chiaro Google */
+    font-weight: 500; 
+    font-size: 12px; 
+    margin-bottom: 8px;
+    text-transform: none; /* Più moderno del tutto maiuscolo */
 }
 
-/* TITOLO BLOCCATO (NO CARD ALTE DIVERSE) */
+/* TITOLO (Niente blu, niente sottolineature) */
 .news-title { 
     color: #e8eaed !important; 
-    font-size: 13px; 
-    line-height: 1.3; 
-    margin: 4px 0 0 0;
-
+    font-size: 14px; 
+    line-height: 1.4; 
+    font-weight: 500;
+    margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;   /* 🔥 massimo 3 righe */
+    -webkit-line-clamp: 3; 
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-decoration: none !important;
 }
 
-/* ❌ NASCONDI ORARIO */
+/* ORARIO SPARITO */
 .news-time { 
     display: none !important;
 }
 
-/* IMMAGINE PIÙ PICCOLA */
+/* IMMAGINE PICCOLA E DEFINITA (80x80) */
 .news-image-container { 
     width: 80px; 
     height: 80px; 
-    border-radius: 10px; 
+    border-radius: 12px; 
     overflow: hidden; 
     flex-shrink: 0; 
 }
@@ -160,24 +154,19 @@ body {
     object-fit: cover; 
 }
 
-/* SCROLLBAR */
+/* SCROLLBAR MINIMALE */
 .news-scroll-container::-webkit-scrollbar { 
-    height: 5px; 
+    height: 6px; 
 }
 .news-scroll-container::-webkit-scrollbar-thumb { 
-    background: #2e7d32; 
+    background: #3c4043; 
     border-radius: 10px; 
 }
 
-/* MOBILE */
+/* MOBILE OPTIMIZATION */
 @media (max-width: 768px){
-    .news-scroll-container{
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    .news-scroll-container::-webkit-scrollbar{
-        display: none;
-    }
+    .news-item { flex: 0 0 85%; }
+    .news-scroll-container { scrollbar-width: none; }
 }
       
 /* BIO SECTION */
@@ -814,120 +803,77 @@ display:inline-block;
 
 }
       
-/* ========================= */
-/* CONTENITORE PRINCIPALE */
-/* ========================= */
-.games-news-box {
-    display: block;
-    width: 92%;
-    max-width: 500px;
-    margin: 15px auto;
-    background: #121212;
-    border-radius: 16px;
-    padding: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-    overflow: hidden;
-}
-
-/* TITOLI */
-.games-news-box h2 {
-    color: #ffffff !important;
-    font-size: 18px;
-    margin-bottom: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    border-left: 4px solid #2e7d32;
-    padding-left: 10px;
-}
-
-/* ========================= */
-/* SEZIONE GAMES (NO SCROLL) */
-/* ========================= */
+/* ============================================= */
+/* 1. SEZIONE GAMES (AFFIANCATI - NO SCROLL)     */
+/* ============================================= */
 .games-carousel-horizontal {
     display: flex !important;
-    justify-content: space-between; /* 🔥 sempre visibili */
-    align-items: center;
+    justify-content: space-between; 
     gap: 12px;
-    overflow: hidden; /* 🔥 niente scroll */
-    padding: 10px 5px;
+    overflow: hidden; /* Blocca lo scorrimento */
+    padding: 10px 0;
+    width: 100%;
 }
 
-/* CARD QUIZ */
-.game-thumb {
-    width: 48%;
+.game-thumb, .game-thumb.wide {
+    width: 48% !important; /* Due card perfette una accanto all'altra */
     height: auto;
-    object-fit: contain;
-    border-radius: 10px;
+    object-fit: contain;   /* Mantiene le proporzioni originali */
+    border-radius: 12px;
     border: 1px solid #333;
-    background-color: #000;
+    background: none !important; /* Toglie il nero di fondo */
 }
 
-/* PROSSIMAMENTE → SOLO IMMAGINE */
-.game-thumb.wide {
-    width: 48%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 10px;
-
-    border: none;
-    background: none;
-}
-
-/* ========================= */
-/* SEZIONE NEWSLETTER */
-/* ========================= */
-
-/* CONTENITORE */
+/* ============================================= */
+/* 2. SEZIONE NEWSLETTER (GRANDI E INTEGRALI)    */
+/* ============================================= */
 .newsletter-container {
     display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 10px 5px;
-
-    align-items: flex-start; /* 🔥 FIX allineamento */
+    gap: 20px;
+    overflow-x: auto; /* Qui lo scroll serve se ne hai più di una */
+    padding: 15px 5px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
 }
 
-.newsletter-container::-webkit-scrollbar {
-    display: none;
-}
+/* Nasconde la barra di scorrimento brutta */
+.newsletter-container::-webkit-scrollbar { display: none; }
 
-/* CARD */
 .newsletter-item {
-    flex: 0 0 160px;
-    scroll-snap-align: start;
-
+    flex: 0 0 85%; /* Molto grande: occupa quasi tutto lo schermo */
+    scroll-snap-align: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-/* IMMAGINE (TUTTA VISIBILE E UGUALE) */
 .newsletter-thumb {
     width: 100%;
-    height: 180px;           /* 🔥 altezza fissa */
-    object-fit: contain;     /* 🔥 NO TAGLI */
-
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #000;
+    height: auto;        /* L'altezza si adatta alla foto */
+    max-height: 450px;   /* Evita che diventi infinita su schermi lunghi */
+    object-fit: contain; /* 🔥 IMPORTANTE: Si vede tutta la copertina senza tagli */
+    
+    border-radius: 4px;  /* Leggero arrotondamento stile carta */
+    border: none;
+    background: transparent !important; /* 🔥 ELIMINA I BORDI NERI */
+    
+    /* Ombra elegante per farla staccare dallo sfondo nero */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8); 
 }
 
-/* TESTO */
 .newsletter-label {
     color: #ffffff !important;
-    font-size: 12px;
-    margin-top: 6px;
+    font-size: 15px;
+    margin-top: 15px;
     text-align: center;
-    font-weight: 500;
-
-    min-height: 30px; /* 🔥 evita disallineamenti */
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
-/* ========================= */
-/* EFFETTO TAP MOBILE */
-/* ========================= */
-.game-thumb:active,
-.newsletter-thumb:active {
-    transform: scale(.97);
+/* Effetto al tocco */
+.newsletter-item:active {
+    transform: scale(0.98);
+    transition: 0.2s;
 }
       
 /* =========================================================
