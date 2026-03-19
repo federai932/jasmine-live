@@ -56,15 +56,28 @@ body {
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
-/* --- SEZIONE NEWS GOOGLE STYLE FIX --- */
+/* --- SEZIONE NEWS COMPATTA --- */
+
 .news-wrapper { 
     width: 100%; 
-    max-width: 500px; /* 🔥 uguale al box sopra */
-    background: #1a1c1e;
+    max-width: 800px; 
+    background: #121212; 
     border-radius: 20px; 
-    padding: 16px; 
-    margin: 20px auto; 
-    box-sizing: border-box;
+    padding: 20px; 
+    margin: 25px auto; 
+    box-sizing: border-box; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* TITOLO SEZIONE (OK COSÌ) */
+.news-wrapper h2 { 
+    color: #ffffff !important; 
+    font-size: 18px; 
+    margin-bottom: 15px; 
+    font-weight: 800;
+    text-transform: uppercase;
+    border-left: 4px solid #2e7d32;
+    padding-left: 10px;
 }
 
 /* SCROLL */
@@ -72,63 +85,72 @@ body {
     display: flex; 
     overflow-x: auto; 
     gap: 12px; 
-    padding-bottom: 10px;
-
-    align-items: stretch; /* 🔥 tutte uguali */
+    align-items: stretch;
 }
 
 /* CARD */
 .news-item { 
-    flex: 0 0 260px; /* 🔥 dimensione giusta */
-    background: #202124; 
+    flex: 0 0 260px;
+    background: #1e1e1e; 
     padding: 12px; 
     border-radius: 14px; 
     display: flex; 
     gap: 10px; 
-    border: 1px solid #3c4043;
+    border: 1px solid #333;
 
-    height: 110px;        /* 🔥 ALTEZZA FISSA */
-    min-height: 110px;
-    max-height: 110px;
-
+    height: 110px;
+    overflow: hidden; 
     box-sizing: border-box;
-    overflow: hidden;
+
+    text-decoration: none !important; /* 🔥 NO LINK STYLE */
 }
 
-/* CONTENUTO */
+/* BLOCCA QUALSIASI LINK BLU */
+.news-item,
+.news-item:visited,
+.news-item:hover,
+.news-item:active {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* TESTO */
 .news-content {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     flex: 1;
     overflow: hidden;
 }
 
 /* FONTE */
 .news-source { 
-    color: #bdc1c6 !important;
-    font-size: 11px; 
-    margin-bottom: 4px;
+    color: #9aa0a6 !important;
+    font-weight: 400;
+    font-size: 11px;
+    text-transform: uppercase;
 }
 
-/* TITOLO BLOCCATO */
+/* 🔥 TITOLO FIXATO (NO BLU, NO SOTTOLINEATO) */
 .news-title { 
-    color: #e8eaed !important; 
+    color: #2e7d32 !important; /* 🔥 verde uguale alla barretta */
     font-size: 13px; 
     line-height: 1.3; 
+    margin: 4px 0 0 0;
+
+    text-decoration: none !important;
 
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* 🔥 tutte uguali */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* NASCONDE ORARIO */
+/* ❌ ORARIO SPENTO */
 .news-time { 
     display: none !important;
 }
 
-/* IMMAGINE PICCOLA A DESTRA */
+/* 📸 IMMAGINE PICCOLA A DESTRA */
 .news-image-container { 
     width: 70px; 
     height: 70px; 
@@ -143,9 +165,25 @@ body {
     object-fit: cover; 
 }
 
-/* SCROLLBAR */
+/* SCROLLBAR SOLO DESKTOP */
 .news-scroll-container::-webkit-scrollbar { 
-    display: none; 
+    height: 5px; 
+}
+
+.news-scroll-container::-webkit-scrollbar-thumb { 
+    background: #2e7d32; 
+    border-radius: 10px; 
+}
+
+/* 📱 MOBILE → NASCONDE SCROLLBAR */
+@media (max-width: 768px){
+    .news-scroll-container{
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .news-scroll-container::-webkit-scrollbar{
+        display: none;
+    }
 }
       
 /* BIO SECTION */
@@ -783,31 +821,56 @@ display:inline-block;
 }
       
 /* ============================================= */
-/* 1. SEZIONE GAMES (AFFIANCATI GIUSTI)          */
+/* CONTENITORE PRINCIPALE (BOX NERO)             */
+/* ============================================= */
+.games-news-box {
+    width: 92%;
+    max-width: 500px;
+    margin: 15px auto;
+    background: #121212;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+/* TITOLI (GAMES / NEWSLETTER) */
+.games-news-box h2 {
+    color: #ffffff !important;
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-left: 4px solid #2e7d32;
+    padding-left: 10px;
+}
+
+/* ============================================= */
+/* 🎮 SEZIONE GAMES                              */
 /* ============================================= */
 .games-carousel-horizontal {
     display: flex !important;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: center;   /* 🔥 centrate */
+    align-items: center;
+    gap: 12px;                 /* 🔥 distanza tra card */
     overflow: hidden;
     padding: 10px 0;
-    width: 100%;
 }
 
-/* dimensione controllata */
-.game-thumb, .game-thumb.wide {
-    width: 48%;
-    max-width: 150px;   /* 🔥 BLOCCA dimensione */
+/* CARD GIOCHI */
+.game-thumb,
+.game-thumb.wide {
+    width: 45%;
+    max-width: 150px;
     height: auto;
     object-fit: contain;
 
     border-radius: 10px;
     border: 1px solid #333;
-    background: none;
+    background: transparent;
 }
 
 /* ============================================= */
-/* 2. SEZIONE NEWSLETTER (DENTRO IL BOX)         */
+/* 📰 SEZIONE NEWSLETTER                         */
 /* ============================================= */
 .newsletter-container {
     display: flex;
@@ -815,7 +878,8 @@ display:inline-block;
     overflow-x: auto;
     padding: 10px 5px;
 
-    align-items: flex-start; /* 🔥 allineate */
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 /* nasconde scrollbar */
@@ -823,10 +887,9 @@ display:inline-block;
     display: none;
 }
 
-/* CARD */
+/* CARD NEWSLETTER */
 .newsletter-item {
-    flex: 0 0 150px;   /* 🔥 dimensione GIUSTA (prima 85% ❌) */
-    
+    flex: 0 0 150px;   /* 🔥 dimensione corretta */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -835,15 +898,15 @@ display:inline-block;
 /* IMMAGINE */
 .newsletter-thumb {
     width: 100%;
-    height: 200px;         /* 🔥 altezza uniforme */
-    object-fit: contain;   /* 🔥 intera visibile */
+    height: 200px;         /* 🔥 proporzione giusta */
+    object-fit: contain;   /* 🔥 NO tagli */
 
     border-radius: 8px;
     border: 1px solid #444;
-    background: #000;      /* evita effetto trasparenza brutto */
+    background: #000;
 }
 
-/* TESTO */
+/* TESTO (Mensile...) */
 .newsletter-label {
     color: #ffffff !important;
     font-size: 12px;
@@ -851,10 +914,12 @@ display:inline-block;
     text-align: center;
     font-weight: 500;
 
-    min-height: 30px; /* 🔥 allinea tutto */
+    min-height: 30px; /* 🔥 allineamento perfetto */
 }
 
-/* TAP */
+/* ============================================= */
+/* TAP EFFETTO MOBILE                            */
+/* ============================================= */
 .game-thumb:active,
 .newsletter-item:active {
     transform: scale(0.97);
