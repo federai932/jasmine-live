@@ -57,7 +57,6 @@ body {
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
 /* --- SEZIONE NEWS COMPATTA --- */
-
 .news-wrapper { 
     width: 100%; 
     max-width: 800px; 
@@ -66,100 +65,79 @@ body {
     padding: 20px; 
     margin: 25px auto; 
     box-sizing: border-box; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* TITOLO SEZIONE (OK COSÌ) */
-.news-wrapper h2 { 
-    color: #ffffff !important; 
-    font-size: 18px; 
-    margin-bottom: 15px; 
-    font-weight: 800;
-    text-transform: uppercase;
-    border-left: 4px solid #2e7d32;
-    padding-left: 10px;
-}
-
-/* SCROLL */
 .news-scroll-container { 
     display: flex; 
     overflow-x: auto; 
     gap: 12px; 
-    align-items: stretch;
+    padding-bottom: 10px;
+    align-items: stretch; /* 🔥 Forza tutte le card alla stessa altezza */
 }
 
-/* CARD */
-.news-item { 
-    flex: 0 0 260px;
+/* CARD - Link resettato */
+.g-news-card { 
+    flex: 0 0 280px;
     background: #1e1e1e; 
     padding: 12px; 
     border-radius: 14px; 
     display: flex; 
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 10px; 
     border: 1px solid #333;
-
-    height: 110px;
-    overflow: hidden; 
+    text-decoration: none !important; /* Rimuove sottolineatura */
+    color: inherit !important; /* Evita il blu dei link */
+    height: 110px; /* Altezza fissa */
     box-sizing: border-box;
-
-    text-decoration: none !important; /* 🔥 NO LINK STYLE */
+    transition: background 0.2s;
 }
 
-/* BLOCCA QUALSIASI LINK BLU */
-.news-item,
-.news-item:visited,
-.news-item:hover,
-.news-item:active {
-    text-decoration: none !important;
-    color: inherit !important;
+.g-news-card:hover {
+    background: #252525;
 }
 
-/* TESTO */
-.news-content {
+/* CONTENITORE TESTO */
+.g-news-text {
     display: flex;
     flex-direction: column;
     flex: 1;
     overflow: hidden;
 }
 
-/* FONTE */
-.news-source { 
-    color: #9aa0a6 !important;
-    font-weight: 400;
+/* FONTE - VERDE GOOGLE #5bb849 */
+.g-news-source { 
+    color: #5bb849 !important; 
+    font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
 }
 
-/* 🔥 TITOLO FIXATO (NO BLU, NO SOTTOLINEATO) */
-.news-title { 
-    color: #2e7d32 !important; /* 🔥 verde uguale alla barretta */
+/* TITOLO - Bianco, pulito */
+.g-news-title { 
+    color: #e8eaed !important; 
     font-size: 13px; 
-    line-height: 1.3; 
-    margin: 4px 0 0 0;
-
-    text-decoration: none !important;
-
+    line-height: 1.4; 
+    font-weight: 500;
+    margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 3; /* Tronca dopo 3 righe */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* ❌ ORARIO SPENTO */
-.news-time { 
-    display: none !important;
-}
-
-/* 📸 IMMAGINE PICCOLA A DESTRA */
-.news-image-container { 
-    width: 70px; 
-    height: 70px; 
-    border-radius: 10px; 
+/* IMMAGINE A DESTRA */
+.g-news-image { 
+    width: 65px; 
+    height: 65px; 
+    border-radius: 8px; 
     overflow: hidden; 
     flex-shrink: 0; 
 }
 
-.news-image-container img { 
+.g-news-image img { 
     width: 100%; 
     height: 100%; 
     object-fit: cover; 
