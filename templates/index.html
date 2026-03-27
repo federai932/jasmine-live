@@ -57,6 +57,7 @@ body {
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
 /* --- SEZIONE NEWS COMPATTA --- */
+
 .news-wrapper { 
     width: 100%; 
     max-width: 800px; 
@@ -65,94 +66,88 @@ body {
     padding: 20px; 
     margin: 25px auto; 
     box-sizing: border-box; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+/* TITOLO SEZIONE (OK COSÌ) */
+.news-wrapper h2 { 
+    color: #ffffff !important; 
+    font-size: 18px; 
+    margin-bottom: 15px; 
+    font-weight: 800;
+    text-transform: uppercase;
+    border-left: 4px solid #2e7d32;
+    padding-left: 10px;
+}
+
+/* SCROLL */
 .news-scroll-container { 
     display: flex; 
     overflow-x: auto; 
     gap: 12px; 
-    padding-bottom: 10px;
-    align-items: stretch; /* 🔥 Forza tutte le card alla stessa altezza */
+    align-items: stretch;
 }
 
-/* CARD - Link resettato */
-.g-news-card { 
-    flex: 0 0 280px;
+/* CARD: Più grande per leggere meglio (aumentata larghezza e altezza) */
+.news-item { 
+    flex: 0 0 300px; /* Aumentata da 260px a 300px */
     background: #1e1e1e; 
-    padding: 12px; 
+    padding: 15px; /* Più respiro interno */
     border-radius: 14px; 
     display: flex; 
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px; 
+    gap: 12px; 
     border: 1px solid #333;
-    text-decoration: none !important; /* Rimuove sottolineatura */
-    color: inherit !important; /* Evita il blu dei link */
-    height: 110px; /* Altezza fissa */
+    height: 130px; /* Aumentata da 110px a 130px per il titolo più grande */
+    overflow: hidden; 
     box-sizing: border-box;
-    transition: background 0.2s;
+    text-decoration: none !important;
 }
 
-.g-news-card:hover {
-    background: #252525;
-}
-
-/* CONTENITORE TESTO */
-.g-news-text {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
-}
-
-/* FONTE - VERDE GOOGLE #5bb849 */
-.g-news-source { 
-    color: #5bb849 !important; 
-    font-weight: 700;
+/* TESTATA GIORNALISTICA: Verde più scuro e piccola */
+.news-source { 
+    color: #1b4d1f !important; /* Verde bosco scuro */
+    font-weight: 900;
     font-size: 11px;
     text-transform: uppercase;
-    margin-bottom: 4px;
     letter-spacing: 0.5px;
+    margin-bottom: 2px;
 }
 
-/* TITOLO - Bianco, pulito */
-.g-news-title { 
-    color: #e8eaed !important; 
-    font-size: 13px; 
-    line-height: 1.4; 
-    font-weight: 500;
-    margin: 0;
+/* TITOLO: Più grande della testata e colore chiaro/vivace */
+.news-title { 
+    color: #ffffff !important; /* Testo bianco per massima leggibilità */
+    font-size: 16px; /* Aumentato da 13px a 16px */
+    line-height: 1.2; 
+    margin: 2px 0 0 0;
+    font-weight: 700;
+    text-decoration: none !important;
+
+    /* Permette di vedere fino a 3 righe di titolo */
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Tronca dopo 3 righe */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* IMMAGINE A DESTRA */
-.g-news-image { 
-    width: 65px; 
-    height: 65px; 
-    border-radius: 8px; 
+/* IMMAGINE: Leggermente più grande per bilanciare la card */
+.news-image-container { 
+    width: 85px; /* Aumentata da 70px a 85px */
+    height: 85px; 
+    border-radius: 10px; 
     overflow: hidden; 
     flex-shrink: 0; 
+    align-self: center; /* Centrata verticalmente rispetto al testo */
 }
 
-.g-news-image img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+/* Scroll container: aumentiamo il gap tra le card */
+.news-scroll-container { 
+    display: flex; 
+    overflow-x: auto; 
+    gap: 15px; 
+    align-items: stretch;
+    padding-bottom: 10px; /* Spazio per non tagliare l'ombra dello scroll */
 }
-
-/* SCROLLBAR SOLO DESKTOP */
-.news-scroll-container::-webkit-scrollbar { 
-    height: 5px; 
-}
-
-.news-scroll-container::-webkit-scrollbar-thumb { 
-    background: #2e7d32; 
-    border-radius: 10px; 
-}
-
+      
 /* 📱 MOBILE → NASCONDE SCROLLBAR */
 @media (max-width: 768px){
     .news-scroll-container{
@@ -2137,7 +2132,6 @@ startQuiz();
                 </svg>
             </span>
             <span class="nav-text">Ranking</span>
-        </a>
     </nav>
 
     <script>
