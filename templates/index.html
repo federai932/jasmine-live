@@ -42,11 +42,14 @@ body {
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 20px; 
-            margin: 0; 
-            padding-bottom: 100px;
-        } 
+           justify-content: flex-end; /* Spinge tutto verso il basso */
+           min-height: 100vh;         /* Forza il body a coprire tutto lo schermo */
+           margin: 0; 
+           padding: 20px 20px 100px 20px; /* Sopra, Lati, Sotto (distanza dalla navbar) */
+           box-sizing: border-box;
+}
 
+      
         h1 { color: #1a5c20; text-transform: uppercase; margin-top: 10px; font-size: 28px; text-align: center; } 
 
         .image-container { 
@@ -56,6 +59,11 @@ body {
         } 
         .image-container img { width: 100%; height: 100%; object-fit: cover; object-position: center 10%; transform: scale(1.1); } 
 
+      body { 
+             /* ... i tuoi altri stili ... */
+             overscroll-behavior: none; 
+}      
+      
 /* --- SEZIONE NEWS COMPATTA --- */
 .news-wrapper { 
     width: 100%; 
@@ -1666,7 +1674,7 @@ btn.innerHTML="Show less ▲";
     </div>
 
 <!-- SEZIONE MATCH IN CORSO -->
-<div class="current-matches-section" style="width: 96%; max-width: 500px; margin: 0 auto -5px;">
+<div class="current-matches-section" style="width: 96%; max-width: 500px; margin: 0 auto 0px;">
 
     <div class="live-header">
         <span class="live-label">Live Scores</span>
